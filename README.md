@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MAWD Web
 
-## Getting Started
+MAWD Challenge marketing site — Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4.
 
-First, run the development server:
+Migrated from [`CuriousPaul/mawd-marketing-site`](https://github.com/CuriousPaul/mawd-marketing-site) (static HTML) to a modern component-based architecture while preserving the original retro-arcade / game-HUD design system.
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| UI | React 19 |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS v4 + ported MAWD design system CSS |
+| Fonts | Pretendard Variable (CDN), Black Han Sans + Press Start 2P (`next/font/google`) |
+
+## Pages
+
+- `/` — Landing page (hero HUD, challenge intro, program rounds, benefits, apply CTA)
+- `/cardnews` — 8-card print-ready cardnews (1080×1080)
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+Vercel-ready. Connect the repo at [vercel.com/new](https://vercel.com/new) — no config needed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For static export (GitHub Pages), add `output: "export"` to `next.config.ts` and run `npm run build`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout (fonts, metadata)
+│   ├── globals.css         # MAWD design system (ported from original)
+│   ├── page.tsx            # Landing page
+│   └── cardnews/
+│       ├── page.tsx        # Cardnews route
+│       └── page.module.css # Cardnews styles
+└── components/
+    ├── Nav.tsx
+    ├── Hero.tsx
+    ├── ChallengeSection.tsx
+    ├── ProgramSection.tsx
+    ├── BenefitsSection.tsx
+    ├── ApplySection.tsx
+    └── Footer.tsx
+public/
+├── hero-bg.png             # Hero background (retro-arcade design ref)
+└── cards/                  # 8 exported cardnews PNGs
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## About MAWD
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MAWD Challenge is an AI build challenge where participants create self-agents and industry-specific services, then get virtual-money investments from judges and companies. Build. Prove. Earn.
