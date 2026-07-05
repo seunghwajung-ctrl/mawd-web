@@ -1,3 +1,7 @@
+"use client";
+
+import { useModal } from "@/components/ModalProvider";
+
 type FlowStep = {
   num: string;
   label: string;
@@ -15,6 +19,8 @@ const flowSteps: FlowStep[] = [
 ];
 
 export function Hero() {
+  const { open } = useModal();
+
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="burst" aria-hidden="true" />
@@ -56,12 +62,20 @@ export function Hero() {
             챌린지. 아이디어를 말로 끝내지 않고, 결과물과 MVP로 인정받습니다.
           </p>
           <div className="btn-row" role="group" aria-label="주요 행동">
-            <a className="btn primary" href="#apply">
+            <button
+              type="button"
+              className="btn primary"
+              onClick={() => open("apply")}
+            >
               참가 신청 <span className="arrow">›</span>
-            </a>
-            <a className="btn" href="#benefits">
+            </button>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => open("sponsor")}
+            >
               스폰서 문의 <span className="arrow">›</span>
-            </a>
+            </button>
           </div>
           <p className="sr-only">프로그램 흐름</p>
           <ul className="flow-band">

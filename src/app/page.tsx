@@ -5,10 +5,11 @@ import { ProgramSection } from "@/components/ProgramSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { ApplySection } from "@/components/ApplySection";
 import { Footer } from "@/components/Footer";
+import { ModalProvider } from "@/components/ModalProvider";
 
 export default function Home() {
   return (
-    <>
+    <ModalProvider>
       <Nav />
       <main id="top">
         <Hero />
@@ -18,6 +19,6 @@ export default function Home() {
         <ApplySection />
       </main>
       <Footer />
-    </>
+    </ModalProvider>
   );
 }

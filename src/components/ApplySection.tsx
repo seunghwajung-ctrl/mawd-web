@@ -1,4 +1,10 @@
+"use client";
+
+import { useModal } from "@/components/ModalProvider";
+
 export function ApplySection() {
+  const { open } = useModal();
+
   return (
     <section id="apply" className="apply">
       <div className="wrap apply-box">
@@ -11,12 +17,20 @@ export function ApplySection() {
           </p>
         </div>
         <div className="btn-row">
-          <a className="btn primary" href="#">
+          <button
+            type="button"
+            className="btn primary"
+            onClick={() => open("apply")}
+          >
             참가 신청 <span className="arrow">›</span>
-          </a>
-          <a className="btn" href="#">
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => open("sponsor")}
+          >
             스폰서 문의 <span className="arrow">›</span>
-          </a>
+          </button>
         </div>
       </div>
     </section>
