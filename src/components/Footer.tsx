@@ -4,6 +4,7 @@ import { useModal } from "@/components/ModalProvider";
 
 export function Footer() {
   const { open } = useModal();
+  const year = new Date().getFullYear();
 
   return (
     <footer>
@@ -22,8 +23,17 @@ export function Footer() {
           <button type="button" onClick={() => open("sponsor")}>
             스폰서 문의
           </button>
+          <a href="#program">프로그램</a>
+          <a href="#benefits">혜택</a>
+          <a href="#apply">참가 신청</a>
         </nav>
-        <p className="footer-copy">© 2023 MAWD. All rights reserved.</p>
+        <div className="footer-social" aria-label="소셜 미디어">
+          <a href="#" aria-label="Instagram" onClick={(e) => e.preventDefault()}>IG</a>
+          <a href="#" aria-label="X (Twitter)" onClick={(e) => e.preventDefault()}>X</a>
+          <a href="#" aria-label="LinkedIn" onClick={(e) => e.preventDefault()}>in</a>
+          <a href="#" aria-label="GitHub" onClick={(e) => e.preventDefault()}>GH</a>
+        </div>
+        <p className="footer-copy">© {year} MAWD. All rights reserved.</p>
       </div>
     </footer>
   );
