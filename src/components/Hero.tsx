@@ -26,7 +26,15 @@ export function Hero() {
       <div className="burst" aria-hidden="true" />
       <div className="wrap hero-layout">
         <div className="hero-main">
-          <h1 id="hero-title">MAWD</h1>
+          <h1 id="hero-title" className="hero-logo">
+            <img
+              src="/mawd-logo.png"
+              alt="MAWD"
+              className="mawd-logo-img"
+              width={1050}
+              height={789}
+            />
+          </h1>
           <p className="challenge">CHALLENGE</p>
           <p className="headline">
             <em>AI</em>로 만들고, <em>투자</em>로 검증받고, <em>기회</em>를 잡아라
