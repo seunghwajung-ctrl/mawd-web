@@ -49,7 +49,7 @@ export function Hero() {
               className="btn primary"
               onClick={() => open("apply")}
             >
-              참가 신청 <span className="arrow">›</span>
+              참가 하기 <span className="arrow">›</span>
             </button>
             <button
               type="button"

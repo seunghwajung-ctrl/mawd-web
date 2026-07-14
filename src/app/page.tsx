@@ -1,9 +1,14 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
-import { ChallengeSection } from "@/components/ChallengeSection";
+import { VibeCodingSection } from "@/components/VibeCodingSection";
+import { NoBarrierSection } from "@/components/NoBarrierSection";
+import { ExperienceSection } from "@/components/ExperienceSection";
+import { ProblemSection } from "@/components/ProblemSection";
+import { ReasonSection } from "@/components/ReasonSection";
 import { ProgramSection } from "@/components/ProgramSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
-import { ApplySection } from "@/components/ApplySection";
+import { FaqSection } from "@/components/FaqSection";
+import { ApplyFormSection } from "@/components/ApplyFormSection";
 import { Footer } from "@/components/Footer";
 import { ModalProvider } from "@/components/ModalProvider";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -16,7 +21,19 @@ export default function Home() {
       <main id="top">
         <Hero />
         <ScrollReveal className="reveal-section">
-          <ChallengeSection />
+          <VibeCodingSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <NoBarrierSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <ExperienceSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <ProblemSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <ReasonSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <ProgramSection />
@@ -25,7 +42,10 @@ export default function Home() {
           <BenefitsSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <ApplySection />
+          <FaqSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <ApplyFormSection />
         </ScrollReveal>
       </main>
       <Footer />

@@ -101,63 +101,34 @@ export function ApplyModal({ onClose }: ModalProps) {
 /* ── 스폰서 문의 ──────────────────────────────────────────────────────────── */
 
 export function SponsorModal({ onClose }: ModalProps) {
-  const [done, setDone] = useState(false);
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setDone(true);
-  }
-
-  if (done) {
-    return (
-      <Success
-        onClose={onClose}
-        message="스폰서 문의가 접수되었습니다. 담당자가 연락드립니다."
-      />
-    );
-  }
-
   return (
-    <form className="modal-form" onSubmit={handleSubmit}>
+    <div className="sponsor-contact">
       <p className="modal-intro">
-        우수 팀과 AI 기술 트렌드, 브랜드 노출까지. MAWD Challenge 스폰서십에 대해
-        안내해드립니다.
+        스폰서 문의는 아래 연락처로 부탁드립니다. 담당자가 확인 후 회신드립니다.
       </p>
-      <div className="field">
-        <label htmlFor="sp-company">회사명</label>
-        <input id="sp-company" name="company" required className="input" />
+      <div className="sponsor-contact-list">
+        <div className="sponsor-contact-item">
+          <span className="sponsor-contact-label">EMAIL</span>
+          <a href="mailto:team.mawd@gmail.com" className="sponsor-contact-value">
+            team.mawd@gmail.com
+          </a>
+        </div>
+        <div className="sponsor-contact-item">
+          <span className="sponsor-contact-label">INSTAGRAM</span>
+          <a
+            href="https://www.instagram.com/team_mawd?igsh=MW0zdHVhd3Vxbmx6aw%3D%3D&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sponsor-contact-value"
+          >
+            @team_mawd
+          </a>
+        </div>
       </div>
-      <div className="field">
-        <label htmlFor="sp-name">담당자명</label>
-        <input id="sp-name" name="name" required autoComplete="name" className="input" />
-      </div>
-      <div className="field">
-        <label htmlFor="sp-email">이메일</label>
-        <input
-          id="sp-email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className="input"
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="sp-msg">문의 내용</label>
-        <textarea
-          id="sp-msg"
-          name="message"
-          required
-          rows={4}
-          className="input textarea"
-          placeholder="관심 있는 스폰서십 구성이나 기대 효과를 알려주세요."
-        />
-      </div>
-      <DemoNote />
-      <button type="submit" className="btn primary modal-submit">
-        문의 보내기 <span className="arrow">›</span>
+      <button type="button" className="btn primary modal-submit" onClick={onClose}>
+        확인 <span className="arrow">{"\u203A"}</span>
       </button>
-    </form>
+    </div>
   );
 }
 

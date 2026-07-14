@@ -11,21 +11,18 @@ export function Footer() {
       <div className="wrap footer-inner">
         <div className="footer-brand">
           <strong className="pixel">MAWD CHALLENGE</strong>
-          <span>Build. Prove. Earn.</span>
         </div>
         <nav className="footer-links" aria-label="푸터 메뉴">
           <button type="button" onClick={() => open("contact")}>
             문의하기
           </button>
-          <button type="button" onClick={() => open("faq")}>
-            FAQ
-          </button>
+          <a href="#faq">FAQ</a>
           <button type="button" onClick={() => open("sponsor")}>
             스폰서 문의
           </button>
           <a href="#program">프로그램</a>
           <a href="#benefits">혜택</a>
-          <a href="#apply">참가 신청</a>
+          <a href="#gallery">갤러리</a>
         </nav>
         <div className="footer-social" aria-label="소셜 미디어">
           <a href="#" aria-label="Instagram" onClick={(e) => e.preventDefault()}>IG</a>

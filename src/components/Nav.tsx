@@ -22,21 +22,18 @@ export function Nav() {
     <nav className="nav" aria-label="주요 메뉴">
       <div className="wrap nav-inner">
         <a className="brand" href="#top" aria-label="MAWD Challenge home" onClick={closeMenu}>
-          <span className="brand-mark">MAWD</span>
-          <span>
-            <small>CHALLENGE</small>
-          </span>
+          <img
+            src="/mawd-logo.png"
+            alt="MAWD Challenge"
+            className="brand-logo-img"
+            width={1050}
+            height={789}
+          />
         </a>
         <div className={`nav-links${menuOpen ? " is-open" : ""}`}>
           <a href="#program" onClick={closeMenu}>프로그램</a>
-          <a href="#challenge" onClick={closeMenu}>챌린지</a>
           <a href="#benefits" onClick={closeMenu}>혜택</a>
-          <button type="button" className="nav-link-btn" onClick={() => { closeMenu(); open("team"); }}>
-            팀 소개
-          </button>
-          <button type="button" className="nav-link-btn" onClick={() => { closeMenu(); open("faq"); }}>
-            FAQ
-          </button>
+          <a href="#faq" onClick={closeMenu}>FAQ</a>
           <button type="button" className="nav-link-btn" onClick={() => { closeMenu(); open("contact"); }}>
             문의하기
           </button>
@@ -46,7 +43,7 @@ export function Nav() {
             로그인
           </button>
           <button type="button" className="btn primary" onClick={() => { closeMenu(); open("signup"); }}>
-            회원가입 <span className="arrow">›</span>
+            참가하기 <span className="arrow">›</span>
           </button>
           <button
             type="button"

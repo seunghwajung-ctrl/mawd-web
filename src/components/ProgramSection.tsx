@@ -2,7 +2,7 @@ const rounds = [
   {
     tag: "ROUND\n01",
     title: "툴 세팅 + PRD 제작",
-    desc: "비대면으로 자기 에이전트 세팅, 문제정의, 실행계획을 완성합니다.",
+    desc: "검증용 프로토타입, 문제정의, 실행계획을 완성합니다.",
   },
   {
     tag: "UPLOAD",
@@ -18,6 +18,11 @@ const rounds = [
     tag: "ROUND\n02",
     title: "대면 MVP 빌딩",
     desc: "선발된 팀이 1박 2일 동안 MVP를 만들고 피어리뷰와 최종 심사를 받습니다.",
+  },
+  {
+    tag: "AWARD",
+    title: "시상",
+    desc: "라운드에서 가상머니로 투자받은 만큼 상금으로 환산하여 지급합니다.",
   },
 ] as const;
 
