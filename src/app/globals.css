@@ -1817,10 +1817,18 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
+}
+
+.problem-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  gap: 20px;
+  align-items: stretch;
   margin-top: 36px;
 }
 
 .stat-card {
+  position: relative;
   padding: 24px 22px;
   border: 1px solid var(--lime-line);
   background:
@@ -1828,6 +1836,14 @@ footer {
     rgba(5, 5, 5, 0.78);
   box-shadow: 6px 6px 0 rgba(102, 255, 0, 0.14);
   transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.stat-icon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 24px;
+  filter: drop-shadow(0 0 10px rgba(102, 255, 0, 0.28));
 }
 
 .stat-card:hover {
@@ -1859,6 +1875,57 @@ footer {
   font-size: 10px;
   color: var(--violet-2);
   letter-spacing: 0.02em;
+}
+
+.reference-panel {
+  display: grid;
+  align-content: stretch;
+  gap: 14px;
+}
+
+.reference-screen {
+  min-height: 100%;
+  padding: 14px;
+  border: 1px solid var(--violet-line);
+  background:
+    linear-gradient(145deg, rgba(157, 0, 255, 0.14), transparent 48%),
+    rgba(5, 5, 5, 0.78);
+  box-shadow: 8px 8px 0 rgba(157, 0, 255, 0.16);
+}
+
+.reference-label {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-family: "NeoDunggeunmoPro", monospace;
+  font-size: 10px;
+  color: var(--lime);
+  letter-spacing: 0.08em;
+}
+
+.reference-screen img,
+.program-visual img,
+.console-card {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(248, 248, 242, 0.18);
+  image-rendering: auto;
+}
+
+.reference-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reference-tags span,
+.proof-strip span,
+.console-flow span {
+  padding: 7px 9px;
+  border: 1px solid rgba(102, 255, 0, 0.44);
+  background: rgba(5, 5, 5, 0.72);
+  color: rgba(248, 248, 242, 0.82);
+  font-size: 11px;
 }
 
 .problem-cta {
@@ -2021,6 +2088,14 @@ footer {
 .reason-arrow {
   font-size: 18px;
   color: var(--violet-2);
+}
+
+.proof-strip {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 /* ============================================================================
@@ -2251,6 +2326,13 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 18px;
+}
+
+.vibe-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  gap: 20px;
+  align-items: stretch;
   margin-top: 36px;
 }
 
@@ -2264,6 +2346,13 @@ footer {
   transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
+.vibe-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
 .vibe-card:hover {
   transform: translate(-2px, -2px);
   box-shadow: 8px 8px 0 rgba(102, 255, 0, 0.24);
@@ -2274,12 +2363,46 @@ footer {
   place-items: center;
   width: 44px;
   height: 44px;
-  margin-bottom: 18px;
   font-family: "NeoDunggeunmoPro", monospace;
   font-size: 13px;
   color: var(--lime);
   border: 1px solid var(--lime-line);
   background: rgba(0, 0, 0, 0.4);
+}
+
+.vibe-emoji {
+  font-size: 30px;
+  filter: drop-shadow(0 0 10px rgba(157, 0, 255, 0.34));
+}
+
+.visual-console {
+  padding: 18px;
+  border: 1px solid var(--violet-line);
+  background:
+    linear-gradient(135deg, rgba(157, 0, 255, 0.14), transparent 44%),
+    rgba(5, 5, 5, 0.82);
+  box-shadow: 8px 8px 0 rgba(157, 0, 255, 0.16);
+}
+
+.console-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-family: "NeoDunggeunmoPro", monospace;
+  font-size: 11px;
+  color: var(--violet-2);
+}
+
+.console-top b {
+  color: var(--lime);
+  font-weight: 400;
+}
+
+.console-flow {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
 }
 
 .vibe-card h3 {
@@ -2326,12 +2449,25 @@ footer {
 }
 
 .barrier-card {
+  position: relative;
+  overflow: hidden;
   padding: 28px 24px;
   border: 1px solid var(--line);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.36);
   transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.barrier-cross {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 4px 8px;
+  border: 1px solid rgba(157, 0, 255, 0.5);
+  color: var(--violet-2);
+  font-family: "NeoDunggeunmoPro", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
 }
 
 .barrier-card:hover {
@@ -2385,10 +2521,18 @@ footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 18px;
+}
+
+.exp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 330px);
+  gap: 20px;
+  align-items: stretch;
   margin-top: 36px;
 }
 
 .exp-card {
+  position: relative;
   padding: 28px 24px;
   border: 1px solid var(--violet-line);
   background:
@@ -2396,6 +2540,13 @@ footer {
     rgba(5, 5, 5, 0.78);
   box-shadow: 6px 6px 0 rgba(157, 0, 255, 0.14);
   transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.exp-icon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 28px;
 }
 
 .exp-card:hover {
@@ -2455,10 +2606,92 @@ footer {
   text-shadow: 0 0 16px rgba(102, 255, 0, 0.3);
 }
 
+.quest-map {
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid var(--lime-line);
+  background:
+    linear-gradient(145deg, rgba(102, 255, 0, 0.1), transparent 52%),
+    rgba(5, 5, 5, 0.8);
+  box-shadow: 8px 8px 0 rgba(102, 255, 0, 0.14);
+}
+
+.quest-node {
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: rgba(5, 5, 5, 0.62);
+}
+
+.quest-node span {
+  display: block;
+  margin-bottom: 6px;
+  font-family: "NeoDunggeunmoPro", monospace;
+  font-size: 10px;
+  color: var(--violet-2);
+}
+
+.quest-node b {
+  color: rgba(248, 248, 242, 0.9);
+  font-size: 18px;
+}
+
+.quest-node.active,
+.quest-node.boss {
+  border-color: var(--lime-line);
+  box-shadow: 0 0 18px rgba(102, 255, 0, 0.14);
+}
+
+.quest-line {
+  width: 2px;
+  height: 26px;
+  margin: 0 auto;
+  background: linear-gradient(var(--violet-2), var(--lime));
+}
+
+.program-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.round {
+  grid-template-columns: 92px 42px 1fr;
+  align-items: start;
+}
+
+.round-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--lime-line);
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 20px;
+}
+
+.program-visual {
+  padding: 14px;
+  border: 1px solid var(--lime-line);
+  background: rgba(5, 5, 5, 0.74);
+  box-shadow: 8px 8px 0 rgba(102, 255, 0, 0.14);
+}
+
 @media (max-width: 760px) {
+  .problem-layout,
+  .vibe-layout,
+  .exp-layout {
+    grid-template-columns: 1fr;
+  }
   .exp-cta p {
     padding: 14px 20px;
     font-size: 17px;
+  }
+  .round {
+    grid-template-columns: 42px 1fr;
+  }
+  .round .tag {
+    grid-column: 1 / -1;
   }
 }
 
@@ -2474,6 +2707,17 @@ footer {
 .reason-pull,
 .benefit,
 .program-panel,
+.program-visual,
+.reference-screen,
+.reference-tags span,
+.visual-console,
+.console-card,
+.console-flow span,
+.proof-strip span,
+.barrier-cross,
+.quest-map,
+.quest-node,
+.round-icon,
 .mission-card,
 .flow-card,
 .stage-chip,
