@@ -1,9 +1,11 @@
 "use client";
 
 import { useModal } from "@/components/ModalProvider";
+import { useApplyAction } from "@/lib/use-apply-action";
 
 export function ApplySection() {
   const { open } = useModal();
+  const openApply = useApplyAction();
 
   return (
     <section id="apply" className="apply">
@@ -20,7 +22,7 @@ export function ApplySection() {
           <button
             type="button"
             className="btn primary"
-            onClick={() => open("apply")}
+            onClick={openApply}
           >
             참가 신청 <span className="arrow">›</span>
           </button>

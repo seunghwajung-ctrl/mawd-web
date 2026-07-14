@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useModal } from "@/components/ModalProvider";
+import { useApplyAction } from "@/lib/use-apply-action";
 
 export function Nav() {
   const { open } = useModal();
+  const openApply = useApplyAction();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -22,7 +25,7 @@ export function Nav() {
     <nav className="nav" aria-label="주요 메뉴">
       <div className="wrap nav-inner">
         <a className="brand" href="#top" aria-label="MAWD Challenge home" onClick={closeMenu}>
-          <img
+          <Image
             src="/mawd-logo.png"
             alt="MAWD Challenge"
             className="brand-logo-img"
@@ -39,10 +42,7 @@ export function Nav() {
           </button>
         </div>
         <div className="nav-auth">
-          <button type="button" className="btn ghost" onClick={() => { closeMenu(); open("login"); }}>
-            로그인
-          </button>
-          <button type="button" className="btn primary" onClick={() => { closeMenu(); open("signup"); }}>
+          <button type="button" className="btn primary" onClick={() => { closeMenu(); openApply(); }}>
             참가하기 <span className="arrow">›</span>
           </button>
           <button

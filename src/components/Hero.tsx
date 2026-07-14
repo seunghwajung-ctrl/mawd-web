@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useModal } from "@/components/ModalProvider";
+import { useApplyAction } from "@/lib/use-apply-action";
 
 type FlowStep = {
   num: string;
@@ -20,6 +22,7 @@ const flowSteps: FlowStep[] = [
 
 export function Hero() {
   const { open } = useModal();
+  const openApply = useApplyAction();
 
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -27,12 +30,13 @@ export function Hero() {
       <div className="wrap hero-layout">
         <div className="hero-main">
           <h1 id="hero-title" className="hero-logo">
-            <img
+            <Image
               src="/mawd-logo.png"
               alt="MAWD"
               className="mawd-logo-img"
               width={1050}
               height={789}
+              priority
             />
           </h1>
           <p className="challenge">CHALLENGE</p>
@@ -47,7 +51,7 @@ export function Hero() {
             <button
               type="button"
               className="btn primary"
-              onClick={() => open("apply")}
+              onClick={openApply}
             >
               참가 하기 <span className="arrow">›</span>
             </button>
