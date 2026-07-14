@@ -1,6 +1,7 @@
 type Company = {
   name: string;
   year: string;
+  icon: string;
   desc: string;
 };
 
@@ -8,21 +9,25 @@ const companies: Company[] = [
   {
     name: "SK하이닉스",
     year: "2026",
+    icon: "🏢",
     desc: "신입 수시채용부터 '4년제 학사 이상' 학력 요건 전면 삭제. 직무 역량과 성장 가능성 중심 선발.",
   },
   {
     name: "삼성",
     year: "1995",
+    icon: "🔓",
     desc: "국내 대기업 최초로 공채에서 학력·국적·성별·나이·연고 제한 폐지. 30년간 '열린 채용' 유지.",
   },
   {
     name: "카카오",
     year: "2017",
+    icon: "🧪",
     desc: "학력·전공·나이·성별을 받지 않는 블라인드 코딩테스트 도입. 오직 개발 역량으로만 평가.",
   },
   {
     name: "Google",
     year: "2018",
+    icon: "🌎",
     desc: "세르게이 브린 \"학위 없는 사람 수도 없이 채용한다\". 학력 필수 공석이 93%에서 77%로 감소.",
   },
 ];
@@ -57,7 +62,7 @@ export function ReasonSection() {
           {companies.map((c, i) => (
             <article key={i} className="company-card">
               <div className="company-head">
-                <b className="company-name">{c.name}</b>
+                <b className="company-name"><span aria-hidden="true">{c.icon}</span> {c.name}</b>
                 <span className="company-year">{c.year}</span>
               </div>
               <p className="company-desc">{c.desc}</p>
@@ -80,6 +85,12 @@ export function ReasonSection() {
             <span className="reason-arrow">▶</span>
             아이디어를 말하지 말고, 만들고 보여주세요.
           </p>
+          <div className="proof-strip" aria-label="결과물 포트폴리오 예시">
+            <span>PRD</span>
+            <span>MVP</span>
+            <span>DEMO LINK</span>
+            <span>PITCH DECK</span>
+          </div>
         </div>
       </div>
     </section>

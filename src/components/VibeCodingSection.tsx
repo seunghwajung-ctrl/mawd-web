@@ -1,5 +1,8 @@
+import Image from "next/image";
+
 type Point = {
   tag: string;
+  icon: string;
   title: string;
   desc: string;
 };
@@ -7,16 +10,19 @@ type Point = {
 const points: Point[] = [
   {
     tag: "01",
+    icon: "💡",
     title: "비전공자도 만들 수 있다",
     desc: "AI 도구와 바이브코딩을 활용하면, 비전공자도 자신의 문제의식과 아이디어를 실제 서비스나 도구의 형태로 구현해볼 수 있습니다.",
   },
   {
     tag: "02",
+    icon: "🧭",
     title: "가장 좋은 아이디어는 현장에서",
     desc: "오히려 다양한 아이디어는 전공 밖의 현장에 있는 사람들, 각자의 관심분야와 업무 속에서 불편함을 직접 느껴본 사람들에게서 더 많이 나옵니다.",
   },
   {
     tag: "03",
+    icon: "🛠️",
     title: "완벽한 개발보다 문제 발견",
     desc: "중요한 것은 처음부터 완벽하게 개발하는 능력이 아니라, 내가 가진 문제를 발견하고 그것을 AI와 함께 구체적인 결과물로 바꿔보는 경험입니다.",
   },
@@ -35,14 +41,38 @@ export function VibeCodingSection() {
           있습니다.
         </p>
 
-        <div className="vibe-grid">
-          {points.map((p, i) => (
-            <article key={i} className="vibe-card">
-              <span className="vibe-num">{p.tag}</span>
-              <h3>{p.title}</h3>
-              <p>{p.desc}</p>
-            </article>
-          ))}
+        <div className="vibe-layout">
+          <div className="vibe-grid">
+            {points.map((p, i) => (
+              <article key={i} className="vibe-card">
+                <div className="vibe-card-head">
+                  <span className="vibe-num">{p.tag}</span>
+                  <span className="vibe-emoji" aria-hidden="true">{p.icon}</span>
+                </div>
+                <h3>{p.title}</h3>
+                <p>{p.desc}</p>
+              </article>
+            ))}
+          </div>
+
+          <aside className="visual-console" aria-label="바이브코딩 진행 예시">
+            <div className="console-top">
+              <span>PLAYER FLOW</span>
+              <b>IDEA → MVP</b>
+            </div>
+            <Image
+              src="/cards/mawd-card-02.png"
+              alt="MAWD 프로그램을 카드뉴스로 설명한 시각 자료"
+              className="console-card"
+              width={1080}
+              height={1080}
+            />
+            <div className="console-flow" aria-hidden="true">
+              <span>문제 발견</span>
+              <span>AI 실험</span>
+              <span>서비스 링크</span>
+            </div>
+          </aside>
         </div>
 
         <div className="vibe-message">

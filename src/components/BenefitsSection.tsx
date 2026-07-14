@@ -8,7 +8,7 @@ export function BenefitsSection() {
         </h2>
         <div className="benefits">
           <article className="benefit">
-            <h3>참가자 혜택</h3>
+            <h3><span aria-hidden="true">🎮</span> 참가자 혜택</h3>
             <ul>
               <li>총 상금 및 후속 투자 기회</li>
               <li>멘토링 및 전문가 코칭</li>
@@ -18,7 +18,7 @@ export function BenefitsSection() {
             </ul>
           </article>
           <article className="benefit sponsor">
-            <h3>스폰서 혜택</h3>
+            <h3><span aria-hidden="true">🤝</span> 스폰서 혜택</h3>
             <ul>
               <li>브랜드 노출과 인지도 강화</li>
               <li>우수팀과 비즈니스 기회 발굴</li>
