@@ -4,6 +4,15 @@ MAWD Challenge marketing site — Next.js 16 (App Router) + React 19 + TypeScrip
 
 Migrated from [`CuriousPaul/mawd-marketing-site`](https://github.com/CuriousPaul/mawd-marketing-site) (static HTML) to a modern component-based architecture while preserving the original retro-arcade / game-HUD design system.
 
+## Product Direction
+
+The source of truth for MAWD Challenge planning and product direction is the final PRD:
+
+- [MAWD Challenge PRD Final](docs/mawd-challenge-prd-final.md)
+- [Original Word document](docs/mawd-challenge-prd-final.docx)
+
+Future copy, UX, feature prioritization, and application flow decisions should stay aligned with this PRD.
+
 ## Stack
 
 | Layer | Technology |
@@ -63,6 +72,9 @@ src/
 public/
 ├── hero-bg.png             # Hero background (retro-arcade design ref)
 └── cards/                  # 8 exported cardnews PNGs
+docs/
+├── mawd-challenge-prd-final.md
+└── mawd-challenge-prd-final.docx
 ```
 
 ## About MAWD
