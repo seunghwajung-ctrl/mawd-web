@@ -1,100 +1,30 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 
 interface ModalProps {
   onClose: () => void;
 }
 
-/* ── shared bits ─────────────────────────────────────────────────────────── */
-
-function Success({ onClose, message }: { onClose: () => void; message: string }) {
-  return (
-    <div className="modal-success" role="status">
-      <div className="modal-check" aria-hidden="true">
-        ✓
-      </div>
-      <p className="modal-success-title">접수되었습니다</p>
-      <p className="modal-success-desc">{message}</p>
-      <button type="button" className="btn primary" onClick={onClose}>
-        확인 <span className="arrow">›</span>
-      </button>
-    </div>
-  );
-}
-
-function DemoNote() {
-  return (
-    <p className="modal-note">
-      <span className="modal-note-tag">DEMO</span>
-      데모 환경이라 실제로 저장되지 않습니다. 실제 신청은 오픈 후 안내된 링크로
-      진행됩니다.
-    </p>
-  );
-}
-
 /* ── 참가 신청 ────────────────────────────────────────────────────────────── */
 
 export function ApplyModal({ onClose }: ModalProps) {
-  const [done, setDone] = useState(false);
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setDone(true);
-  }
-
-  if (done) {
-    return (
-      <Success
-        onClose={onClose}
-        message="참가 신청이 완료되었습니다. 안내 메일은 영업일 기준 2일 내 발송됩니다."
-      />
-    );
-  }
-
   return (
-    <form className="modal-form" onSubmit={handleSubmit}>
+    <div className="sponsor-contact">
       <p className="modal-intro">
-        AI로 만들고, 투자로 검증받고, 상금과 기회를 가져가라. MAWD Challenge에
-        참가신청서를 남겨주세요.
+        참가 신청 폼을 준비 중입니다. 신청이 열리면 참가하기 버튼이 바로
+        Google Form으로 연결됩니다.
       </p>
-      <div className="field">
-        <label htmlFor="apply-name">이름</label>
-        <input id="apply-name" name="name" required autoComplete="name" className="input" />
-      </div>
-      <div className="field">
-        <label htmlFor="apply-email">이메일</label>
-        <input
-          id="apply-email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className="input"
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="apply-team">
-          팀명 <span className="optional">(선택)</span>
-        </label>
-        <input id="apply-team" name="team" className="input" />
-      </div>
-      <div className="field">
-        <label htmlFor="apply-idea">아이디어 한 줄</label>
-        <input
-          id="apply-idea"
-          name="idea"
-          required
-          maxLength={120}
-          className="input"
-          placeholder="어떤 AI 서비스를 만들고 싶나요?"
-        />
-      </div>
-      <DemoNote />
-      <button type="submit" className="btn primary modal-submit">
-        참가 신청하기 <span className="arrow">›</span>
+      <p className="modal-note">
+        <span className="modal-note-tag">READY SOON</span>
+        현재 화면에서는 신청 정보가 저장되지 않습니다. 운영 배포 전
+        `NEXT_PUBLIC_GOOGLE_FORM_URL`을 설정하면 모든 참가 CTA가 같은 신청
+        폼을 엽니다.
+      </p>
+      <button type="button" className="btn primary modal-submit" onClick={onClose}>
+        확인 <span className="arrow">{"\u203A"}</span>
       </button>
-    </form>
+    </div>
   );
 }
 
@@ -135,130 +65,34 @@ export function SponsorModal({ onClose }: ModalProps) {
 /* ── 문의하기 ─────────────────────────────────────────────────────────────── */
 
 export function ContactModal({ onClose }: ModalProps) {
-  const [done, setDone] = useState(false);
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setDone(true);
-  }
-
-  if (done) {
-    return (
-      <Success onClose={onClose} message="문의가 접수되었습니다. 곧 답변드리겠습니다." />
-    );
-  }
-
   return (
-    <form className="modal-form" onSubmit={handleSubmit}>
+    <div className="sponsor-contact">
       <p className="modal-intro">
-        참가, 스폰서, 운영 정책 등 무엇이든 문의해 주세요.
+        참가, 스폰서, 운영 정책 문의는 아래 연락처로 부탁드립니다.
       </p>
-      <div className="field">
-        <label htmlFor="ct-name">이름</label>
-        <input id="ct-name" name="name" required autoComplete="name" className="input" />
-      </div>
-      <div className="field">
-        <label htmlFor="ct-email">이메일</label>
-        <input
-          id="ct-email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className="input"
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="ct-msg">문의 내용</label>
-        <textarea
-          id="ct-msg"
-          name="message"
-          required
-          rows={5}
-          className="input textarea"
-        />
-      </div>
-      <DemoNote />
-      <button type="submit" className="btn primary modal-submit">
-        문의 보내기 <span className="arrow">›</span>
-      </button>
-    </form>
-  );
-}
-
-/* ── 로그인 / 회원가입 ─────────────────────────────────────────────────────── */
-
-export function AuthModal({ mode, onClose }: { mode: "login" | "signup" } & ModalProps) {
-  const [done, setDone] = useState(false);
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setDone(true);
-  }
-
-  if (done) {
-    const msg =
-      mode === "login"
-        ? "데모 환경에서는 로그인 처리가 생략됩니다."
-        : "데모 환경에서는 회원가입 처리가 생략됩니다.";
-    return <Success onClose={onClose} message={msg} />;
-  }
-
-  const isLogin = mode === "login";
-
-  return (
-    <form className="modal-form" onSubmit={handleSubmit}>
-      <p className="modal-intro">
-        {isLogin
-          ? "MAWD Challenge 계정에 로그인합니다."
-          : "MAWD Challenge 계정을 만듭니다."}
-      </p>
-      {!isLogin && (
-        <div className="field">
-          <label htmlFor="au-name">이름</label>
-          <input id="au-name" name="name" required autoComplete="name" className="input" />
+      <div className="sponsor-contact-list">
+        <div className="sponsor-contact-item">
+          <span className="sponsor-contact-label">EMAIL</span>
+          <a href="mailto:team.mawd@gmail.com" className="sponsor-contact-value">
+            team.mawd@gmail.com
+          </a>
         </div>
-      )}
-      <div className="field">
-        <label htmlFor="au-email">이메일</label>
-        <input
-          id="au-email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className="input"
-        />
-      </div>
-      <div className="field">
-        <label htmlFor="au-pw">비밀번호</label>
-        <input
-          id="au-pw"
-          name="password"
-          type="password"
-          required
-          autoComplete={isLogin ? "current-password" : "new-password"}
-          className="input"
-        />
-      </div>
-      {!isLogin && (
-        <div className="field">
-          <label htmlFor="au-pw2">비밀번호 확인</label>
-          <input
-            id="au-pw2"
-            name="password2"
-            type="password"
-            required
-            autoComplete="new-password"
-            className="input"
-          />
+        <div className="sponsor-contact-item">
+          <span className="sponsor-contact-label">INSTAGRAM</span>
+          <a
+            href="https://www.instagram.com/team_mawd?igsh=MW0zdHVhd3Vxbmx6aw%3D%3D&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sponsor-contact-value"
+          >
+            @team_mawd
+          </a>
         </div>
-      )}
-      <DemoNote />
-      <button type="submit" className="btn primary modal-submit">
-        {isLogin ? "로그인" : "회원가입"} <span className="arrow">›</span>
+      </div>
+      <button type="button" className="btn primary modal-submit" onClick={onClose}>
+        확인 <span className="arrow">{"\u203A"}</span>
       </button>
-    </form>
+    </div>
   );
 }
 
@@ -292,7 +126,7 @@ export function FaqModal() {
 
   return (
     <div className="modal-faq">
-      <p className="modal-intro">자주 묻는 질문을 모았습니다. 추가 문의는 문의하기로 남겨주세요.</p>
+      <p className="modal-intro">자주 묻는 질문을 모았습니다. 추가 문의는 문의하기에서 연락처를 확인해 주세요.</p>
       <ul className="faq-list">
         {FAQS.map((item, i) => {
           const isOpen = openIdx === i;

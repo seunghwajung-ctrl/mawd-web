@@ -375,7 +375,7 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0;
-  padding: 10px 0 10vh;
+  padding: clamp(18px, 3vh, 34px) 0 clamp(36px, 7vh, 72px);
 }
 
 .hud {
@@ -441,6 +441,9 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 980px;
 }
 
 .hero-main .flow-band {
@@ -453,7 +456,7 @@ a {
   gap: 12px;
   width: 100%;
   max-width: 440px;
-  margin-top: 10px;
+  margin-top: clamp(12px, 1.5vw, 18px);
 }
 
 .hero-main .btn {
@@ -517,6 +520,7 @@ h1.hero-logo {
   display: flex;
   justify-content: center;
   z-index: 2;
+  line-height: 0;
 }
 
 h1.hero-logo::before {
@@ -550,7 +554,7 @@ h1.hero-logo::before {
   width: 100%;
   height: auto;
   image-rendering: pixelated;
-  margin-bottom: -12%;
+  margin-bottom: clamp(-86px, -7vw, -42px);
   display: block;
   filter:
     drop-shadow(0 0 16px rgba(102, 255, 0, 0.42))
@@ -576,7 +580,7 @@ h1.hero-logo::before {
 }
 
 .challenge {
-  margin: 12px 0 2px;
+  margin: 0 0 clamp(8px, 1vw, 14px);
   font-family: "NeoDunggeunmoPro", monospace;
   font-size: clamp(24px, 4vw, 62px);
   line-height: 0.83;
@@ -591,7 +595,7 @@ h1.hero-logo::before {
 }
 
 .headline {
-  margin: 10px auto 2px;
+  margin: 0 auto clamp(6px, 0.9vw, 10px);
   max-width: 920px;
   font-size: clamp(22px, 3vw, 38px);
   line-height: 1.2;
@@ -606,7 +610,7 @@ h1.hero-logo::before {
 }
 
 .lead {
-  margin: 4px auto 4px;
+  margin: 0 auto;
   max-width: 833px;
   color: rgba(248, 248, 242, 0.78);
   font-size: clamp(15px, 1.4vw, 24px);
@@ -1054,16 +1058,15 @@ footer {
     max-width: 430px;
     margin: 0 auto;
     padding-top: 4px;
-    text-align: left;
+    text-align: center;
     transform: none;
-    align-items: stretch;
+    align-items: center;
   }
   .hero-main .stage-row,
   .hero-main h1,
   .hero-main .challenge,
   .hero-main .headline,
-  .hero-main .lead,
-  .hero-main .flow-band {
+  .hero-main .lead {
     display: flex !important;
   }
   .hero-main h1,
@@ -1076,7 +1079,8 @@ footer {
     display: grid !important;
     grid-template-columns: 1fr;
     gap: 10px;
-  margin-top: 10px;
+    margin-top: 14px;
+    max-width: 360px;
   }
   .hero-main .btn {
     opacity: 1;
@@ -1099,19 +1103,20 @@ footer {
   h1.hero-logo {
     margin: 0 auto;
     max-width: clamp(300px, 78vw, 440px);
-    justify-content: flex-start;
+    justify-content: center;
   }
   .challenge {
-    margin: 0 0 8px;
+    margin: 0 0 10px;
     font-size: clamp(24px, 8vw, 38px);
     line-height: 1;
     letter-spacing: 0.08em;
   }
   .headline {
     max-width: 100%;
-    margin: 10px 0 8px;
+    margin: 0 0 8px;
     font-size: clamp(22px, 6.8vw, 34px);
     line-height: 1.1;
+    overflow-wrap: anywhere;
   }
   .lead {
     max-width: 100%;
@@ -1119,6 +1124,7 @@ footer {
     color: rgba(248, 248, 242, 0.82);
     font-size: 15px;
     line-height: 1.55;
+    overflow-wrap: anywhere;
   }
   .btn {
     width: 100%;
@@ -1131,6 +1137,9 @@ footer {
     font-size: 19px;
   }
   .flow-band {
+    display: grid !important;
+    width: 100%;
+    max-width: 360px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
     margin-top: 16px;
@@ -2531,6 +2540,17 @@ footer {
 
 .sponsor-contact-value:hover {
   color: var(--lime-bright);
+}
+
+@media (max-width: 480px) {
+  .sponsor-contact-item {
+    padding: 14px;
+  }
+
+  .sponsor-contact-value {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* ── Apply Form Enhancement ────────────────────────────────── */

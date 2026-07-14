@@ -14,7 +14,6 @@ import {
   ApplyModal,
   SponsorModal,
   ContactModal,
-  AuthModal,
   FaqModal,
   TeamModal,
 } from "@/components/modals";
@@ -23,8 +22,6 @@ export type ModalType =
   | "apply"
   | "sponsor"
   | "contact"
-  | "login"
-  | "signup"
   | "faq"
   | "team"
   | null;
@@ -37,11 +34,9 @@ interface ModalContextValue {
 const ModalContext = createContext<ModalContextValue | null>(null);
 
 const TITLES: Record<Exclude<ModalType, null>, string> = {
-  apply: "참가 신청",
+  apply: "신청 준비 중",
   sponsor: "스폰서 문의",
   contact: "문의하기",
-  login: "로그인",
-  signup: "회원가입",
   faq: "자주 묻는 질문",
   team: "팀 소개",
 };
@@ -109,8 +104,6 @@ export function ModalProvider({ children }: { children: ReactNode }) {
               {active === "apply" && <ApplyModal onClose={close} />}
               {active === "sponsor" && <SponsorModal onClose={close} />}
               {active === "contact" && <ContactModal onClose={close} />}
-              {active === "login" && <AuthModal mode="login" onClose={close} />}
-              {active === "signup" && <AuthModal mode="signup" onClose={close} />}
               {active === "faq" && <FaqModal />}
               {active === "team" && <TeamModal />}
             </div>
