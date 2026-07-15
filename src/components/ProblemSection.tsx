@@ -1,8 +1,5 @@
-import Image from "next/image";
-
 type Stat = {
   value: string;
-  icon: string;
   label: string;
   source: string;
 };
@@ -10,31 +7,26 @@ type Stat = {
 const stats: Stat[] = [
   {
     value: "25%",
-    icon: "⚠️",
     label: "2026년 3월, 미국 전체 해고의 25%가 AI가 직접 원인",
     source: "SHRM Automation/AI Survey 2026",
   },
   {
     value: "93%",
-    icon: "🌐",
     label: "전 직종의 93%가 AI 영향권. 기존 예상보다 6년 앞당겨짐",
     source: "Cognizant New Work New World 2026",
   },
   {
     value: "55%",
-    icon: "🔁",
     label: "향후 2~3년 내 미국 일자리의 55%가 AI로 재구성",
     source: "BCG AI Labor Report 2026",
   },
   {
     value: "20%",
-    icon: "💻",
     label: "2024년 이후 22~25세 소프트웨어 개발자 고용 20% 감소",
     source: "Stanford HAI AI Index 2026",
   },
   {
     value: "99%",
-    icon: "📉",
     label: "경영진 99%가 2년 내 AI로 인한 감원을 예상",
     source: "Mercer Global Talent Trends 2026",
   },
@@ -53,34 +45,14 @@ export function ProblemSection() {
           &ldquo;실제 결과물이 있는가&rdquo;를 묻습니다.
         </p>
 
-        <div className="problem-layout">
-          <div className="stat-grid">
-            {stats.map((s, i) => (
-              <article key={i} className="stat-card">
-                <span className="stat-icon" aria-hidden="true">{s.icon}</span>
-                <b className="stat-value">{s.value}</b>
-                <p className="stat-label">{s.label}</p>
-                <span className="stat-source">{s.source}</span>
-              </article>
-            ))}
-          </div>
-
-          <aside className="reference-panel" aria-label="AI 시대 참고 자료">
-            <div className="reference-screen">
-              <span className="reference-label">REFERENCE DATA</span>
-              <Image
-                src="/cards/mawd-card-04.png"
-                alt="AI 시대에 결과물이 중요하다는 메시지를 담은 MAWD 카드뉴스"
-                width={1080}
-                height={1080}
-              />
-            </div>
-            <div className="reference-tags">
-              <span>AI 노동 변화</span>
-              <span>채용 기준 변화</span>
-              <span>결과물 중심 스펙</span>
-            </div>
-          </aside>
+        <div className="stat-grid">
+          {stats.map((s, i) => (
+            <article key={i} className="stat-card">
+              <b className="stat-value">{s.value}</b>
+              <p className="stat-label">{s.label}</p>
+              <span className="stat-source">{s.source}</span>
+            </article>
+          ))}
         </div>
 
         <div className="problem-cta">

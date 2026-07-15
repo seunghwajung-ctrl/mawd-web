@@ -5,18 +5,19 @@ import { NoBarrierSection } from "@/components/NoBarrierSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { ProblemSection } from "@/components/ProblemSection";
 import { ReasonSection } from "@/components/ReasonSection";
+import { PrizeSection } from "@/components/PrizeSection";
 import { ProgramSection } from "@/components/ProgramSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { FaqSection } from "@/components/FaqSection";
 import { ApplyFormSection } from "@/components/ApplyFormSection";
 import { Footer } from "@/components/Footer";
-import { ModalProvider } from "@/components/ModalProvider";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
+import { SponsorModalProvider } from "@/components/SponsorModalProvider";
 
 export default function Home() {
   return (
-    <ModalProvider>
+    <SponsorModalProvider>
       <Nav />
       <main id="top">
         <Hero />
@@ -36,6 +37,9 @@ export default function Home() {
           <ReasonSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
+          <PrizeSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
           <ProgramSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
@@ -50,6 +54,6 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollTopButton />
-    </ModalProvider>
+    </SponsorModalProvider>
   );
 }

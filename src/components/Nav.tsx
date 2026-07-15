@@ -2,12 +2,9 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useModal } from "@/components/ModalProvider";
-import { useApplyAction } from "@/lib/use-apply-action";
+import { GOOGLE_FORM_URL } from "@/lib/form-config";
 
 export function Nav() {
-  const { open } = useModal();
-  const openApply = useApplyAction();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -37,14 +34,17 @@ export function Nav() {
           <a href="#program" onClick={closeMenu}>프로그램</a>
           <a href="#benefits" onClick={closeMenu}>혜택</a>
           <a href="#faq" onClick={closeMenu}>FAQ</a>
-          <button type="button" className="nav-link-btn" onClick={() => { closeMenu(); open("contact"); }}>
+          <a className="nav-link-btn" href="mailto:team.mawd@gmail.com" onClick={closeMenu}>
             문의하기
-          </button>
+          </a>
         </div>
         <div className="nav-auth">
-          <button type="button" className="btn primary" onClick={() => { closeMenu(); openApply(); }}>
-            참가하기 <span className="arrow">›</span>
+          <button type="button" className="btn ghost" onClick={closeMenu}>
+            로그인
           </button>
+          <a className="btn primary" href={GOOGLE_FORM_URL} onClick={closeMenu}>
+            참가하기 <span className="arrow">›</span>
+          </a>
           <button
             type="button"
             className="nav-toggle"

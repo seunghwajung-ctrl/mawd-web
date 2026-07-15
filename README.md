@@ -40,9 +40,9 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Application And Contact Flow
 
 - All participant CTAs labeled `참가하기`, `참가 하기`, or `참가 신청` use one shared action.
-- If `NEXT_PUBLIC_GOOGLE_FORM_URL` is configured, participant CTAs open that Google Form in a new tab.
+- Participant CTAs render as direct links to the Google Form so they work consistently on desktop, mobile, and in-app browsers.
 - If `NEXT_PUBLIC_GOOGLE_FORM_URL` is empty, participant CTAs use the default public Google Form from the repo example env.
-- If the Google Form URL is intentionally removed from code and env, participant CTAs show a `신청 준비 중` modal instead of collecting demo data.
+- Demo signup/application popups are not used in the production landing page.
 - Login and signup are not shown in the production landing page until a real account flow exists.
 - `문의하기` and `스폰서 문의` show the current contact routes: `team.mawd@gmail.com` and `@team_mawd`.
 

@@ -1,11 +1,10 @@
 "use client";
 
-import { useModal } from "@/components/ModalProvider";
-import { useApplyAction } from "@/lib/use-apply-action";
+import { useSponsorModal } from "@/components/SponsorModalProvider";
+import { GOOGLE_FORM_URL } from "@/lib/form-config";
 
 export function ApplyFormSection() {
-  const { open } = useModal();
-  const openApply = useApplyAction();
+  const { openSponsorModal } = useSponsorModal();
 
   return (
     <section id="apply" className="apply-form-section">
@@ -20,17 +19,16 @@ export function ApplyFormSection() {
         </div>
 
         <div className="btn-row" role="group" aria-label="참가 및 문의">
-          <button
-            type="button"
+          <a
             className="btn primary"
-            onClick={openApply}
+            href={GOOGLE_FORM_URL}
           >
-            참가 하기 <span className="arrow">{"\u203A"}</span>
-          </button>
+            참가 신청 <span className="arrow">{"\u203A"}</span>
+          </a>
           <button
             type="button"
             className="btn"
-            onClick={() => open("sponsor")}
+            onClick={openSponsorModal}
           >
             스폰서 문의 <span className="arrow">{"\u203A"}</span>
           </button>

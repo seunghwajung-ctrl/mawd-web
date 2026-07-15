@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Black_Han_Sans, Press_Start_2P } from "next/font/google";
+import { BackgroundPixelStars } from "@/components/BackgroundPixelStars";
 import "./globals.css";
 
 const blackHanSans = Black_Han_Sans({
@@ -32,7 +33,10 @@ export default function RootLayout({
       lang="ko"
       className={`${blackHanSans.variable} ${pressStart2P.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <BackgroundPixelStars />
+        {children}
+      </body>
     </html>
   );
 }
