@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useModal } from "@/components/ModalProvider";
-import { useApplyAction } from "@/lib/use-apply-action";
+import { GOOGLE_FORM_URL } from "@/lib/form-config";
+import { useSponsorModal } from "@/components/SponsorModalProvider";
 
 type FlowStep = {
   num: string;
@@ -21,8 +21,7 @@ const flowSteps: FlowStep[] = [
 ];
 
 export function Hero() {
-  const { open } = useModal();
-  const openApply = useApplyAction();
+  const { openSponsorModal } = useSponsorModal();
 
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -48,17 +47,16 @@ export function Hero() {
             차례입니다. 자신의 아이디어를 현실로 만들고 결과로 증명하세요.
           </p>
           <div className="btn-row" role="group" aria-label="주요 행동">
-            <button
-              type="button"
+            <a
               className="btn primary"
-              onClick={openApply}
+              href={GOOGLE_FORM_URL}
             >
               참가 하기 <span className="arrow">›</span>
-            </button>
+            </a>
             <button
               type="button"
               className="btn"
-              onClick={() => open("sponsor")}
+              onClick={openSponsorModal}
             >
               스폰서 문의 <span className="arrow">›</span>
             </button>
