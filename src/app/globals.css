@@ -1725,19 +1725,46 @@ footer {
 
 /* ── Scroll Reveal ────────────────────────────────────────────────────────── */
 .reveal {
+  position: relative;
   opacity: 0;
-  transform: translateY(38px);
+  transform: translate3d(0, 32px, 0);
   transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.74s ease,
+    transform 0.74s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 .reveal.reveal-in {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
+}
+.reveal-section {
+  overflow: clip;
 }
 .reveal-section > section {
   padding: 72px 0;
+}
+.reveal-section > section > .wrap > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.54s ease,
+    transform 0.54s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-section.reveal-in > section > .wrap > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-section.reveal-in > section > .wrap > :nth-child(1) {
+  transition-delay: 0.08s;
+}
+.reveal-section.reveal-in > section > .wrap > :nth-child(2) {
+  transition-delay: 0.16s;
+}
+.reveal-section.reveal-in > section > .wrap > :nth-child(3) {
+  transition-delay: 0.24s;
+}
+.reveal-section.reveal-in > section > .wrap > :nth-child(n + 4) {
+  transition-delay: 0.32s;
 }
 @media (prefers-reduced-motion: reduce) {
   body,
@@ -1748,6 +1775,11 @@ footer {
     animation: none !important;
   }
   .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .reveal-section > section > .wrap > * {
     opacity: 1;
     transform: none;
     transition: none;

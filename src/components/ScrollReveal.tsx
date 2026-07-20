@@ -37,14 +37,14 @@ export function ScrollReveal({
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.16) {
             node.classList.add("reveal-in");
-            observer.disconnect();
-            break;
+          } else if (!entry.isIntersecting) {
+            node.classList.remove("reveal-in");
           }
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
+      { threshold: [0, 0.16, 0.32], rootMargin: "-6% 0px -12% 0px" },
     );
 
     observer.observe(node);
