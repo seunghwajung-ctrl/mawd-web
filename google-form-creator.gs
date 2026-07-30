@@ -9,14 +9,35 @@
  * 5. 실행 완료 후 [로그]에서 Form URL과 필드 ID 확인
  */
 
+// 이미 운영 중인 폼을 계속 쓰려면 편집 URL의 /d/{FORM_ID}/edit 부분에서 FORM_ID를 넣어주세요.
+// 응답자용 URL만 있으면 MAWD_EXISTING_FORM_URL에 넣어두고 seedMawdExistingForm()을 먼저 실행하세요.
+// 둘 다 비워두면 새 폼을 만들지 않고 중단합니다. 운영 폼 링크를 유지하기 위한 안전장치입니다.
+var MAWD_EXISTING_FORM_ID = '';
+var MAWD_EXISTING_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLScE6tbWQVtfeImItgOYq1kvF3uyAENgYwakxAYUnchD0M4B0A/viewform?usp=sharing&ouid=111669340421235014293';
+var MAWD_EXISTING_SHEET_ID = '';
+var MAWD_FORM_TITLE = 'MAWD Challenge 사전 신청';
+var MAWD_FORM_DESCRIPTION =
+  'MAWD Challenge에 참가신청해주셔서 감사합니다.\n\n' +
+  '영업일 기준 2일 내에 안내 메일을 발송해드립니다.\n' +
+  '오리엔테이션 일정과 준비 사항은 메일로 안내됩니다.';
+
 function createMawdApplyForm() {
-  // 폼 생성
-  var form = FormApp.create('MAWD Challenge 참가 신청');
-  form.setDescription(
-    'MAWD Challenge에 참가신청해주셔서 감사합니다.\n\n' +
-    '영업일 기준 2일 내에 안내 메일을 발송해드립니다.\n' +
-    '오리엔테이션 일정과 준비 사항은 메일로 안내됩니다.'
-  );
+  var props = PropertiesService.getScriptProperties();
+  var existingSheetId = MAWD_EXISTING_SHEET_ID || props.getProperty('MAWD_SHEET_ID');
+
+  // 항상 기존 폼을 갱신해서 참가자용 링크를 유지합니다.
+  var form = openConfiguredMawdForm_(props);
+
+  if (!form) {
+    throw new Error('기존 폼 설정이 필요합니다. MAWD_EXISTING_FORM_ID 또는 MAWD_EXISTING_FORM_URL을 입력하세요.');
+  }
+
+  props.setProperty('MAWD_FORM_ID', form.getId());
+  clearFormItems_(form);
+
+  form.setTitle(MAWD_FORM_TITLE);
+  form.setDescription(MAWD_FORM_DESCRIPTION);
 
   // ── 1. 참가 형태 (개인/팀) ──────────────────────────
   form.addMultipleChoiceItem()
@@ -185,7 +206,11 @@ function createMawdApplyForm() {
     .setRequired(true);
 
   // ── 스프레드시트 연결 ────────────────────────────────
-  var ss = SpreadsheetApp.create('MAWD Challenge 신청 현황');
+  var ss = existingSheetId
+    ? SpreadsheetApp.openById(existingSheetId)
+    : SpreadsheetApp.create('MAWD Challenge 신청 현황');
+
+  props.setProperty('MAWD_SHEET_ID', ss.getId());
   form.setDestination(FormApp.DestinationType.SPREADSHEET, ss.getId());
 
   // ── 결과 출력 ────────────────────────────────────────
@@ -216,4 +241,86 @@ function createMawdApplyForm() {
   Logger.log(JSON.stringify(fieldIds, null, 2));
   Logger.log('');
   Logger.log('💡 웹사이트 연동을 위해 위 JSON을 복사해두세요.');
+}
+
+function clearFormItems_(form) {
+  var items = form.getItems();
+
+  for (var i = items.length - 1; i >= 0; i--) {
+    form.deleteItem(items[i]);
+  }
+}
+
+function openConfiguredMawdForm_(props) {
+  var formId = MAWD_EXISTING_FORM_ID || props.getProperty('MAWD_FORM_ID');
+
+  if (formId) {
+    return FormApp.openById(formId);
+  }
+
+  var formUrl = MAWD_EXISTING_FORM_URL || props.getProperty('MAWD_FORM_URL');
+  if (formUrl) {
+    var form = FormApp.openByUrl(formUrl);
+    props.setProperty('MAWD_FORM_ID', form.getId());
+    props.setProperty('MAWD_FORM_URL', form.getPublishedUrl());
+    return form;
+  }
+
+  return null;
+}
+
+function seedMawdExistingForm() {
+  var props = PropertiesService.getScriptProperties();
+  var form = openConfiguredMawdForm_(props);
+
+  if (!form) {
+    throw new Error('MAWD_EXISTING_FORM_ID 또는 MAWD_EXISTING_FORM_URL이 필요합니다.');
+  }
+
+  Logger.log('기존 폼 연결 완료');
+  Logger.log('폼 ID: ' + form.getId());
+  Logger.log('폼 URL (참가자용): ' + form.getPublishedUrl());
+  Logger.log('폼 편집 URL: ' + form.getEditUrl());
+}
+
+function updateMawdFormHeaderOnly() {
+  var props = PropertiesService.getScriptProperties();
+  var form = openConfiguredMawdForm_(props);
+
+  if (!form) {
+    throw new Error('MAWD_EXISTING_FORM_ID, MAWD_EXISTING_FORM_URL 또는 Script Properties의 MAWD_FORM_ID가 필요합니다.');
+  }
+
+  form.setTitle(MAWD_FORM_TITLE);
+  form.setDescription(MAWD_FORM_DESCRIPTION);
+
+  Logger.log('폼 제목/부가설명 업데이트 완료');
+  Logger.log('폼 URL (참가자용): ' + form.getPublishedUrl());
+  Logger.log('폼 편집 URL: ' + form.getEditUrl());
+}
+
+function logCurrentMawdFormSchema() {
+  var props = PropertiesService.getScriptProperties();
+  var form = openConfiguredMawdForm_(props);
+
+  if (!form) {
+    throw new Error('MAWD_EXISTING_FORM_ID, MAWD_EXISTING_FORM_URL 또는 Script Properties의 MAWD_FORM_ID가 필요합니다.');
+  }
+
+  var schema = {
+    title: form.getTitle(),
+    description: form.getDescription(),
+    publishedUrl: form.getPublishedUrl(),
+    editUrl: form.getEditUrl(),
+    items: form.getItems().map(function(item) {
+      return {
+        title: item.getTitle(),
+        helpText: item.getHelpText(),
+        type: String(item.getType()),
+        id: item.getId(),
+      };
+    }),
+  };
+
+  Logger.log(JSON.stringify(schema, null, 2));
 }

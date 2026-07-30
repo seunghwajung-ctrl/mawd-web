@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { GOOGLE_FORM_URL } from "@/lib/form-config";
+import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
 type FlowStep = {
@@ -47,12 +47,11 @@ export function Hero() {
             차례입니다. 자신의 아이디어를 현실로 만들고 결과로 증명하세요.
           </p>
           <div className="btn-row" role="group" aria-label="주요 행동">
-            <a
+            <LumaCheckoutButton
               className="btn primary"
-              href={GOOGLE_FORM_URL}
             >
               참가 하기 <span className="arrow">›</span>
-            </a>
+            </LumaCheckoutButton>
             <button
               type="button"
               className="btn"
