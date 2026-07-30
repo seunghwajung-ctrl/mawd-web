@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { GOOGLE_FORM_URL } from "@/lib/form-config";
+import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,9 +42,9 @@ export function Nav() {
           <button type="button" className="btn ghost" onClick={closeMenu}>
             로그인
           </button>
-          <a className="btn primary" href={GOOGLE_FORM_URL} onClick={closeMenu}>
+          <LumaCheckoutButton className="btn primary" onClick={closeMenu}>
             참가하기 <span className="arrow">›</span>
-          </a>
+          </LumaCheckoutButton>
           <button
             type="button"
             className="nav-toggle"

@@ -1,7 +1,7 @@
 "use client";
 
+import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
-import { GOOGLE_FORM_URL } from "@/lib/form-config";
 
 export function ApplySection() {
   const { openSponsorModal } = useSponsorModal();
@@ -18,12 +18,11 @@ export function ApplySection() {
           </p>
         </div>
         <div className="btn-row">
-          <a
+          <LumaCheckoutButton
             className="btn primary"
-            href={GOOGLE_FORM_URL}
           >
             참가 신청 <span className="arrow">›</span>
-          </a>
+          </LumaCheckoutButton>
           <button
             type="button"
             className="btn"

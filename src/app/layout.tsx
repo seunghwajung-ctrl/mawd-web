@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Black_Han_Sans, Press_Start_2P } from "next/font/google";
+import Script from "next/script";
 import { BackgroundPixelStars } from "@/components/BackgroundPixelStars";
+import { LUMA_CHECKOUT_SCRIPT_ID, LUMA_CHECKOUT_SCRIPT_SRC } from "@/lib/luma-config";
 import "./globals.css";
 
 const blackHanSans = Black_Han_Sans({
@@ -36,6 +38,11 @@ export default function RootLayout({
       <body>
         <BackgroundPixelStars />
         {children}
+        <Script
+          id={LUMA_CHECKOUT_SCRIPT_ID}
+          src={LUMA_CHECKOUT_SCRIPT_SRC}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
