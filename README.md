@@ -10,8 +10,17 @@ The source of truth for MAWD Challenge planning and product direction is the fin
 
 - [MAWD Challenge PRD Final](docs/mawd-challenge-prd-final.md)
 - [Original Word document](docs/mawd-challenge-prd-final.docx)
+- [Website version history](docs/version-history.md)
 
 Future copy, UX, feature prioritization, and application flow decisions should stay aligned with this PRD.
+
+## Versions
+
+Important website checkpoints are marked with GitHub tags and tracked in [Website version history](docs/version-history.md).
+
+- Latest checkpoint: `v0.5-cardnews-application-flow`
+- GitHub tags: <https://github.com/seunghwajung-ctrl/mawd-web/tags>
+- GitHub releases: <https://github.com/seunghwajung-ctrl/mawd-web/releases>
 
 ## Stack
 
