@@ -33,11 +33,6 @@ export function ExperienceSection() {
       <div className="wrap">
         <p className="section-kicker">BEYOND THE PRODUCT</p>
         <h2>MAWD에서 가져갈 수 있는 것은 단순한 완성작 하나가 아닙니다</h2>
-        <p className="section-lead">
-          AI 역량은 책이나 강의만으로 쌓이기 어렵습니다. 직접 아이디어를
-          꺼내고, 다른 사람과 이야기하고, 도구를 써보고, 작게라도 결과물을
-          만들어보는 과정에서 가장 빠르게 늘어납니다.
-        </p>
 
         <div className="exp-grid">
           {gains.map((g, i) => (

@@ -28,12 +28,6 @@ export function VibeCodingSection() {
       <div className="wrap">
         <p className="section-kicker">VIBE CODING ERA</p>
         <h2>바이브코딩의 시대, 아이디어는 더 이상 개발자만의 것이 아닙니다</h2>
-        <p className="section-lead">
-          이제는 코드를 직접 오래 배운 사람만 서비스를 만들 수 있는 시대가
-          아닙니다. AI 도구와 바이브코딩을 활용하면, 비전공자도 자신의
-          문제의식과 아이디어를 실제 서비스나 도구의 형태로 구현해볼 수
-          있습니다.
-        </p>
 
         <div className="vibe-grid">
           {points.map((p, i) => (

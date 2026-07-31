@@ -46,12 +46,6 @@ export function ReasonSection() {
       <div className="wrap">
         <p className="section-kicker">WHY MAWD NOW</p>
         <h2>학력보다 강한 스펙, AI 프로젝트 결과물</h2>
-        <p className="section-lead">
-          기업은 &ldquo;어느 학교를 나왔는가&rdquo;보다 &ldquo;AI로 무엇을
-          만들었는가&rdquo;를 더 직접적인 역량 증거로 봅니다. MAWD는 참가자가
-          자신의 AI 프로젝트 결과물을 포트폴리오, 발표자료, 링크드인 콘텐츠,
-          채용·창업·협업 기회로 전환할 수 있게 돕습니다.
-        </p>
 
         <div className="company-grid">
           {companies.map((c, i) => (

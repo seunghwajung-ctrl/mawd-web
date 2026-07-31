@@ -38,12 +38,6 @@ export function ProblemSection() {
       <div className="wrap">
         <p className="section-kicker">THE PROBLEM</p>
         <h2>AI를 배웠다는 말보다, 만든 결과물이 더 강한 증거</h2>
-        <p className="section-lead">
-          AI는 일자리를 단순히 없애는 기술이 아닙니다. 직무 구조와 필요한
-          역량을 빠르게 바꾸는 기술입니다. 기업은 이제 &ldquo;무엇을 만들 수
-          있는가&rdquo;, &ldquo;AI로 어떤 문제를 해결했는가&rdquo;,
-          &ldquo;실제 결과물이 있는가&rdquo;를 묻습니다.
-        </p>
 
         <div className="stat-grid">
           {stats.map((s, i) => (
