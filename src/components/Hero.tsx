@@ -40,11 +40,8 @@ export function Hero() {
           </h1>
           <p className="challenge">CHALLENGE</p>
           <p className="headline">
-            <em>AI</em>로 만들고, <em>투자</em>로 검증받고, <em>기회</em>를 잡아라
-          </p>
-          <p className="lead">
-            비전공자들의 아이디어가 바이브 코딩을 만나 세상밖으로 나올
-            차례입니다. 자신의 아이디어를 현실로 만들고 결과로 증명하세요.
+            <em>비전공자</em>들의 아이디어가 <em>바이브 코딩</em>을 만나{" "}
+            <em>세상밖</em>으로 나올 차례입니다.
           </p>
           <div className="btn-row" role="group" aria-label="주요 행동">
             <LumaCheckoutButton
