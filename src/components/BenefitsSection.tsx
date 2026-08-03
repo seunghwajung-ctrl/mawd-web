@@ -12,7 +12,7 @@ export function BenefitsSection() {
             <ul>
               <li>총 상금 및 후속 투자 기회</li>
               <li>멘토링 및 전문가 코칭</li>
-              <li>클라우드 크레딧 지원</li>
+              <li>AI 크레딧 지원</li>
               <li>우수팀 후속 프로그램 연계</li>
               <li>네트워킹과 커뮤니티 연결</li>
             </ul>
