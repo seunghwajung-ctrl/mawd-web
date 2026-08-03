@@ -104,8 +104,8 @@ function SponsorModal({ onClose }: { onClose: () => void }) {
       <div className="sponsor-contact-list">
         <div className="sponsor-contact-item">
           <span className="sponsor-contact-label">EMAIL</span>
-          <a href="mailto:team.mawd@gmail.com" className="sponsor-contact-value">
-            team.mawd@gmail.com
+          <a href="mailto:team.mawd@cyz.today" className="sponsor-contact-value">
+            team.mawd@cyz.today
           </a>
         </div>
         <div className="sponsor-contact-item">

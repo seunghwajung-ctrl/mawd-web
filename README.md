@@ -53,7 +53,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - Participant CTAs open the shared Luma checkout popup for the MAWD Challenge event.
 - Demo signup/application popups are not used in the production landing page.
 - Login and signup are not shown in the production landing page until a real account flow exists.
-- `문의하기` and `스폰서 문의` show the current contact routes: `team.mawd@gmail.com` and `@team_mawd`.
+- `문의하기` and `스폰서 문의` show the current contact routes: `team.mawd@cyz.today` and `@team_mawd`.
 
 ## Build
 

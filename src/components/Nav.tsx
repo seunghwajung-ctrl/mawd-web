@@ -34,7 +34,7 @@ export function Nav() {
           <a href="#program" onClick={closeMenu}>프로그램</a>
           <a href="#benefits" onClick={closeMenu}>혜택</a>
           <a href="#faq" onClick={closeMenu}>FAQ</a>
-          <a className="nav-link-btn" href="mailto:team.mawd@gmail.com" onClick={closeMenu}>
+          <a className="nav-link-btn" href="mailto:team.mawd@cyz.today" onClick={closeMenu}>
             문의하기
           </a>
         </div>

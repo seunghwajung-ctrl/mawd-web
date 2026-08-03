@@ -14,7 +14,7 @@ export function Footer() {
           <strong className="pixel">MAWD CHALLENGE</strong>
         </div>
         <nav className="footer-links" aria-label="푸터 메뉴">
-          <a href="mailto:team.mawd@gmail.com">
+          <a href="mailto:team.mawd@cyz.today">
             문의하기
           </a>
           <a href="#faq">FAQ</a>
