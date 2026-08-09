@@ -179,7 +179,7 @@ a {
   background: rgba(5, 5, 5, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.28s ease;
+  transition: opacity 0.75s ease, transform 0.75s ease, border-color 0.75s ease;
 }
 
 .nav.is-intro-hidden {
@@ -457,6 +457,13 @@ a {
 .hero-logo-intro {
   opacity: var(--intro-title-opacity);
   transition: opacity 80ms linear;
+}
+
+.hero-gap {
+  position: relative;
+  z-index: 2;
+  height: 70dvh;
+  min-height: 420px;
 }
 
 .hero-page {
@@ -1331,6 +1338,10 @@ footer {
     height: calc(100dvh - 67px);
     min-height: 500px;
   }
+  .hero-gap {
+    height: 56dvh;
+    min-height: 320px;
+  }
   .hero-page {
     min-height: calc(100dvh - 67px);
     scroll-margin-top: 67px;
@@ -2135,6 +2146,13 @@ footer {
   pointer-events: auto;
   transform: translateY(0) scale(1);
 }
+
+.hero-intro-active .scroll-top.is-visible {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.85);
+}
+
 .scroll-top:hover {
   border-color: var(--violet-2);
   box-shadow:

@@ -28,20 +28,31 @@ function clamp(value: number, min: number, max: number) {
 export function Hero() {
   const { openSponsorModal } = useSponsorModal();
   const introRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
   const [introProgress, setIntroProgress] = useState(0);
-  const heroRevealProgress = clamp((introProgress - 0.78) / 0.22, 0, 1);
+  const [heroRevealProgress, setHeroRevealProgress] = useState(0);
 
   useEffect(() => {
     document.body.classList.add("hero-intro-active");
 
     const update = () => {
-      if (!introRef.current) return;
+      if (!introRef.current || !mainRef.current) return;
 
-      const rect = introRef.current.getBoundingClientRect();
       const viewport = window.innerHeight || 1;
-      const nextProgress = clamp(-rect.top / (viewport * 1.35), 0, 1);
+      const nextProgress = clamp(
+        -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
+        0,
+        1,
+      );
+      const nextRevealProgress = clamp(
+        (viewport * 0.3 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.42),
+        0,
+        1,
+      );
+
       setIntroProgress(nextProgress);
-      document.body.classList.toggle("hero-intro-active", nextProgress < 0.95);
+      setHeroRevealProgress(nextRevealProgress);
+      document.body.classList.toggle("hero-intro-active", nextRevealProgress < 0.85);
     };
 
     const frame = window.requestAnimationFrame(update);
@@ -89,7 +100,10 @@ export function Hero() {
         </div>
       </div>
 
+      <div className="hero-gap" aria-hidden="true" />
+
       <div
+        ref={mainRef}
         className="hero-page hero-page-second"
         style={
           {

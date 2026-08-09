@@ -19,9 +19,9 @@ export function Nav() {
 
   useEffect(() => {
     const update = () => {
-      const intro = document.querySelector(".hero-intro");
+      const mainHero = document.querySelector(".hero-page-second");
       const viewport = window.innerHeight || 1;
-      if (!intro || -intro.getBoundingClientRect().top / (viewport * 1.35) >= 0.95) {
+      if (!mainHero || mainHero.getBoundingClientRect().top <= viewport * 0.3) {
         setIntroRevealed(true);
       }
     };
