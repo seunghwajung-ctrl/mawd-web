@@ -65,10 +65,6 @@ body {
   overflow-x: hidden;
 }
 
-body.hero-intro-active {
-  background: #050505;
-}
-
 .background-pixel-stars {
   position: fixed;
   inset: 0;
@@ -80,10 +76,6 @@ body.hero-intro-active {
   image-rendering: pixelated;
   mix-blend-mode: screen;
   contain: strict;
-}
-
-.hero-intro-active .background-pixel-stars {
-  opacity: 0;
 }
 
 main,
@@ -394,7 +386,7 @@ a {
   background: #050505;
 }
 
-.hero-page::before {
+.hero::before {
   content: "";
   position: absolute;
   inset: -5%;
@@ -420,7 +412,7 @@ a {
   }
 }
 
-.hero-page::after {
+.hero::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -447,59 +439,25 @@ a {
   display: none;
 }
 
-.scroll-expand {
+.hero-intro {
   position: relative;
   z-index: 2;
-  height: 180dvh;
+  height: 150dvh;
   min-height: 900px;
 }
 
-.scroll-expand-frame {
+.hero-intro-stage {
   position: sticky;
   top: 73px;
   height: calc(100dvh - 73px);
   min-height: 560px;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  isolation: isolate;
 }
 
-.scroll-expand-media {
-  position: absolute;
-  inset: var(--media-inset);
-  width: calc(100% - (var(--media-inset) * 2));
-  height: calc(100% - (var(--media-inset) * 2));
-  object-fit: cover;
-  border-radius: var(--media-radius);
-  filter: saturate(1.16) contrast(1.08);
-  transform: scale(var(--media-scale));
-  transition: inset 80ms linear, border-radius 80ms linear, transform 80ms linear;
-}
-
-.scroll-expand-shade {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(157, 0, 255, 0.28), transparent 44%),
-    linear-gradient(180deg, rgba(5, 5, 5, 0.2) 0%, rgba(5, 5, 5, 0.72) 100%);
-  pointer-events: none;
-}
-
-.scroll-expand-content {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  opacity: var(--content-opacity);
-  transform: translateY(calc(var(--media-inset) * -0.08));
-}
-
-.scroll-expand-hint {
-  margin-top: 22px;
-  font-family: "NeoDunggeunmoPro", monospace;
-  color: rgba(248, 250, 252, 0.78);
+.hero-logo-intro {
+  opacity: var(--intro-title-opacity);
+  transition: opacity 80ms linear;
 }
 
 .hero-page {
@@ -1280,7 +1238,7 @@ footer {
   .hero {
     min-height: 0;
   }
-  .hero-page::before {
+  .hero::before {
     background-size: cover;
     background-position: center top;
   }
@@ -1360,11 +1318,11 @@ footer {
     padding: 0 0 34px;
     align-items: start;
   }
-  .scroll-expand {
-    height: 170dvh;
+  .hero-intro {
+    height: 145dvh;
     min-height: 780px;
   }
-  .scroll-expand-frame {
+  .hero-intro-stage {
     top: 67px;
     height: calc(100dvh - 67px);
     min-height: 500px;
@@ -1376,12 +1334,12 @@ footer {
   .hero-page-second {
     padding-top: 70px;
   }
-  .hero-page::before {
+  .hero::before {
     opacity: 0.18;
     background-size: auto 100%;
     background-position: center top;
   }
-  .hero-page::after {
+  .hero::after {
     inset: 0;
     height: auto;
     background:
@@ -2134,7 +2092,7 @@ footer {
     transform: none;
     transition: none;
   }
-  h1, .hero-logo::before, .badge, .hero-page::before {
+  h1, .hero-logo::before, .badge, .hero::before {
     animation: none !important;
   }
 }

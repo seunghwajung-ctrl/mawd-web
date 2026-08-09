@@ -19,7 +19,7 @@ export function Nav() {
 
   useEffect(() => {
     const update = () => {
-      const intro = document.querySelector(".scroll-expand");
+      const intro = document.querySelector(".hero-intro");
       setIntroActive(
         intro ? intro.getBoundingClientRect().bottom > window.innerHeight * 0.35 : false,
       );
