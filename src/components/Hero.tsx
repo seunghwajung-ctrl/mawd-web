@@ -29,7 +29,7 @@ export function Hero() {
   const { openSponsorModal } = useSponsorModal();
   const introRef = useRef<HTMLDivElement | null>(null);
   const [introProgress, setIntroProgress] = useState(0);
-  const heroRevealProgress = clamp((introProgress - 0.72) / 0.22, 0, 1);
+  const heroRevealProgress = clamp((introProgress - 0.78) / 0.22, 0, 1);
 
   useEffect(() => {
     document.body.classList.add("hero-intro-active");
@@ -39,9 +39,9 @@ export function Hero() {
 
       const rect = introRef.current.getBoundingClientRect();
       const viewport = window.innerHeight || 1;
-      const nextProgress = clamp(-rect.top / viewport, 0, 1);
+      const nextProgress = clamp(-rect.top / (viewport * 1.35), 0, 1);
       setIntroProgress(nextProgress);
-      document.body.classList.toggle("hero-intro-active", nextProgress < 0.92);
+      document.body.classList.toggle("hero-intro-active", nextProgress < 0.95);
     };
 
     const frame = window.requestAnimationFrame(update);
@@ -63,7 +63,7 @@ export function Hero() {
         className="hero-intro"
         style={
           {
-            "--intro-title-opacity": clamp(1 - introProgress * 1.25, 0, 1),
+            "--intro-title-opacity": clamp(1 - introProgress, 0, 1),
           } as React.CSSProperties
         }
       >
@@ -81,7 +81,7 @@ export function Hero() {
               perspective={900}
               autoOrbit
               orbitSpeed={0.35}
-              fontSize="clamp(5rem, 19vw, 14rem)"
+              fontSize="clamp(6rem, 22vw, 16rem)"
               fontWeight={900}
               shadow
             />
@@ -114,7 +114,7 @@ export function Hero() {
                 perspective={900}
                 autoOrbit
                 orbitSpeed={0.35}
-                fontSize="clamp(4.8rem, 18vw, 13rem)"
+                fontSize="clamp(5.5rem, 20vw, 14.5rem)"
                 fontWeight={900}
                 shadow
               />

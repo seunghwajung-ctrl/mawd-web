@@ -21,7 +21,7 @@ export function Nav() {
     const update = () => {
       const intro = document.querySelector(".hero-intro");
       const viewport = window.innerHeight || 1;
-      if (!intro || -intro.getBoundingClientRect().top / viewport >= 0.92) {
+      if (!intro || -intro.getBoundingClientRect().top / (viewport * 1.35) >= 0.95) {
         setIntroRevealed(true);
       }
     };
