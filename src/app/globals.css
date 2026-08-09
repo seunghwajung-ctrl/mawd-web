@@ -363,12 +363,12 @@ a {
 /* ── Hero ────────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  min-height: calc(100dvh - 73px);
+  min-height: 0;
   padding: 0;
   display: grid;
   align-items: stretch;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-  overflow: hidden;
+  overflow: clip;
   background: #050505;
 }
 
@@ -423,6 +423,70 @@ a {
   opacity: 0.72;
   mask-image: radial-gradient(circle at 50% 45%, black 0 28%, transparent 62%);
   display: none;
+}
+
+.scroll-expand {
+  position: relative;
+  z-index: 2;
+  height: 180dvh;
+  min-height: 900px;
+}
+
+.scroll-expand-frame {
+  position: sticky;
+  top: 73px;
+  height: calc(100dvh - 73px);
+  min-height: 560px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scroll-expand-media {
+  position: absolute;
+  inset: var(--media-inset);
+  width: calc(100% - (var(--media-inset) * 2));
+  height: calc(100% - (var(--media-inset) * 2));
+  object-fit: cover;
+  border-radius: var(--media-radius);
+  filter: saturate(1.16) contrast(1.08);
+  transform: scale(var(--media-scale));
+  transition: inset 80ms linear, border-radius 80ms linear, transform 80ms linear;
+}
+
+.scroll-expand-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(157, 0, 255, 0.28), transparent 44%),
+    linear-gradient(180deg, rgba(5, 5, 5, 0.2) 0%, rgba(5, 5, 5, 0.72) 100%);
+  pointer-events: none;
+}
+
+.scroll-expand-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  opacity: var(--content-opacity);
+  transform: translateY(calc(var(--media-inset) * -0.08));
+}
+
+.scroll-expand-hint {
+  margin-top: 22px;
+  font-family: "NeoDunggeunmoPro", monospace;
+  color: rgba(248, 250, 252, 0.78);
+}
+
+.hero-page {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100dvh - 73px);
+  display: grid;
+  align-items: center;
+  scroll-margin-top: 73px;
 }
 
 .hero-layout {
@@ -576,7 +640,7 @@ a {
   text-shadow: 0 0 10px rgba(102, 255, 0, 0.55);
 }
 
-h1.hero-logo {
+.hero-logo {
   position: relative;
   margin: 0 auto clamp(2px, 0.6vw, 10px);
   max-width: 100%;
@@ -586,7 +650,7 @@ h1.hero-logo {
   line-height: 0.78;
 }
 
-h1.hero-logo::before {
+.hero-logo::before {
   content: "";
   position: absolute;
   inset: -25% -15%;
@@ -1191,7 +1255,7 @@ footer {
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1060px) {
   .hero {
-    min-height: calc(100dvh - 73px);
+    min-height: 0;
   }
   .hero::before {
     background-size: cover;
@@ -1270,8 +1334,24 @@ footer {
   .hero {
     height: auto;
     min-height: 0;
-    padding: 74px 0 34px;
+    padding: 0 0 34px;
     align-items: start;
+  }
+  .scroll-expand {
+    height: 170dvh;
+    min-height: 780px;
+  }
+  .scroll-expand-frame {
+    top: 67px;
+    height: calc(100dvh - 67px);
+    min-height: 500px;
+  }
+  .hero-page {
+    min-height: calc(100dvh - 67px);
+    scroll-margin-top: 67px;
+  }
+  .hero-page-second {
+    padding-top: 70px;
   }
   .hero::before {
     opacity: 0.18;
@@ -1309,12 +1389,14 @@ footer {
   }
   .hero-main .stage-row,
   .hero-main h1,
+  .hero-main h2,
   .hero-main .challenge,
   .hero-main .headline,
   .hero-main .lead {
     display: flex !important;
   }
   .hero-main h1,
+  .hero-main h2,
   .hero-main .challenge,
   .hero-main .headline,
   .hero-main .lead {
@@ -1346,7 +1428,7 @@ footer {
   .stage-chip b {
     font-size: 14px;
   }
-  h1.hero-logo {
+  .hero-logo {
     margin: 0 auto 4px;
     max-width: 100%;
     justify-content: center;
@@ -2029,7 +2111,7 @@ footer {
     transform: none;
     transition: none;
   }
-  h1, h1.hero-logo::before, .badge, .hero::before {
+  h1, .hero-logo::before, .badge, .hero::before {
     animation: none !important;
   }
 }
