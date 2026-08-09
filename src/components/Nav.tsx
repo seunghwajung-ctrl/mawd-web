@@ -44,11 +44,11 @@ export function Nav() {
       <div className="wrap nav-inner">
         <a className="brand" href="#top" aria-label="MAWD Challenge home" onClick={closeMenu}>
           <Image
-            src="/mawd-logo.png"
+            src="/mawd-nav-logo.png"
             alt="MAWD Challenge"
             className="brand-logo-img"
-            width={1050}
-            height={789}
+            width={159}
+            height={208}
           />
         </a>
         <div className={`nav-links${menuOpen ? " is-open" : ""}`}>
