@@ -92,7 +92,7 @@ export function Hero() {
               perspective={900}
               autoOrbit
               orbitSpeed={0.35}
-              fontSize="clamp(6rem, 22vw, 16rem)"
+              fontSize="clamp(7rem, 26vw, 17rem)"
               fontWeight={900}
               shadow
             />
@@ -128,7 +128,7 @@ export function Hero() {
                 perspective={900}
                 autoOrbit
                 orbitSpeed={0.35}
-                fontSize="clamp(5.5rem, 20vw, 14.5rem)"
+                fontSize="clamp(6.5rem, 24vw, 15.5rem)"
                 fontWeight={900}
                 shadow
               />
