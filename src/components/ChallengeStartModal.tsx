@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
 const DISMISS_KEY = "mawd-challenge-start-modal-dismissed-v1";
-const START_DATE_KST = "2026-08-14T00:00:00+09:00";
+const START_DATE_KST = "2026-08-16T00:00:00+09:00";
 
 function getDdayLabel() {
   const start = new Date(START_DATE_KST).getTime();
@@ -111,10 +111,10 @@ export function ChallengeStartModal() {
         <div className="challenge-start-copy">
           <p className="section-kicker">MAWD CHALLENGE</p>
           <h2 id="challenge-start-title">마우드 챌린지</h2>
-          <p className="challenge-start-date">8월 14일 1라운드 START</p>
+          <p className="challenge-start-date">8월 16일 1라운드 START</p>
         </div>
 
-        <div className="challenge-start-dday" aria-label={`8월 14일까지 ${ddayLabel}`}>
+        <div className="challenge-start-dday" aria-label={`8월 16일까지 ${ddayLabel}`}>
           <span className="challenge-start-dday-label">COUNTDOWN</span>
           <strong>{ddayLabel}</strong>
         </div>

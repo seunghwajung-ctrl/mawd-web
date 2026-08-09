@@ -14,6 +14,7 @@ import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { SponsorModalProvider } from "@/components/SponsorModalProvider";
+import { ChallengeStartModal } from "@/components/ChallengeStartModal";
 
 export default function Home() {
   return (
@@ -54,6 +55,7 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollTopButton />
+      <ChallengeStartModal />
     </SponsorModalProvider>
   );
 }
