@@ -31,10 +31,10 @@ export function NoBarrierSection() {
     <section id="no-barrier">
       <div className="wrap">
         <p className="section-kicker">NO BARRIER</p>
-        <h2>창업의 문턱, 자본과 시간의 부담을 없앴습니다</h2>
+        <h2>행사의 주된 목표는 방향성입니다.</h2>
         <p className="section-lead">
-          청년이 창업을 도전하기에 느끼는 가장 큰 장벽은 자본과 시간, 그리고
-          경험의 부족입니다. MAWD는 이 세 가지 부담을 먼저 거둬냅니다.
+          방향성을 못잡는 청년, 방향성을 잃고싶지 않은 청년들을 위한
+          해커톤입니다.
         </p>
 
         <div className="barrier-grid">
