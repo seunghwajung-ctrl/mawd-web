@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import DepthText from "./DepthText";
 import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
@@ -29,16 +29,41 @@ export function Hero() {
       <div className="wrap hero-layout">
         <div className="hero-main">
           <h1 id="hero-title" className="hero-logo">
-            <Image
-              src="/mawd-logo.png"
-              alt="MAWD"
-              className="mawd-logo-img"
-              width={1050}
-              height={789}
-              priority
+            <DepthText
+              text="MAWD"
+              layers={34}
+              depth={2.4}
+              faceColor="#f8fafc"
+              depthColor="#7c3aed"
+              tilt={7.5}
+              pointerTracking
+              smoothing={0.14}
+              perspective={900}
+              autoOrbit
+              orbitSpeed={0.35}
+              fontSize="clamp(4.8rem, 18vw, 13rem)"
+              fontWeight={900}
+              shadow
             />
           </h1>
-          <p className="challenge">CHALLENGE</p>
+          <p className="challenge" aria-label="CHALLENGE">
+            <DepthText
+              text="CHALLENGE"
+              layers={24}
+              depth={1.5}
+              faceColor="#f8fafc"
+              depthColor="#7c3aed"
+              tilt={7.5}
+              pointerTracking
+              smoothing={0.14}
+              perspective={900}
+              autoOrbit
+              orbitSpeed={0.35}
+              fontSize="clamp(1.6rem, 5.4vw, 4rem)"
+              fontWeight={900}
+              shadow
+            />
+          </p>
           <p className="headline">
             <em>비전공자</em>들의 아이디어가 <em>바이브 코딩</em>을 만나{" "}
             <em>세상밖</em>으로 나올 차례입니다.

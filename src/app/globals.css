@@ -578,12 +578,12 @@ a {
 
 h1.hero-logo {
   position: relative;
-  margin: 0 auto;
-  max-width: clamp(380px, 54vw, 1050px);
+  margin: 0 auto clamp(2px, 0.6vw, 10px);
+  max-width: 100%;
   display: flex;
   justify-content: center;
   z-index: 2;
-  line-height: 0;
+  line-height: 0.78;
 }
 
 h1.hero-logo::before {
@@ -613,48 +613,42 @@ h1.hero-logo::before {
   }
 }
 
-.mawd-logo-img {
-  width: 100%;
-  height: auto;
-  image-rendering: pixelated;
-  margin-bottom: clamp(-86px, -7vw, -42px);
-  display: block;
-  filter:
-    drop-shadow(0 0 16px rgba(102, 255, 0, 0.42))
-    drop-shadow(0 0 32px rgba(102, 255, 0, 0.2))
-    drop-shadow(0 6px 16px rgba(0, 0, 0, 0.7));
-  animation: hero-logo-pulse 3.6s ease-in-out infinite;
-}
-
-@keyframes hero-logo-pulse {
-  0%, 100% {
-    filter:
-      drop-shadow(0 0 16px rgba(102, 255, 0, 0.42))
-      drop-shadow(0 0 32px rgba(102, 255, 0, 0.2))
-      drop-shadow(0 6px 16px rgba(0, 0, 0, 0.7));
-  }
-  50% {
-    filter:
-      drop-shadow(0 0 30px rgba(102, 255, 0, 0.66))
-      drop-shadow(0 0 60px rgba(102, 255, 0, 0.36))
-      drop-shadow(0 0 90px rgba(157, 0, 255, 0.18))
-      drop-shadow(0 6px 16px rgba(0, 0, 0, 0.7));
-  }
-}
-
 .challenge {
-  margin: 0 0 clamp(8px, 1vw, 14px);
-  font-family: "NeoDunggeunmoPro", monospace;
-  font-size: clamp(24px, 4vw, 62px);
-  line-height: 0.83;
-  letter-spacing: 0.08em;
-  font-weight: 400;
-  color: var(--white);
-  text-shadow:
-    3px 3px 0 rgba(107, 31, 168, 0.95),
-    4px 4px 0 rgba(0, 0, 0, 0.86),
-    0 0 18px rgba(157, 0, 255, 0.5),
-    0 0 36px rgba(102, 255, 0, 0.2);
+  margin: 0 0 clamp(12px, 1.4vw, 20px);
+  line-height: 0.9;
+}
+
+.depth-text {
+  display: inline-grid;
+  place-items: center;
+  min-width: max-content;
+  font-family: var(--font-display);
+  line-height: 0.82;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  transform-style: preserve-3d;
+  user-select: none;
+}
+
+.depth-text-stack {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  transition: transform 120ms ease-out;
+}
+
+.depth-text-layer {
+  grid-area: 1 / 1;
+  display: block;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.depth-text-shadow {
+  filter:
+    drop-shadow(0 0 18px rgba(157, 0, 255, 0.5))
+    drop-shadow(0 12px 28px rgba(0, 0, 0, 0.65));
 }
 
 .headline {
@@ -1353,15 +1347,13 @@ footer {
     font-size: 14px;
   }
   h1.hero-logo {
-    margin: 0 auto;
-    max-width: clamp(300px, 78vw, 440px);
+    margin: 0 auto 4px;
+    max-width: 100%;
     justify-content: center;
   }
   .challenge {
     margin: 0 0 10px;
-    font-size: clamp(24px, 8vw, 38px);
-    line-height: 1;
-    letter-spacing: 0.08em;
+    line-height: 0.9;
   }
   .headline {
     max-width: min(100%, 292px);
@@ -2037,7 +2029,7 @@ footer {
     transform: none;
     transition: none;
   }
-  h1, h1.hero-logo::before, .mawd-logo-img, .badge, .hero::before {
+  h1, h1.hero-logo::before, .badge, .hero::before {
     animation: none !important;
   }
 }
