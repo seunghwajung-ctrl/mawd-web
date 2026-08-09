@@ -29,6 +29,7 @@ export function Hero() {
   const { openSponsorModal } = useSponsorModal();
   const introRef = useRef<HTMLDivElement | null>(null);
   const [introProgress, setIntroProgress] = useState(0);
+  const heroRevealProgress = clamp((introProgress - 0.72) / 0.22, 0, 1);
 
   useEffect(() => {
     document.body.classList.add("hero-intro-active");
@@ -88,7 +89,15 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hero-page hero-page-second">
+      <div
+        className="hero-page hero-page-second"
+        style={
+          {
+            "--hero-reveal-opacity": heroRevealProgress,
+            "--hero-reveal-y": `${Math.round((1 - heroRevealProgress) * 18)}px`,
+          } as React.CSSProperties
+        }
+      >
         <div className="burst" aria-hidden="true" />
         <div className="wrap hero-layout">
           <div className="hero-main">
