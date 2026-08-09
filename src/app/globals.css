@@ -65,6 +65,10 @@ body {
   overflow-x: hidden;
 }
 
+body.hero-intro-active {
+  background: #050505;
+}
+
 .background-pixel-stars {
   position: fixed;
   inset: 0;
@@ -76,6 +80,10 @@ body {
   image-rendering: pixelated;
   mix-blend-mode: screen;
   contain: strict;
+}
+
+.hero-intro-active .background-pixel-stars {
+  opacity: 0;
 }
 
 main,
@@ -179,6 +187,20 @@ a {
   background: rgba(5, 5, 5, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  transition: opacity 0.28s ease, transform 0.28s ease, border-color 0.28s ease;
+}
+
+.hero-intro-active .nav,
+.nav.is-intro-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  border-color: transparent;
+}
+
+.hero-intro-active .scroll-top {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .nav-inner {
@@ -372,7 +394,7 @@ a {
   background: #050505;
 }
 
-.hero::before {
+.hero-page::before {
   content: "";
   position: absolute;
   inset: -5%;
@@ -398,7 +420,7 @@ a {
   }
 }
 
-.hero::after {
+.hero-page::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -487,6 +509,7 @@ a {
   display: grid;
   align-items: center;
   scroll-margin-top: 73px;
+  overflow: hidden;
 }
 
 .hero-layout {
@@ -1257,7 +1280,7 @@ footer {
   .hero {
     min-height: 0;
   }
-  .hero::before {
+  .hero-page::before {
     background-size: cover;
     background-position: center top;
   }
@@ -1353,12 +1376,12 @@ footer {
   .hero-page-second {
     padding-top: 70px;
   }
-  .hero::before {
+  .hero-page::before {
     opacity: 0.18;
     background-size: auto 100%;
     background-position: center top;
   }
-  .hero::after {
+  .hero-page::after {
     inset: 0;
     height: auto;
     background:
@@ -2111,7 +2134,7 @@ footer {
     transform: none;
     transition: none;
   }
-  h1, .hero-logo::before, .badge, .hero::before {
+  h1, .hero-logo::before, .badge, .hero-page::before {
     animation: none !important;
   }
 }

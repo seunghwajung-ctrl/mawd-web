@@ -31,7 +31,7 @@ export function Hero() {
         alt="MAWD background"
         title="MAWD"
         useWindowScroll
-        mediaZoom={1.35}
+        mediaZoom={1}
       >
         <h1 id="hero-title" className="hero-logo hero-logo-intro">
           <DepthText

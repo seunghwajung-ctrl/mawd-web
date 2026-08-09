@@ -6,6 +6,7 @@ import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [introActive, setIntroActive] = useState(true);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -16,10 +17,29 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
+  useEffect(() => {
+    const update = () => {
+      const intro = document.querySelector(".scroll-expand");
+      setIntroActive(
+        intro ? intro.getBoundingClientRect().bottom > window.innerHeight * 0.35 : false,
+      );
+    };
+
+    const frame = window.requestAnimationFrame(update);
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <nav className="nav" aria-label="주요 메뉴">
+    <nav className={`nav${introActive ? " is-intro-hidden" : ""}`} aria-label="주요 메뉴">
       <div className="wrap nav-inner">
         <a className="brand" href="#top" aria-label="MAWD Challenge home" onClick={closeMenu}>
           <Image

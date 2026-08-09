@@ -28,24 +28,30 @@ export default function ScrollExpand({
 }: ScrollExpandProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [progress, setProgress] = useState(0);
-  const [maxInset, setMaxInset] = useState(72);
+  const [maxInset, setMaxInset] = useState(170);
 
   useEffect(() => {
+    document.body.classList.add("hero-intro-active");
+
     const update = () => {
       if (!ref.current) return;
 
       const rect = ref.current.getBoundingClientRect();
       const viewport = window.innerHeight || 1;
       const range = Math.max(1, rect.height - viewport);
-      setMaxInset(Math.min(72, Math.max(18, window.innerWidth * 0.05)));
-      setProgress(clamp(-rect.top / range, 0, 1));
+      const nextProgress = clamp(-rect.top / range, 0, 1);
+      setMaxInset(Math.min(170, Math.max(42, window.innerWidth * 0.13)));
+      setProgress(nextProgress);
+      document.body.classList.toggle("hero-intro-active", nextProgress < 0.95);
     };
 
-    update();
+    const frame = window.requestAnimationFrame(update);
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
 
     return () => {
+      window.cancelAnimationFrame(frame);
+      document.body.classList.remove("hero-intro-active");
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
@@ -64,7 +70,7 @@ export default function ScrollExpand({
           "--media-inset": `${inset}px`,
           "--media-radius": `${radius}px`,
           "--media-scale": scale,
-          "--content-opacity": 1 - progress * 0.28,
+          "--content-opacity": clamp(1 - progress * 1.35, 0, 1),
         } as React.CSSProperties
       }
       aria-label={title || alt || "MAWD"}
