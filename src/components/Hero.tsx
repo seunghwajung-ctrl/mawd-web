@@ -45,7 +45,7 @@ export function Hero() {
         1,
       );
       const nextRevealProgress = clamp(
-        (viewport * 0.3 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.42),
+        (viewport * 0.5 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.58),
         0,
         1,
       );
