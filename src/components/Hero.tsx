@@ -21,6 +21,8 @@ const flowSteps: FlowStep[] = [
   { num: "06", label: "시상", icon: "★", final: true },
 ];
 
+const MOBILE_BREAKPOINT = 768;
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
@@ -39,13 +41,17 @@ export function Hero() {
       if (!introRef.current || !mainRef.current) return;
 
       const viewport = window.innerHeight || 1;
+      const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+      const revealStart = isMobile ? 0.9 : 0.5;
+      const revealDistance = isMobile ? 0.01 : 0.58;
       const nextProgress = clamp(
         -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
         0,
         1,
       );
       const nextRevealProgress = clamp(
-        (viewport * 0.5 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.58),
+        (viewport * revealStart - mainRef.current.getBoundingClientRect().top) /
+          (viewport * revealDistance),
         0,
         1,
       );
