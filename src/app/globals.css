@@ -1354,8 +1354,8 @@ footer {
   }
   .hero-page-second .hero-layout {
     transition:
-      opacity 0.7s ease 0.01s,
-      transform 0.7s ease 0.01s;
+      opacity 0.7s ease 0.1s,
+      transform 0.7s ease 0.1s;
   }
   .hero::before {
     opacity: 0.18;

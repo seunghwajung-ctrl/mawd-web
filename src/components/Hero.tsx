@@ -43,7 +43,7 @@ export function Hero() {
       const viewport = window.innerHeight || 1;
       const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
       const revealStart = isMobile ? 0.9 : 0.5;
-      const revealDistance = isMobile ? 0.01 : 0.58;
+      const revealDistance = isMobile ? 0.1 : 0.58;
       const nextProgress = clamp(
         -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
         0,
