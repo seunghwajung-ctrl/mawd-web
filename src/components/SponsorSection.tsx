@@ -12,7 +12,7 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
     sponsors: [
       {
         name: "채널톡",
-        logoUrl: "/sponsors/channeltalk-logo-primary.svg",
+        logoUrl: "/sponsors/channeltalk-logo-white-on-black.jpg",
         href: "https://channel.io/ko",
         className: "sponsor-logo-channel",
       },

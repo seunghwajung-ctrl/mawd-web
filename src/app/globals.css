@@ -2965,7 +2965,6 @@ section.sponsor-section {
 
 .sponsor-logo-channel {
   object-position: left center;
-  filter: brightness(0) invert(1);
 }
 .sponsor-logo-ajd { object-position: left center; }
 .sponsor-logo-selfish { object-position: left center; }
