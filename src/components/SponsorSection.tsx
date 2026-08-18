@@ -46,7 +46,7 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
       },
       {
         name: "ZETIC.ai",
-        logoUrl: "/sponsors/zetic-ai-logo-white.svg",
+        logoUrl: "/sponsors/zetic-ai-white-on-black.png",
         href: "https://zetic.ai/",
         className: "sponsor-logo-zetic",
       },

@@ -17,6 +17,9 @@ import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { SponsorModalProvider } from "@/components/SponsorModalProvider";
 import { ChallengeStartModal } from "@/components/ChallengeStartModal";
 
+// Keep the popup implementation for future campaigns. Change to `true` to show it again.
+const SHOW_CHALLENGE_START_MODAL = false;
+
 export default function Home() {
   return (
     <SponsorModalProvider>
@@ -59,7 +62,7 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollTopButton />
-      <ChallengeStartModal />
+      {SHOW_CHALLENGE_START_MODAL && <ChallengeStartModal />}
     </SponsorModalProvider>
   );
 }
