@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { SponsorSection } from "@/components/SponsorSection";
 import { VibeCodingSection } from "@/components/VibeCodingSection";
 import { NoBarrierSection } from "@/components/NoBarrierSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
@@ -22,6 +23,9 @@ export default function Home() {
       <Nav />
       <main id="top">
         <Hero />
+        <ScrollReveal className="reveal-section">
+          <SponsorSection />
+        </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <VibeCodingSection />
         </ScrollReveal>

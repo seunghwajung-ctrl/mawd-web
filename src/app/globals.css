@@ -2742,6 +2742,108 @@ footer {
    ========================================================================== */
 
 /* ============================================================================
+   Sponsor Section — program partners
+   ========================================================================== */
+
+section.sponsor-section {
+  overflow: hidden;
+  background: #050505;
+}
+
+.sponsor-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(54px, 7vw, 96px);
+  margin-top: clamp(54px, 7vw, 90px);
+  padding-bottom: 24px;
+}
+
+.sponsor-section .sponsor-tier {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.sponsor-section .section-kicker,
+.sponsor-section h2,
+.sponsor-tier h3 {
+  margin: 0;
+  color: var(--lime);
+  font-family: "NeoDunggeunmoPro", monospace;
+  text-shadow: 0 0 16px rgba(177, 255, 0, 0.14);
+}
+
+.sponsor-section .section-kicker { font-size: 13px; }
+.sponsor-section h2 { color: #fff; font-size: clamp(34px, 5.5vw, 78px); }
+.sponsor-tier h3 { color: #cbfd03; font-size: clamp(19px, 2.1vw, 28px); letter-spacing: 0.035em; }
+
+.sponsor-logos {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: clamp(26px, 4vw, 58px);
+  width: 100%;
+  min-height: 112px;
+  padding-top: 24px;
+}
+
+.sponsor-logo-link {
+  display: block;
+  width: clamp(138px, 16vw, 216px);
+  color: var(--lime);
+  text-decoration: none;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.sponsor-logo-link:hover,
+.sponsor-logo-link:focus-visible { transform: translateY(-5px); opacity: 0.82; }
+.sponsor-logo-link:focus-visible { outline: 2px solid var(--lime); outline-offset: 8px; }
+
+.sponsor-logo-link img {
+  display: block;
+  width: 100%;
+  height: 86px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.sponsor-logo-link span {
+  display: block;
+  margin-top: 16px;
+  color: #aaa;
+  font-family: "NeoDunggeunmoPro", monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+
+.sponsor-logo-channel { object-position: left center; }
+.sponsor-logo-ajd { object-position: left center; }
+.sponsor-logo-selfish { object-position: left center; }
+.sponsor-logo-vapi { object-position: left center; }
+.sponsor-logo-zetic { object-position: left center; }
+
+.sponsor-vacancy {
+  margin: 0;
+  padding-top: 22px;
+  color: #aaa;
+  font-family: "NeoDunggeunmoPro", monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+@media (max-width: 760px) {
+  .sponsor-tiers { gap: 52px; margin-top: 48px; }
+  .sponsor-logos { gap: 30px 22px; min-height: 96px; padding-top: 18px; }
+  .sponsor-logo-link { width: calc(50% - 11px); }
+  .sponsor-logo-link img { height: 64px; }
+}
+
+@media (max-width: 420px) {
+  .sponsor-logo-link { width: 100%; }
+}
+
+/* ============================================================================
    VibeCoding Section — 바이브코딩 시대
    ========================================================================== */
 
