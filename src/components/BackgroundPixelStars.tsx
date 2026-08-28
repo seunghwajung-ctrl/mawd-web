@@ -37,6 +37,7 @@ export function BackgroundPixelStars() {
     }
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileViewport = window.matchMedia("(max-width: 767px)");
     let stars: PixelStar[] = [];
     let shootingStars: ShootingStar[] = [];
     let animationFrame = 0;
@@ -57,7 +58,9 @@ export function BackgroundPixelStars() {
       canvas.style.height = `${height}px`;
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const density = width < 760 ? 0.00007 : 0.0001;
+      // Mobile GPUs struggle when a full-screen canvas is redrawn while scrolling.
+      // Keep the atmosphere, but use a much smaller static star field there.
+      const density = mobileViewport.matches ? 0.000035 : 0.0001;
       const count = Math.floor(width * height * density);
 
       stars = Array.from({ length: count }, () => ({
@@ -141,13 +144,35 @@ export function BackgroundPixelStars() {
       lastTime = performance.now();
     };
 
+    const handleViewportChange = () => {
+      resize();
+      if (mobileViewport.matches || prefersReducedMotion.matches) {
+        cancelAnimationFrame(animationFrame);
+        drawStatic();
+      } else if (!animationFrame) {
+        lastTime = performance.now();
+        animationFrame = requestAnimationFrame(draw);
+      }
+    };
+
+    const drawStatic = () => {
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const star of stars) {
+        context.globalAlpha = star.alpha;
+        context.fillStyle = star.color;
+        context.fillRect(Math.round(star.x), Math.round(star.y), star.size, star.size);
+      }
+      context.globalAlpha = 1;
+      animationFrame = 0;
+    };
+
     resize();
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    mobileViewport.addEventListener("change", handleViewportChange);
 
-    if (prefersReducedMotion.matches) {
-      draw(performance.now());
-      cancelAnimationFrame(animationFrame);
+    if (prefersReducedMotion.matches || mobileViewport.matches) {
+      drawStatic();
     } else {
       animationFrame = requestAnimationFrame(draw);
     }
@@ -156,6 +181,7 @@ export function BackgroundPixelStars() {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      mobileViewport.removeEventListener("change", handleViewportChange);
     };
   }, []);
 

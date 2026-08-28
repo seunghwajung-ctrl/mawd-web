@@ -1449,6 +1449,19 @@ footer {
 }
 
 @media (max-width: 760px) {
+  /* Fixed blur layers and continuously pulsing filters are costly on mobile GPUs. */
+  .nav,
+  .scroll-top {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .hero-logo::before {
+    animation: none;
+  }
+  .reveal,
+  .reveal-section > section > .wrap > * {
+    transition-duration: 0.2s;
+  }
   .wrap {
     width: min(100% - 28px, 1180px);
   }

@@ -39,8 +39,9 @@ export function ScrollReveal({
         for (const entry of entries) {
           if (entry.isIntersecting && entry.intersectionRatio >= 0.16) {
             node.classList.add("reveal-in");
-          } else if (!entry.isIntersecting) {
-            node.classList.remove("reveal-in");
+            // Reveal only once. Re-hiding a section at the viewport boundary makes
+            // mobile scrolling flash and forces unnecessary compositing work.
+            observer.disconnect();
           }
         }
       },

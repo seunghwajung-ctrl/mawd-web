@@ -37,9 +37,20 @@ export default function DepthText({
 }: DepthTextProps) {
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [orbit, setOrbit] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (!autoOrbit) return;
+    const mobileViewport = window.matchMedia("(max-width: 767px)");
+    const updateViewport = () => setIsMobile(mobileViewport.matches);
+    updateViewport();
+    mobileViewport.addEventListener("change", updateViewport);
+    return () => mobileViewport.removeEventListener("change", updateViewport);
+  }, []);
+
+  useEffect(() => {
+    if (!autoOrbit || isMobile || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
 
     let frame = 0;
     let animationFrame = 0;
@@ -51,10 +62,10 @@ export default function DepthText({
 
     animationFrame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrame);
-  }, [autoOrbit, orbitSpeed]);
+  }, [autoOrbit, orbitSpeed, isMobile]);
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!pointerTracking) return;
+    if (!pointerTracking || isMobile || event.pointerType !== "mouse") return;
 
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width - 0.5) * 18;
@@ -88,7 +99,7 @@ export default function DepthText({
           transform: `rotateX(${tilt + pointer.y}deg) rotateY(${orbit + pointer.x}deg)`,
         }}
       >
-        {Array.from({ length: layers }).map((_, index) => (
+        {Array.from({ length: isMobile ? Math.min(layers, 16) : layers }).map((_, index) => (
           <span
             key={index}
             className="depth-text-layer"

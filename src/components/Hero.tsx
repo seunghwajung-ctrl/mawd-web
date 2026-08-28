@@ -36,6 +36,36 @@ export function Hero() {
 
   useEffect(() => {
     document.body.classList.add("hero-intro-active");
+    let animationFrame = 0;
+    const mobileViewport = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+
+    // A scroll-driven React render is especially expensive here: this hero contains
+    // two layered 3D wordmarks. On mobile, reveal the second panel once instead of
+    // recalculating both progress values for every scroll frame.
+    if (mobileViewport.matches) {
+      const mainHero = mainRef.current;
+      if (!mainHero) return undefined;
+
+      const reveal = () => {
+        setHeroRevealProgress(1);
+        document.body.classList.remove("hero-intro-active");
+      };
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            reveal();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "0px 0px -14%", threshold: 0.01 },
+      );
+
+      observer.observe(mainHero);
+      return () => {
+        observer.disconnect();
+        document.body.classList.remove("hero-intro-active");
+      };
+    }
 
     const update = () => {
       if (!introRef.current || !mainRef.current) return;
@@ -61,15 +91,24 @@ export function Hero() {
       document.body.classList.toggle("hero-intro-active", nextRevealProgress < 0.85);
     };
 
-    const frame = window.requestAnimationFrame(update);
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    const scheduleUpdate = () => {
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(() => {
+          animationFrame = 0;
+          update();
+        });
+      }
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
 
     return () => {
-      window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(animationFrame);
       document.body.classList.remove("hero-intro-active");
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
     };
   }, []);
 

@@ -18,6 +18,7 @@ export function Nav() {
   }, [menuOpen]);
 
   useEffect(() => {
+    let animationFrame = 0;
     const update = () => {
       const mainHero = document.querySelector(".hero-page-second");
       const viewport = window.innerHeight || 1;
@@ -26,14 +27,23 @@ export function Nav() {
       }
     };
 
-    const frame = window.requestAnimationFrame(update);
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    const scheduleUpdate = () => {
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(() => {
+          animationFrame = 0;
+          update();
+        });
+      }
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
 
     return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
     };
   }, []);
 
