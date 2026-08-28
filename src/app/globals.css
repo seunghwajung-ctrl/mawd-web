@@ -1455,7 +1455,13 @@ footer {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  .hero-logo::before {
+  /* Keep the artwork fixed; remove only the motion/compositing work. */
+  .hero::before,
+  .hero-logo::before,
+  .stage-chip,
+  .flow-card,
+  .mission-card,
+  .badge {
     animation: none;
   }
   .reveal,
