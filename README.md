@@ -6,10 +6,11 @@ Migrated from [`CuriousPaul/mawd-marketing-site`](https://github.com/CuriousPaul
 
 ## Product Direction
 
-The source of truth for MAWD Challenge planning and product direction is the final PRD:
+The source of truth for MAWD Challenge planning and product direction is the current PRD:
 
-- [MAWD Challenge PRD Final](docs/mawd-challenge-prd-final.md)
-- [Original Word document](docs/mawd-challenge-prd-final.docx)
+- [MAWD Challenge PRD — 2026-09-17](docs/mawd-challenge-prd-2026-09-17.md)
+- [Previous PRD](docs/mawd-challenge-prd-final.md)
+- [Previous Word document](docs/mawd-challenge-prd-final.docx)
 - [Website version history](docs/version-history.md)
 
 Future copy, UX, feature prioritization, and application flow decisions should stay aligned with this PRD.

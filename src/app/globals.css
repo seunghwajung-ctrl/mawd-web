@@ -1069,52 +1069,57 @@ h2 {
   gap: 18px;
 }
 
-.hackathon-rail-shell { position: relative; margin: 0 -24px; }
-.hackathon-rail-shell::before, .hackathon-rail-shell::after { content: ""; position: absolute; z-index: 2; top: 0; bottom: 0; width: 74px; pointer-events: none; }
-.hackathon-rail-shell::before { left: 0; background: linear-gradient(90deg, var(--ink), transparent); backdrop-filter: blur(2px); }
-.hackathon-rail-shell::after { right: 0; background: linear-gradient(-90deg, var(--ink), transparent); backdrop-filter: blur(2px); }
-.hackathon-rail { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 12px 24px 24px; scrollbar-width: none; }
+.hackathon-rail-shell { position: relative; }
+.hackathon-rail-shell::before, .hackathon-rail-shell::after { content: ""; position: absolute; z-index: 2; top: 12px; bottom: 24px; width: 116px; pointer-events: none; filter: blur(10px); opacity: .9; }
+.hackathon-rail-shell::before { left: -94px; background: linear-gradient(90deg, var(--ink) 0%, rgba(5, 5, 5, .7) 42%, transparent 100%); }
+.hackathon-rail-shell::after { right: -94px; background: linear-gradient(-90deg, var(--ink) 0%, rgba(5, 5, 5, .7) 42%, transparent 100%); }
+.hackathon-rail { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 12px 0 24px; scrollbar-width: none; }
 .hackathon-rail::-webkit-scrollbar { display: none; }
-.hackathon-rail .hackathon-card { flex: 0 0 min(390px, 84vw); text-align: left; scroll-snap-align: start; cursor: pointer; font: inherit; color: inherit; }
+.hackathon-rail .hackathon-card { flex: 0 0 calc((100% - 36px) / 3); text-align: left; scroll-snap-align: start; cursor: pointer; font: inherit; color: inherit; }
 .catalog-controls { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin: 22px 0 10px; color: var(--muted); font-size: 13px; }
-.catalog-controls button, .catalog-admin-bar button { border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06); color: var(--white); cursor: pointer; padding: 8px 11px; }
-.hackathon-detail { display: flex; justify-content: space-between; font-weight: 700; color: var(--card-accent); margin-top: 18px; }
+.catalog-controls button, .catalog-admin-bar button { border: 1px solid rgba(255,255,255,.22); border-radius: 14px; background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.035)); box-shadow: inset 1px 1px 0 rgba(255,255,255,.14), inset -2px -2px 0 rgba(0,0,0,.25), 4px 6px 14px rgba(0,0,0,.24); color: var(--white); cursor: pointer; padding: 8px 11px; }
+.catalog-controls button:hover, .catalog-admin-bar button:hover { transform: translateY(-1px); border-color: var(--lime); }
 .catalog-modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(4,7,14,.72); backdrop-filter: blur(10px); }
-.catalog-modal, .login-dialog, .catalog-editor { position: relative; width: min(680px, 100%); max-height: min(88vh, 820px); overflow: auto; background: #10131d; border: 1px solid rgba(255,255,255,.18); box-shadow: 0 24px 80px rgba(0,0,0,.45); }
-.catalog-modal-image { position: relative; height: 260px; }
+.catalog-modal, .login-dialog, .catalog-editor { position: relative; width: min(680px, 100%); max-height: min(88vh, 820px); overflow: auto; border: 1px solid rgba(255,255,255,.2); border-radius: 26px; background: linear-gradient(145deg, #202330, #0b0d14 58%); box-shadow: inset 1px 1px 0 rgba(255,255,255,.14), inset -3px -3px 0 rgba(0,0,0,.24), 0 28px 90px rgba(0,0,0,.58); }
+.catalog-modal-image { position: relative; height: 260px; overflow: hidden; border-radius: 25px 25px 0 0; }
 .catalog-modal-image img { object-fit: cover; }
 .catalog-modal-body { padding: 28px; }
 .catalog-modal-body h3 { white-space: pre-line; font-size: clamp(28px, 5vw, 46px); line-height: 1.04; margin: 8px 0; }
 .catalog-modal-date { color: var(--card-accent); font-weight: 700; }
-.catalog-modal-apply { width: 100%; justify-content: center; margin-top: 24px; }
-.modal-close { position: absolute; z-index: 2; top: 12px; right: 12px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(0,0,0,.55); color: white; font-size: 25px; cursor: pointer; }
+.catalog-modal-apply { display: flex; align-items: center; width: 100%; justify-content: center; gap: 10px; margin-top: 24px; padding: 15px 18px; border: 1px solid var(--lime-bright); border-radius: 16px; background: linear-gradient(145deg, #c7ff76, var(--lime) 58%, #72c531); box-shadow: inset 2px 2px 0 rgba(255,255,255,.52), inset -3px -3px 0 rgba(0,0,0,.18), 0 8px 18px rgba(102,255,0,.22); color: #080808; font-weight: 900; }
+.modal-close { position: absolute; z-index: 2; top: 12px; right: 12px; width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.24); border-radius: 50%; background: linear-gradient(145deg, rgba(255,255,255,.24), rgba(0,0,0,.55)); box-shadow: inset 1px 1px 0 rgba(255,255,255,.18), 3px 4px 12px rgba(0,0,0,.32); color: white; font-size: 25px; cursor: pointer; }
 .login-dialog { display: grid; gap: 14px; padding: 34px; }
 .login-dialog h3, .catalog-editor h3 { margin: 0; font-size: 28px; }
 .login-dialog label, .catalog-editor label { display: grid; gap: 6px; color: var(--muted); font-size: 13px; }
-.login-dialog input, .catalog-editor input, .catalog-editor textarea, .catalog-editor select { border: 1px solid rgba(255,255,255,.2); background: #090b11; color: white; padding: 11px; font: inherit; }
+.login-dialog input, .catalog-editor input, .catalog-editor textarea, .catalog-editor select { border: 1px solid rgba(255,255,255,.2); border-radius: 13px; background: linear-gradient(145deg, #151925, #090b11); box-shadow: inset 2px 2px 4px rgba(0,0,0,.35), inset -1px -1px 0 rgba(255,255,255,.06); color: white; padding: 11px; font: inherit; }
+.login-dialog .btn { border-radius: 16px; box-shadow: inset 2px 2px 0 rgba(255,255,255,.5), inset -3px -3px 0 rgba(0,0,0,.2), 0 8px 18px rgba(102,255,0,.18); }
 .login-error { color: #ff8a8a; margin: 0; }
 .catalog-admin-bar { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 14px; color: var(--lime); font-size: 13px; }
 .catalog-editor { padding: 34px; }
-.catalog-editor fieldset { display: grid; gap: 10px; margin: 22px 0; padding: 16px; border: 1px solid rgba(255,255,255,.16); }
+.catalog-editor fieldset { display: grid; gap: 10px; margin: 22px 0; padding: 16px; border: 1px solid rgba(255,255,255,.16); border-radius: 18px; background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(0,0,0,.12)); box-shadow: inset 1px 1px 0 rgba(255,255,255,.08), inset -2px -2px 0 rgba(0,0,0,.18); }
 .catalog-editor legend { color: var(--lime); padding: 0 6px; }
 .catalog-editor textarea { min-height: 76px; resize: vertical; }
 .editor-actions { position: sticky; bottom: -34px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0; background: #10131d; color: var(--lime); }
-.editor-actions button { border: 0; padding: 12px 18px; background: var(--lime); color: #111; font: inherit; font-weight: 800; cursor: pointer; }
-@media (max-width: 700px) { .hackathon-rail-shell { margin: 0 -16px; } .hackathon-rail { padding-left: 16px; padding-right: 16px; } .hackathon-rail-shell::before, .hackathon-rail-shell::after { width: 34px; } .catalog-controls span { display: none; } .catalog-modal-body, .catalog-editor, .login-dialog { padding: 22px; } .catalog-modal-image { height: 190px; } }
+.editor-actions button { border: 1px solid var(--lime-bright); border-radius: 14px; padding: 12px 18px; background: linear-gradient(145deg, #c7ff76, var(--lime)); box-shadow: inset 2px 2px 0 rgba(255,255,255,.48), inset -2px -2px 0 rgba(0,0,0,.18), 0 6px 14px rgba(102,255,0,.18); color: #111; font: inherit; font-weight: 800; cursor: pointer; }
+@media (max-width: 700px) { .hackathon-rail-shell { margin: 0 -16px; } .hackathon-rail { padding-left: 16px; padding-right: 16px; } .hackathon-rail .hackathon-card { flex-basis: min(390px, 84vw); } .hackathon-rail-shell::before, .hackathon-rail-shell::after { top: 12px; bottom: 24px; width: 70px; filter: blur(8px); } .hackathon-rail-shell::before { left: -46px; } .hackathon-rail-shell::after { right: -46px; } .catalog-controls span { display: none; } .catalog-modal-body, .catalog-editor, .login-dialog { padding: 22px; } .catalog-modal-image { height: 190px; } }
 
 .hackathon-card {
+  display: grid;
+  grid-template-rows: 3fr 4fr;
+  min-height: 560px;
   min-width: 0;
   overflow: hidden;
-  border: 2px solid rgba(248, 248, 242, 0.26);
-  background: rgba(8, 8, 8, 0.88);
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(248, 248, 242, 0.25);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(42, 45, 57, 0.94), rgba(9, 10, 14, 0.96) 44%, rgba(15, 16, 20, 0.94));
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.15), inset -4px -4px 0 rgba(0,0,0,.25), 0 14px 28px rgba(0,0,0,.36);
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .hackathon-card:hover {
   transform: translateY(-5px);
   border-color: var(--card-accent, var(--lime));
-  box-shadow: 10px 12px 0 color-mix(in srgb, var(--card-accent, var(--lime)) 26%, transparent);
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.2), inset -4px -4px 0 rgba(0,0,0,.28), 0 18px 34px color-mix(in srgb, var(--card-accent, var(--lime)) 24%, rgba(0,0,0,.5));
 }
 
 .hackathon-card--lime { --card-accent: var(--lime); }
@@ -1123,10 +1128,11 @@ h2 {
 
 .hackathon-thumb {
   position: relative;
-  min-height: 294px;
+  min-height: 0;
   isolation: isolate;
   overflow: hidden;
   border-bottom: 1px solid rgba(248, 248, 242, 0.18);
+  border-radius: 23px 23px 0 0;
 }
 
 .hackathon-thumb > img {
@@ -1155,20 +1161,13 @@ h2 {
   z-index: 2;
   top: 14px;
   right: 14px;
-  left: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 12px;
 }
 
-.hackathon-thumb-top span:first-child {
-  padding: 7px 8px 6px;
-  color: #080808;
-  background: var(--card-accent);
-}
-
-.hackathon-thumb-top span:last-child { color: rgba(248, 248, 242, 0.74); }
+.hackathon-thumb-top span { color: rgba(248, 248, 242, 0.74); }
 
 .hackathon-thumb h3 {
   position: absolute;
@@ -1184,7 +1183,7 @@ h2 {
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.88);
 }
 
-.hackathon-card-body { padding: 20px 18px 18px; }
+.hackathon-card-body { display: flex; flex-direction: column; padding: 20px 18px 18px; }
 
 .hackathon-date {
   margin: 0 0 12px;
@@ -1208,7 +1207,7 @@ h2 {
   flex-wrap: wrap;
   gap: 6px;
   min-height: 58px;
-  margin: 16px 0 18px;
+  margin: auto 0 0;
   padding: 0;
   list-style: none;
 }
@@ -1217,8 +1216,10 @@ h2 {
   height: fit-content;
   padding: 6px 7px 5px;
   border: 1px solid rgba(248, 248, 242, 0.12);
+  border-radius: 999px;
   color: rgba(248, 248, 242, 0.58);
-  background: rgba(248, 248, 242, 0.04);
+  background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(0,0,0,.1));
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.08), inset -1px -1px 0 rgba(0,0,0,.22);
   font-size: 12px;
 }
 
@@ -1275,7 +1276,7 @@ h2 {
   .catalog-head { gap: 16px; margin-bottom: 26px; }
   .catalog-head > p { font-size: 14px; }
   .hackathon-grid { grid-template-columns: 1fr; gap: 16px; }
-  .hackathon-thumb { min-height: 268px; }
+  .hackathon-card { min-height: 550px; }
   .hackathon-thumb h3 { font-size: 28px; }
   .hackathon-summary { min-height: auto; }
   .hackathon-tags { min-height: auto; }
