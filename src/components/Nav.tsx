@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
@@ -52,15 +51,6 @@ export function Nav() {
   return (
     <nav className={`nav${introRevealed ? "" : " is-intro-hidden"}`} aria-label="주요 메뉴">
       <div className="wrap nav-inner">
-        <a className="brand" href="#top" aria-label="MAWD Challenge home" onClick={closeMenu}>
-          <Image
-            src="/mawd-logo.png"
-            alt="MAWD Challenge"
-            className="brand-logo-img"
-            width={1050}
-            height={789}
-          />
-        </a>
         <div className={`nav-links${menuOpen ? " is-open" : ""}`}>
           <a href="#program" onClick={closeMenu}>프로그램</a>
           <a href="#benefits" onClick={closeMenu}>혜택</a>
@@ -70,7 +60,7 @@ export function Nav() {
           </a>
         </div>
         <div className="nav-auth">
-          <button type="button" className="btn ghost" onClick={closeMenu}>
+          <button type="button" className="btn ghost" onClick={() => { closeMenu(); window.dispatchEvent(new Event("mawd:admin-login")); }}>
             로그인
           </button>
           <LumaCheckoutButton className="btn primary" onClick={closeMenu}>

@@ -16,6 +16,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { SponsorModalProvider } from "@/components/SponsorModalProvider";
 import { ChallengeStartModal } from "@/components/ChallengeStartModal";
+import { HackathonCatalog } from "@/components/HackathonCatalog";
 
 // Keep the popup implementation for future campaigns. Change to `true` to show it again.
 const SHOW_CHALLENGE_START_MODAL = false;
@@ -26,6 +27,9 @@ export default function Home() {
       <Nav />
       <main id="top">
         <Hero />
+        <ScrollReveal className="reveal-section">
+          <HackathonCatalog />
+        </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <SponsorSection />
         </ScrollReveal>
