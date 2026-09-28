@@ -39,56 +39,23 @@ export function Hero() {
     let animationFrame = 0;
     const mobileViewport = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
-    // A scroll-driven React render is especially expensive here: this hero contains
-    // two layered 3D wordmarks. On mobile, reveal the second panel once instead of
-    // recalculating both progress values for every scroll frame.
-    if (mobileViewport.matches) {
-      const mainHero = mainRef.current;
-      if (!mainHero) return undefined;
-
-      const reveal = () => {
-        setHeroRevealProgress(1);
-        document.body.classList.remove("hero-intro-active");
-      };
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            reveal();
-            observer.disconnect();
-          }
-        },
-        { rootMargin: "0px 0px -14%", threshold: 0.01 },
-      );
-
-      observer.observe(mainHero);
-      return () => {
-        observer.disconnect();
-        document.body.classList.remove("hero-intro-active");
-      };
-    }
-
     const update = () => {
       if (!introRef.current || !mainRef.current) return;
 
       const viewport = window.innerHeight || 1;
-      const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-      const revealStart = isMobile ? 0.9 : 0.5;
-      const revealDistance = isMobile ? 0.1 : 0.58;
+      const isMobile = mobileViewport.matches;
       const nextProgress = clamp(
         -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
         0,
         1,
       );
-      const nextRevealProgress = clamp(
-        (viewport * revealStart - mainRef.current.getBoundingClientRect().top) /
-          (viewport * revealDistance),
-        0,
-        1,
-      );
+      const nextRevealProgress = isMobile
+        ? 1
+        : clamp((viewport * 0.5 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.58), 0, 1);
 
       setIntroProgress(nextProgress);
       setHeroRevealProgress(nextRevealProgress);
-      document.body.classList.toggle("hero-intro-active", nextRevealProgress < 0.85);
+      document.body.classList.toggle("hero-intro-active", isMobile ? nextProgress < 0.85 : nextRevealProgress < 0.85);
     };
 
     const scheduleUpdate = () => {
