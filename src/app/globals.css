@@ -3535,6 +3535,143 @@ section.sponsor-section {
   border-radius: 4px;
 }
 
+/* -- Altitut-style motion layer -------------------------------------------- */
+:root {
+  --mawd-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal {
+  transform: translate3d(0, 40px, 0) scale(0.985);
+  transition:
+    opacity 0.76s ease,
+    transform 0.86s var(--mawd-spring);
+}
+
+.reveal-section > section > .wrap > * {
+  transform: translateY(18px) scale(0.99);
+  transition:
+    opacity 0.62s ease,
+    transform 0.72s var(--mawd-spring);
+}
+
+.flow-card,
+.stat-card,
+.company-card,
+.message-card,
+.benefit,
+.program-panel,
+.mission-card,
+.sponsor-logo-link,
+.vibe-card,
+.vibe-message,
+.barrier-card,
+.exp-card {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.flow-card:hover,
+.stat-card:hover,
+.company-card:hover,
+.message-card:hover,
+.benefit:hover,
+.program-panel:hover,
+.mission-card:hover,
+.sponsor-logo-link:hover,
+.sponsor-logo-link:focus-visible,
+.vibe-card:hover,
+.vibe-message:hover,
+.barrier-card:hover,
+.exp-card:hover {
+  filter: brightness(1.04);
+  transform: translateY(-5px) scale(1.01);
+  box-shadow:
+    0 0 24px rgba(102, 255, 0, 0.24),
+    8px 8px 0 rgba(157, 0, 255, 0.2);
+}
+
+.stat-card {
+  animation: mawd-panel-pop 0.58s var(--mawd-spring) both;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: 240ms;
+}
+
+.stat-value {
+  animation: mawd-value-pulse 0.82s ease both;
+}
+
+@keyframes mawd-panel-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  70% {
+    transform: translateY(0) scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mawd-value-pulse {
+  0% {
+    color: var(--white);
+    text-shadow: none;
+  }
+
+  45% {
+    color: var(--lime-bright);
+    text-shadow: var(--glow-lime-md);
+  }
+
+  100% {
+    text-shadow:
+      0 0 16px rgba(102, 255, 0, 0.5),
+      0 0 30px rgba(102, 255, 0, 0.22);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-card,
+  .stat-value {
+    animation: none !important;
+  }
+
+  .flow-card:hover,
+  .stat-card:hover,
+  .company-card:hover,
+  .message-card:hover,
+  .benefit:hover,
+  .program-panel:hover,
+  .mission-card:hover,
+  .sponsor-logo-link:hover,
+  .sponsor-logo-link:focus-visible,
+  .vibe-card:hover,
+  .vibe-message:hover,
+  .barrier-card:hover,
+  .exp-card:hover {
+    filter: none;
+    transform: none;
+  }
+}
+
 /* ── Sponsor Contact Modal ────────────────────────────────── */
 
 .sponsor-contact {
