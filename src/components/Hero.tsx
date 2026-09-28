@@ -42,8 +42,9 @@ export function Hero() {
 
       const viewport = window.innerHeight || 1;
       const isMobile = mobileViewport.matches;
+      const introDistance = isMobile ? viewport * 0.85 : viewport * 1.35;
       const nextProgress = clamp(
-        -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
+        -introRef.current.getBoundingClientRect().top / introDistance,
         0,
         1,
       );
@@ -52,7 +53,8 @@ export function Hero() {
         : clamp((viewport * 0.5 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.58), 0, 1);
 
       introRef.current.style.setProperty("--intro-title-opacity", String(clamp(1 - nextProgress, 0, 1)));
-      introRef.current.style.setProperty("--intro-title-y", `${Math.round(nextProgress * -18)}px`);
+      introRef.current.style.setProperty("--intro-title-y", `${Math.round(nextProgress * -42)}px`);
+      introRef.current.style.setProperty("--intro-title-scale", String(clamp(1 - nextProgress * 0.12, 0.88, 1)));
       mainRef.current.style.setProperty("--hero-reveal-opacity", String(nextRevealProgress));
       mainRef.current.style.setProperty("--hero-reveal-y", `${Math.round((1 - nextRevealProgress) * 18)}px`);
       document.body.classList.toggle("hero-intro-active", isMobile ? nextProgress < 0.85 : nextRevealProgress < 0.85);
