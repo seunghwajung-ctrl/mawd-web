@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import DepthText from "./DepthText";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
@@ -12,12 +12,17 @@ type FlowStep = {
 };
 
 const flowSteps: FlowStep[] = [
-  { num: "01", label: "모집", icon: "▤" },
-  { num: "02", label: "오리엔테이션", icon: "⚑" },
-  { num: "03", label: "1라운드", icon: "♜" },
-  { num: "04", label: "라이크 심사", icon: "♥" },
-  { num: "05", label: "2라운드", icon: "⬡" },
-  { num: "06", label: "시상", icon: "★", final: true },
+  { num: "01", label: "오리엔테이션", icon: "⚑" },
+  { num: "02", label: "1라운드", icon: "♜" },
+  { num: "03", label: "2라운드", icon: "⬡" },
+  { num: "04", label: "최종 공유", icon: "★", final: true },
+];
+
+const heroSummary = [
+  { label: "참가대상", value: "비전공자·예비창업가" },
+  { label: "진행일정", value: "OT → 1R → 2R → 공유" },
+  { label: "결과물", value: "PRD·프로토타입·MVP" },
+  { label: "혜택", value: "멘토링·피드백·포트폴리오" },
 ];
 
 const MOBILE_BREAKPOINT = 768;
@@ -30,8 +35,6 @@ export function Hero() {
   const { openSponsorModal } = useSponsorModal();
   const introRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
-  const [introProgress, setIntroProgress] = useState(0);
-  const [heroRevealProgress, setHeroRevealProgress] = useState(0);
 
   useEffect(() => {
     document.body.classList.add("hero-intro-active");
@@ -63,8 +66,9 @@ export function Hero() {
         1,
       );
 
-      setIntroProgress(nextProgress);
-      setHeroRevealProgress(nextRevealProgress);
+      introRef.current.style.setProperty("--intro-title-opacity", String(clamp(1 - nextProgress, 0, 1)));
+      mainRef.current.style.setProperty("--hero-reveal-opacity", String(nextRevealProgress));
+      mainRef.current.style.setProperty("--hero-reveal-y", `${Math.round((1 - nextRevealProgress) * 18)}px`);
       document.body.classList.toggle("hero-intro-active", nextRevealProgress < 0.85);
     };
 
@@ -94,11 +98,6 @@ export function Hero() {
       <div
         ref={introRef}
         className="hero-intro"
-        style={
-          {
-            "--intro-title-opacity": clamp(1 - introProgress, 0, 1),
-          } as React.CSSProperties
-        }
       >
         <div className="hero-intro-stage">
           <h1 id="hero-title" className="hero-logo hero-logo-intro">
@@ -127,12 +126,6 @@ export function Hero() {
       <div
         ref={mainRef}
         className="hero-page hero-page-second"
-        style={
-          {
-            "--hero-reveal-opacity": heroRevealProgress,
-            "--hero-reveal-y": `${Math.round((1 - heroRevealProgress) * 18)}px`,
-          } as React.CSSProperties
-        }
       >
         <div className="burst" aria-hidden="true" />
         <div className="wrap hero-layout">
@@ -189,6 +182,14 @@ export function Hero() {
                 도입하기 <span className="arrow">›</span>
               </button>
             </div>
+            <dl className="hero-summary" aria-label="MAWD Challenge 핵심 요약">
+              {heroSummary.map((item) => (
+                <div key={item.label} className="hero-summary-item">
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
             <p className="sr-only">프로그램 흐름</p>
             <ul className="flow-band">
               {flowSteps.map((step) => (

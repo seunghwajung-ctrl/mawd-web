@@ -10,19 +10,19 @@ const barriers: Barrier[] = [
     icon: "\u2715",
     title: "자본의 부담",
     ok: "참가비는 무료입니다",
-    desc: "청년이 창업을 도전하기 위해 가장 먼저 마주하는 자본의 벽. 자본이 없어도 아이디어를 결과물로 만드는 경험 자체를 가져가게 합니다.",
+    desc: "비용보다 실행 경험에 집중합니다.",
   },
   {
     icon: "\u2715",
     title: "개발 경험의 부담",
     ok: "개발을 해본 적 없어도 괜찮습니다",
-    desc: "MAWD는 이미 잘하는 사람만 모이는 자리가 아니라, 처음 시도하는 사람들이 함께 실험하고 배우는 프로젝트입니다.",
+    desc: "AI 도구와 팀으로 첫 결과물을 만듭니다.",
   },
   {
     icon: "\u2715",
     title: "시간의 부담",
     ok: "단기간 안에 실현하세요",
-    desc: "중요한 건 앞으로의 시대에 필요한 감각을 먼저 경험해보는 것입니다. 부담보다 경험을 가져가세요.",
+    desc: "짧은 일정 안에 핵심만 완성합니다.",
   },
 ];
 
@@ -31,10 +31,9 @@ export function NoBarrierSection() {
     <section id="no-barrier">
       <div className="wrap">
         <p className="section-kicker">NO BARRIER</p>
-        <h2>행사의 주된 목표는 방향성입니다.</h2>
+        <h2>시작 장벽을 낮췄습니다.</h2>
         <p className="section-lead">
-          방향성을 못잡는 청년, 방향성을 잃고싶지 않은 청년들을 위한
-          해커톤입니다.
+          돈, 개발 경험, 긴 준비 기간이 없어도 시작할 수 있습니다.
         </p>
 
         <div className="barrier-grid">

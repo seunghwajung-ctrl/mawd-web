@@ -7,23 +7,23 @@ type Gain = {
 const gains: Gain[] = [
   {
     num: "01",
-    title: "문제를 AI로 풀어보는 경험",
-    desc: "내가 가진 문제를 발견하고, AI와 함께 구체적인 결과물로 바꿔보는 경험. 이것이 책이나 강의만으로는 쌓을 수 없는 역량입니다.",
+    title: "PRD",
+    desc: "문제, 대상, 핵심 기능을 한 장으로 정리합니다.",
   },
   {
     num: "02",
-    title: "다양한 분야의 사람들과 교류하는 시간",
-    desc: "전공, 경험, 관심사가 다른 사람들이 모여 아이디어를 나눕니다. 다른 사람과 이야기하고, 도구를 써보는 과정에서 AI 역량이 가장 빠르게 늡니다.",
+    title: "프로토타입",
+    desc: "화면 흐름과 사용 장면을 빠르게 보여줍니다.",
   },
   {
     num: "03",
-    title: "협업을 통해 아이디어를 발전시키는 과정",
-    desc: "혼자서는 만들기 어려운 아이디어를 팀원과 함께 다듬어갑니다. 아이디어를 꺼내고, 공유하고, 발전시키는 협업의 경험을 쌓습니다.",
+    title: "MVP",
+    desc: "핵심 기능이 작동하는 첫 제품으로 발전시킵니다.",
   },
   {
     num: "04",
-    title: "전공·업무·커리어에 연결되는 AI 활용 경험",
-    desc: "앞으로의 전공, 업무, 커리어에 직접 연결할 수 있는 AI 활용 경험. 완성작 하나가 아니라, 앞으로의 시대에 필요한 감각을 먼저 경험합니다.",
+    title: "포트폴리오",
+    desc: "배포 링크와 제작 과정을 남겨 다음 기회에 씁니다.",
   },
 ];
 
@@ -31,8 +31,8 @@ export function ExperienceSection() {
   return (
     <section id="experience">
       <div className="wrap">
-        <p className="section-kicker">BEYOND THE PRODUCT</p>
-        <h2>MAWD에서 가져갈 수 있는 것은 단순한 완성작 하나가 아닙니다</h2>
+        <p className="section-kicker">OUTPUT FIRST</p>
+        <h2>먼저 남길 결과물을 분명하게 보여줍니다</h2>
 
         <div className="exp-grid">
           {gains.map((g, i) => (
@@ -46,8 +46,8 @@ export function ExperienceSection() {
 
         <div className="exp-cta">
           <p>
-            중요한 건 앞으로의 시대에 필요한 감각을{" "}
-            <span className="exp-highlight">먼저 경험해보는 것</span>입니다.
+            아이디어를 말로만 끝내지 않고{" "}
+            <span className="exp-highlight">보이는 결과물</span>로 남깁니다.
           </p>
         </div>
       </div>

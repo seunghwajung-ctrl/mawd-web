@@ -743,6 +743,35 @@ a {
   outline-offset: 4px;
 }
 
+.hero-summary {
+  width: min(100%, 860px);
+  margin: clamp(14px, 1.8vw, 22px) 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hero-summary-item {
+  min-height: 76px;
+  padding: 13px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(3, 3, 3, 0.72);
+  text-align: left;
+}
+
+.hero-summary dt {
+  margin: 0 0 7px;
+  color: var(--lime);
+  font-size: 12px;
+}
+
+.hero-summary dd {
+  margin: 0;
+  color: var(--white);
+  font-size: clamp(13px, 1.3vw, 16px);
+  line-height: 1.35;
+}
+
 .stage-row {
   display: flex;
   justify-content: center;
@@ -1771,6 +1800,9 @@ footer {
   .flow-band {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  .hero-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .split,
   .prize-layout,
   .apply-box {
@@ -1963,6 +1995,9 @@ footer {
     grid-template-columns: 1fr;
     gap: 10px;
     margin-top: 16px;
+  }
+  .hero-summary {
+    display: none;
   }
   .mission-grid,
   .benefits {
@@ -4080,6 +4115,12 @@ body::after,
   box-shadow: none !important;
   border-radius: 10px;
 }
+:is(.hero-summary-item) {
+  border-color: var(--color-slate-border) !important;
+  background: var(--color-onyx-card) !important;
+  box-shadow: none !important;
+  border-radius: 10px;
+}
 :is(.vibe-card, .benefit, .program-panel, .faq-item, .faq-item--page):hover { border-color: var(--color-iron-border) !important; box-shadow: none !important; }
 :is(.vibe-card h3, .benefit h3, .program-panel h3, .prize-copy h2, .problem-section h2, .reason-section h2, .faq-q, .apply h2) { color: var(--color-paper-white) !important; font-family: var(--font-inter); font-weight: 500; letter-spacing: -0.035em; }
 :is(.vibe-card p, .benefit li, .program-panel p, .prize-rule p, .problem-section p, .reason-section p, .faq-a p, .apply p, .apply-form-note) { color: var(--color-ash-mute) !important; font-family: var(--font-inter); letter-spacing: -0.03em; }
@@ -4173,6 +4214,7 @@ body::after,
 .hero-logo,
 .challenge,
 .headline,
+.hero-summary,
 .catalog-head h2,
 .section-head h2,
 .section-title,

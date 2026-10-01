@@ -28,19 +28,16 @@ export default function Home() {
       <main id="top">
         <Hero />
         <ScrollReveal className="reveal-section">
+          <ExperienceSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
           <HackathonCatalog />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <SponsorSection />
+          <ProgramSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <VibeCodingSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <NoBarrierSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <ExperienceSection />
+          <BenefitsSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <ProblemSection />
@@ -52,10 +49,13 @@ export default function Home() {
           <PrizeSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <ProgramSection />
+          <SponsorSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <BenefitsSection />
+          <VibeCodingSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <NoBarrierSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <FaqSection />

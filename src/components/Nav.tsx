@@ -60,9 +60,6 @@ export function Nav() {
           </a>
         </div>
         <div className="nav-auth">
-          <button type="button" className="btn ghost" onClick={() => { closeMenu(); window.dispatchEvent(new Event("mawd:admin-login")); }}>
-            로그인
-          </button>
           <LumaCheckoutButton className="btn primary" onClick={closeMenu}>
             참가하기 <span className="arrow">›</span>
           </LumaCheckoutButton>
