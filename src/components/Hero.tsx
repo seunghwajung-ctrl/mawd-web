@@ -32,8 +32,8 @@ const PORTAL_BEATS = [
   {
     side: "center",
     label: "START",
-    title: "Build before you explain.",
-    text: "아래 기존 페이지로 자연스럽게 이어진다",
+    title: "Build your future yourself",
+    text: "미래를 직접 빌딩하세요",
   },
 ] as const;
 

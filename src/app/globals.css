@@ -4565,6 +4565,11 @@ body {
     line-height: 1;
   }
 
+  .portal-beat[data-label="FLOW"] h2 {
+    font-size: clamp(1.78rem, 9.6vw, 3.15rem);
+    line-height: 1;
+  }
+
   .portal-text {
     max-width: 28rem;
     margin-top: 18px;

@@ -37,7 +37,8 @@ test('hero restores the sticky portal intro and centers the TEAM MAWD split mark
     '결과물을 남겨 경력이 되도록',
     'Every Hackathon',
     '다양한 주제의 해커톤으로 모두가 참여 가능',
-    'Build before you explain.',
+    'Build your future yourself',
+    '미래를 직접 빌딩하세요',
     '모든 프로그램 보기',
     '도입하기',
   ]) {
@@ -56,6 +57,7 @@ test('hero restores the sticky portal intro and centers the TEAM MAWD split mark
   assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
   assert.match(css, /\.portal-title-nowrap[\s\S]*white-space: nowrap/);
   assert.match(css, /\.portal-beat\[data-label="TARGET"\] h2[\s\S]*line-height: 1\.08/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-beat\[data-label="FLOW"\] h2[\s\S]*font-size: clamp\(1\.78rem, 9\.6vw, 3\.15rem\)/);
   assert.match(css, /\.portal-hero[\s\S]*height: 1120vh/);
   assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-hero[\s\S]*height: 1080vh/);
   assert.match(hero, /const BEAT_SPREAD = 0\.14/);
