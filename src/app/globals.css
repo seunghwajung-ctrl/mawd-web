@@ -1753,7 +1753,12 @@ footer {
     scroll-margin-top: 67px;
   }
   .hero-page-second {
-    display: none;
+    padding-top: 70px;
+  }
+  .hero-page-second .hero-layout {
+    transition:
+      opacity 0.7s ease 0.1s,
+      transform 0.7s ease 0.1s;
   }
   .hero::before {
     opacity: 0.18;
