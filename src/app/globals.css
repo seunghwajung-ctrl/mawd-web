@@ -4219,8 +4219,8 @@ body {
   --portal-hairline: rgba(237, 231, 220, 0.13);
   position: relative;
   display: block;
-  height: 440vh;
-  min-height: 2750px;
+  height: 560vh;
+  min-height: 3420px;
   overflow: visible;
   border-bottom: 1px solid var(--portal-hairline);
   background: var(--portal-ground);
@@ -4497,8 +4497,8 @@ body {
 
 @media (max-width: 760px) {
   .portal-hero {
-    height: 430vh;
-    min-height: 2380px;
+    height: 540vh;
+    min-height: 3020px;
   }
 
   .portal-stage {
@@ -4550,6 +4550,11 @@ body {
   .portal-beat h2 {
     font-size: clamp(2.45rem, 13vw, 4.8rem);
     line-height: 0.94;
+  }
+
+  .portal-beat[data-label="OUTPUT"] h2 {
+    font-size: clamp(1.82rem, 9.3vw, 3.05rem);
+    line-height: 1;
   }
 
   .portal-text {

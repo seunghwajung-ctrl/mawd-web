@@ -36,8 +36,8 @@ const PORTAL_BEATS = [
   },
 ] as const;
 
-const BEAT_SPREAD = 0.16;
-const BEAT_CLEAR_RANGE = 0.06;
+const BEAT_SPREAD = 0.14;
+const BEAT_CLEAR_RANGE = 0.07;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -139,6 +139,7 @@ export function Hero() {
             <article
               className={`portal-beat portal-beat-${beat.side}`}
               data-index={index + 1}
+              data-label={beat.label}
               key={beat.label}
             >
               <p className="portal-label">{beat.label}</p>

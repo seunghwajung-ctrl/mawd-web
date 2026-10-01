@@ -47,11 +47,19 @@ test('hero restores the sticky portal intro and centers the TEAM MAWD split mark
   assert.match(css, /\.portal-wordmark span:first-child[\s\S]*justify-content: flex-end/);
   assert.match(css, /\.portal-wordmark span:last-child[\s\S]*justify-content: flex-start/);
   assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
-  assert.match(css, /\.portal-hero[\s\S]*height: 440vh/);
-  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-hero[\s\S]*height: 430vh/);
-  assert.match(hero, /const BEAT_SPREAD = 0\.16/);
-  assert.match(hero, /const BEAT_CLEAR_RANGE = 0\.06/);
+  assert.match(css, /\.portal-hero[\s\S]*height: 560vh/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-hero[\s\S]*height: 540vh/);
+  assert.match(hero, /const BEAT_SPREAD = 0\.14/);
+  assert.match(hero, /const BEAT_CLEAR_RANGE = 0\.07/);
   assert.match(hero, /distance <= BEAT_CLEAR_RANGE \? 1/);
+});
+
+test('mobile output beat has a narrower type treatment', () => {
+  const hero = read('src/components/Hero.tsx');
+  const css = read('src/app/globals.css');
+
+  assert.match(hero, /data-label=\{beat\.label\}/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-beat\[data-label="OUTPUT"\] h2[\s\S]*font-size: clamp\(1\.82rem, 9\.3vw, 3\.05rem\)/);
 });
 
 test('output-first page is removed from the landing flow', () => {
