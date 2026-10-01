@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DepthText from "./DepthText";
 import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
@@ -31,6 +31,8 @@ export function Hero() {
   const { openSponsorModal } = useSponsorModal();
   const introRef = useRef<HTMLDivElement | null>(null);
   const mainRef = useRef<HTMLDivElement | null>(null);
+  const [introProgress, setIntroProgress] = useState(0);
+  const [heroRevealProgress, setHeroRevealProgress] = useState(0);
 
   useEffect(() => {
     document.body.classList.add("hero-intro-active");
@@ -51,10 +53,8 @@ export function Hero() {
         ? 1
         : clamp((viewport * 0.5 - mainRef.current.getBoundingClientRect().top) / (viewport * 0.58), 0, 1);
 
-      introRef.current.style.setProperty("--intro-title-opacity", String(clamp(1 - nextProgress, 0, 1)));
-      introRef.current.style.setProperty("--intro-title-y", `${Math.round(nextProgress * -18)}px`);
-      mainRef.current.style.setProperty("--hero-reveal-opacity", String(nextRevealProgress));
-      mainRef.current.style.setProperty("--hero-reveal-y", `${Math.round((1 - nextRevealProgress) * 18)}px`);
+      setIntroProgress(nextProgress);
+      setHeroRevealProgress(nextRevealProgress);
       document.body.classList.toggle("hero-intro-active", isMobile ? nextProgress < 0.85 : nextRevealProgress < 0.85);
     };
 
@@ -84,6 +84,11 @@ export function Hero() {
       <div
         ref={introRef}
         className="hero-intro"
+        style={
+          {
+            "--intro-title-opacity": clamp(1 - introProgress, 0, 1),
+          } as React.CSSProperties
+        }
       >
         <div className="hero-intro-stage">
           <h1 id="hero-title" className="hero-logo hero-logo-intro">
@@ -112,6 +117,12 @@ export function Hero() {
       <div
         ref={mainRef}
         className="hero-page hero-page-second"
+        style={
+          {
+            "--hero-reveal-opacity": heroRevealProgress,
+            "--hero-reveal-y": `${Math.round((1 - heroRevealProgress) * 18)}px`,
+          } as React.CSSProperties
+        }
       >
         <div className="burst" aria-hidden="true" />
         <div className="wrap hero-layout">
