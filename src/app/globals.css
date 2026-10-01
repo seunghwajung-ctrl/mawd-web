@@ -4219,8 +4219,8 @@ body {
   --portal-hairline: rgba(237, 231, 220, 0.13);
   position: relative;
   display: block;
-  height: 560vh;
-  min-height: 3420px;
+  height: 1120vh;
+  min-height: 6840px;
   overflow: visible;
   border-bottom: 1px solid var(--portal-hairline);
   background: var(--portal-ground);
@@ -4328,7 +4328,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: clamp(96px, 28vh, 220px);
+  top: 50%;
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -4341,7 +4341,7 @@ body {
   line-height: 0.78;
   letter-spacing: calc(0.075em - (var(--portal-open, 0) * 0.105em)) !important;
   text-transform: uppercase;
-  transform: scale(calc(0.86 + var(--portal-open, 0) * 0.26));
+  transform: translateY(-50%) scale(calc(0.86 + var(--portal-open, 0) * 0.26));
   transform-origin: center;
   pointer-events: none;
 }
@@ -4497,8 +4497,8 @@ body {
 
 @media (max-width: 760px) {
   .portal-hero {
-    height: 540vh;
-    min-height: 3020px;
+    height: 1080vh;
+    min-height: 6040px;
   }
 
   .portal-stage {
@@ -4510,7 +4510,7 @@ body {
   }
 
   .portal-wordmark {
-    top: 104px;
+    top: 50%;
     inset-inline: 16px;
     column-gap: clamp(24px, 6vw, 36px);
     font-size: clamp(2.75rem, 16vw, 5.6rem);

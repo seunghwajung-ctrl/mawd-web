@@ -44,11 +44,13 @@ test('hero restores the sticky portal intro and centers the TEAM MAWD split mark
   assert.match(css, /\.portal-panel-left[\s\S]*border-right: 0/);
   assert.match(css, /\.portal-panel-right[\s\S]*border-left: 1px solid var\(--portal-hairline\)/);
   assert.match(css, /\.portal-wordmark[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\)/);
+  assert.match(css, /\.portal-wordmark[\s\S]*top: 50%/);
+  assert.match(css, /\.portal-wordmark[\s\S]*translateY\(-50%\) scale/);
   assert.match(css, /\.portal-wordmark span:first-child[\s\S]*justify-content: flex-end/);
   assert.match(css, /\.portal-wordmark span:last-child[\s\S]*justify-content: flex-start/);
   assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
-  assert.match(css, /\.portal-hero[\s\S]*height: 560vh/);
-  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-hero[\s\S]*height: 540vh/);
+  assert.match(css, /\.portal-hero[\s\S]*height: 1120vh/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-hero[\s\S]*height: 1080vh/);
   assert.match(hero, /const BEAT_SPREAD = 0\.14/);
   assert.match(hero, /const BEAT_CLEAR_RANGE = 0\.07/);
   assert.match(hero, /distance <= BEAT_CLEAR_RANGE \? 1/);
