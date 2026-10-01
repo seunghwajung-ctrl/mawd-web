@@ -4,12 +4,14 @@ import test from 'node:test';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('hero shows short summary for audience schedule outcomes and benefits', () => {
+test('hero keeps the intro clean without summary cards or flow cards', () => {
   const hero = read('src/components/Hero.tsx');
-  for (const label of ['참가대상', '진행일정', '결과물', '혜택']) {
-    assert.match(hero, new RegExp(label));
+  for (const removedClass of ['hero-summary', 'flow-band', 'flow-card']) {
+    assert.doesNotMatch(hero, new RegExp(removedClass));
   }
-  assert.match(hero, /hero-summary/);
+  for (const removedLabel of ['참가대상', '진행일정', '결과물', '혜택', '오리엔테이션', '최종 공유']) {
+    assert.doesNotMatch(hero, new RegExp(removedLabel));
+  }
 });
 
 test('outcomes section appears before program cards and highlights PRD prototype MVP portfolio', () => {

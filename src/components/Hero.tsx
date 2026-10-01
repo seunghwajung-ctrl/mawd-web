@@ -4,27 +4,6 @@ import { useEffect, useRef } from "react";
 import DepthText from "./DepthText";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
-type FlowStep = {
-  num: string;
-  label: string;
-  icon: string;
-  final?: boolean;
-};
-
-const flowSteps: FlowStep[] = [
-  { num: "01", label: "오리엔테이션", icon: "⚑" },
-  { num: "02", label: "1라운드", icon: "♜" },
-  { num: "03", label: "2라운드", icon: "⬡" },
-  { num: "04", label: "최종 공유", icon: "★", final: true },
-];
-
-const heroSummary = [
-  { label: "참가대상", value: "비전공자·예비창업가" },
-  { label: "진행일정", value: "OT → 1R → 2R → 공유" },
-  { label: "결과물", value: "PRD·프로토타입·MVP" },
-  { label: "혜택", value: "멘토링·피드백·포트폴리오" },
-];
-
 const MOBILE_BREAKPOINT = 768;
 
 function clamp(value: number, min: number, max: number) {
@@ -182,27 +161,6 @@ export function Hero() {
                 도입하기 <span className="arrow">›</span>
               </button>
             </div>
-            <dl className="hero-summary" aria-label="MAWD Challenge 핵심 요약">
-              {heroSummary.map((item) => (
-                <div key={item.label} className="hero-summary-item">
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="sr-only">프로그램 흐름</p>
-            <ul className="flow-band">
-              {flowSteps.map((step) => (
-                <li
-                  key={step.num}
-                  className={`flow-card${step.final ? " final" : ""}`}
-                >
-                  <b>{step.num}</b>
-                  <span>{step.label}</span>
-                  <span className="flow-icon">{step.icon}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>
