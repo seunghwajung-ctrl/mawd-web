@@ -36,6 +36,9 @@ const PORTAL_BEATS = [
   },
 ] as const;
 
+const BEAT_SPREAD = 0.16;
+const BEAT_CLEAR_RANGE = 0.06;
+
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
@@ -77,8 +80,12 @@ export function Hero() {
 
       beats.forEach((beat, index) => {
         const center = 0.34 + (index / (PORTAL_BEATS.length - 1)) * 0.58;
-        const spread = index === 0 || index === PORTAL_BEATS.length - 1 ? 0.2 : 0.18;
-        const alpha = clamp(1 - Math.abs(progress - center) / spread, 0, 1);
+        const distance = Math.abs(progress - center);
+        const alpha = distance <= BEAT_CLEAR_RANGE ? 1 : clamp(
+          1 - (distance - BEAT_CLEAR_RANGE) / (BEAT_SPREAD - BEAT_CLEAR_RANGE),
+          0,
+          1,
+        );
         const y = Math.round((1 - alpha) * 36);
         const blur = ((1 - alpha) * 9).toFixed(2);
         const tracking = (0.03 + (1 - alpha) * 0.045).toFixed(3);

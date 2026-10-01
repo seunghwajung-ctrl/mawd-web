@@ -4219,8 +4219,8 @@ body {
   --portal-hairline: rgba(237, 231, 220, 0.13);
   position: relative;
   display: block;
-  height: 285vh;
-  min-height: 1780px;
+  height: 440vh;
+  min-height: 2750px;
   overflow: visible;
   border-bottom: 1px solid var(--portal-hairline);
   background: var(--portal-ground);
@@ -4497,8 +4497,8 @@ body {
 
 @media (max-width: 760px) {
   .portal-hero {
-    height: 275vh;
-    min-height: 1520px;
+    height: 430vh;
+    min-height: 2380px;
   }
 
   .portal-stage {
