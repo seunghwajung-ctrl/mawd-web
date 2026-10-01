@@ -14,32 +14,27 @@ test('hero keeps the intro clean without summary cards or flow cards', () => {
   }
 });
 
-test('hero is a sticky portal sequence that preserves the current actions', () => {
+test('hero keeps the previous 3D intro and centers the TEAM MAWD split mark', () => {
   const hero = read('src/components/Hero.tsx');
   const css = read('src/app/globals.css');
 
-  assert.match(hero, /PORTAL_BEATS/);
-  assert.match(hero, /portal-panel portal-panel-left/);
-  assert.match(hero, /portal-panel portal-panel-right/);
-  assert.equal((hero.match(/side: "(left|right|center)"/g) || []).length, 5);
+  assert.doesNotMatch(hero, /PORTAL_BEATS/);
+  assert.doesNotMatch(hero, /portal-panel/);
+  assert.match(hero, /className="hero-logo hero-logo-intro hero-logo-intro-split"/);
+  assert.match(hero, /aria-label="TEAM MAWD"/);
+  assert.match(hero, /text="TEAM"/);
+  assert.match(hero, /text="MAWD"/);
   for (const text of [
-    'Make ideas visible.',
-    '비전공자도 시작할 수 있게.',
-    'PRD, Prototype, MVP, Portfolio.',
-    '4 short steps.',
-    'Build before you explain.',
     '모든 프로그램 보기',
     '도입하기',
   ]) {
     assert.match(hero, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
 
-  assert.match(css, /\.portal-stage[\s\S]*position: sticky/);
-  assert.match(css, /\.portal-panel-left[\s\S]*translateX\(calc\(var\(--portal-open/);
-  assert.match(css, /\.portal-wordmark[\s\S]*--portal-open/);
-  assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
-  assert.match(css, /\.portal-actions[\s\S]*--portal-content-opacity/);
-  assert.match(css, /prefers-reduced-motion: reduce[\s\S]*\.portal-beat/);
+  assert.match(css, /\.hero-logo-intro-split[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\)/);
+  assert.match(css, /\.hero-logo-intro-half-left[\s\S]*justify-content: flex-end/);
+  assert.match(css, /\.hero-logo-intro-half-right[\s\S]*justify-content: flex-start/);
+  assert.doesNotMatch(css, /\.portal-stage/);
 });
 
 test('output-first page is removed from the landing flow', () => {
