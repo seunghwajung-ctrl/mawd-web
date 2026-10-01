@@ -19,6 +19,8 @@ test('hero is a sticky portal sequence that preserves the current actions', () =
   const css = read('src/app/globals.css');
 
   assert.match(hero, /PORTAL_BEATS/);
+  assert.match(hero, /portal-panel portal-panel-left/);
+  assert.match(hero, /portal-panel portal-panel-right/);
   assert.equal((hero.match(/side: "(left|right|center)"/g) || []).length, 5);
   for (const text of [
     'Make ideas visible.',
@@ -33,7 +35,10 @@ test('hero is a sticky portal sequence that preserves the current actions', () =
   }
 
   assert.match(css, /\.portal-stage[\s\S]*position: sticky/);
+  assert.match(css, /\.portal-panel-left[\s\S]*translateX\(calc\(var\(--portal-open/);
+  assert.match(css, /\.portal-wordmark[\s\S]*--portal-open/);
   assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
+  assert.match(css, /\.portal-actions[\s\S]*--portal-content-opacity/);
   assert.match(css, /prefers-reduced-motion: reduce[\s\S]*\.portal-beat/);
 });
 

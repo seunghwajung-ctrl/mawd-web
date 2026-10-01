@@ -63,15 +63,20 @@ export function Hero() {
       const rect = hero.getBoundingClientRect();
       const travel = Math.max(rect.height - viewport, 1);
       const progress = clamp(-rect.top / travel, 0, 1);
+      const portalOpen = clamp(progress / 0.28, 0, 1);
+      const contentOpacity = clamp((progress - 0.18) / 0.16, 0, 1);
 
       hero.style.setProperty("--portal-progress", progress.toFixed(4));
+      hero.style.setProperty("--portal-open", portalOpen.toFixed(4));
+      hero.style.setProperty("--portal-content-opacity", contentOpacity.toFixed(4));
       hero.style.setProperty("--portal-bg-scale", String(1.055 - progress * 0.045));
-      hero.style.setProperty("--portal-veil", String(0.08 + progress * 0.18));
-      hero.style.setProperty("--portal-dot-shift", `${Math.round(progress * 42)}vw`);
+      hero.style.setProperty("--portal-veil", String(0.04 + portalOpen * 0.22));
+      hero.style.setProperty("--portal-dot-shift", `${Math.round(portalOpen * 42)}vw`);
       document.body.classList.toggle("hero-intro-active", progress < 0.82);
+      hero.classList.toggle("portal-content-ready", contentOpacity > 0.88);
 
       beats.forEach((beat, index) => {
-        const center = index / (PORTAL_BEATS.length - 1);
+        const center = 0.34 + (index / (PORTAL_BEATS.length - 1)) * 0.58;
         const spread = index === 0 || index === PORTAL_BEATS.length - 1 ? 0.2 : 0.18;
         const alpha = clamp(1 - Math.abs(progress - center) / spread, 0, 1);
         const y = Math.round((1 - alpha) * 36);
@@ -100,6 +105,7 @@ export function Hero() {
     return () => {
       window.cancelAnimationFrame(animationFrame);
       document.body.classList.remove("hero-intro-active");
+      hero.classList.remove("portal-content-ready");
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
     };
@@ -111,6 +117,8 @@ export function Hero() {
         <div className="portal-backdrop" aria-hidden="true" />
         <div className="portal-duotone" aria-hidden="true" />
         <div className="portal-lines" aria-hidden="true" />
+        <div className="portal-panel portal-panel-left" aria-hidden="true" />
+        <div className="portal-panel portal-panel-right" aria-hidden="true" />
         <div className="portal-dot portal-dot-left" aria-hidden="true" />
         <div className="portal-dot portal-dot-right" aria-hidden="true" />
 
