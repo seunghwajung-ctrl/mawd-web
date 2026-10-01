@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
-const MOBILE_BREAKPOINT = 768;
-
 export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [introRevealed, setIntroRevealed] = useState(false);
@@ -20,14 +18,9 @@ export function Nav() {
 
   useEffect(() => {
     let animationFrame = 0;
-    const mobileViewport = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
     const update = () => {
       const mainHero = document.querySelector(".hero-page-second");
       const viewport = window.innerHeight || 1;
-      if (mobileViewport.matches) {
-        setIntroRevealed(window.scrollY > viewport * 0.85);
-        return;
-      }
       if (!mainHero || mainHero.getBoundingClientRect().top <= viewport * 0.3) {
         setIntroRevealed(true);
       }
@@ -45,13 +38,11 @@ export function Nav() {
     scheduleUpdate();
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
-    mobileViewport.addEventListener("change", scheduleUpdate);
 
     return () => {
       window.cancelAnimationFrame(animationFrame);
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
-      mobileViewport.removeEventListener("change", scheduleUpdate);
     };
   }, []);
 

@@ -37,9 +37,7 @@ export default function DepthText({
 }: DepthTextProps) {
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [orbit, setOrbit] = useState(0);
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches,
-  );
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const mobileViewport = window.matchMedia("(max-width: 767px)");

@@ -595,9 +595,7 @@ a {
 .hero-logo-intro {
   opacity: var(--intro-title-opacity, 1);
   /* Keep the visible 3D face optically centred within the full viewport. */
-  transform:
-    translateY(calc(clamp(26px, 3.4vw, 44px) + var(--intro-title-y, 0px)))
-    scale(var(--intro-title-scale, 1));
+  transform: translateY(calc(clamp(26px, 3.4vw, 44px) + var(--intro-title-y, 0px)));
   transition:
     opacity 80ms linear,
     transform 80ms linear;
@@ -1709,9 +1707,6 @@ footer {
   .mission-card,
   .badge {
     animation: none;
-  }
-  .hero-logo::before {
-    display: none;
   }
   .reveal,
   .reveal-section > section > .wrap > * {
