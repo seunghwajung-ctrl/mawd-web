@@ -28,10 +28,15 @@ test('hero restores the sticky portal intro and centers the TEAM MAWD split mark
   assert.match(hero, />MAWD</);
   assert.doesNotMatch(hero, /DepthText/);
   for (const text of [
-    'Make ideas visible.',
-    '비전공자도 시작할 수 있게.',
+    'MAWD CHALLENGE',
+    '자신의 분야에서 문제를 해결하는 개발 챌린지',
+    '비전공자도',
+    '시작할 수 있게.',
+    '더 많은 아이디어는 비전공자에게 있다.',
     'PRD, Prototype, MVP, Portfolio.',
-    '4 short steps.',
+    '결과물을 남겨 경력이 되도록',
+    'Every Hackathon',
+    '다양한 주제의 해커톤으로 모두가 참여 가능',
     'Build before you explain.',
     '모든 프로그램 보기',
     '도입하기',
@@ -49,6 +54,8 @@ test('hero restores the sticky portal intro and centers the TEAM MAWD split mark
   assert.match(css, /\.portal-wordmark span:first-child[\s\S]*justify-content: flex-end/);
   assert.match(css, /\.portal-wordmark span:last-child[\s\S]*justify-content: flex-start/);
   assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
+  assert.match(css, /\.portal-title-nowrap[\s\S]*white-space: nowrap/);
+  assert.match(css, /\.portal-beat\[data-label="TARGET"\] h2[\s\S]*line-height: 1\.08/);
   assert.match(css, /\.portal-hero[\s\S]*height: 1120vh/);
   assert.match(css, /@media \(max-width: 760px\)[\s\S]*\.portal-hero[\s\S]*height: 1080vh/);
   assert.match(hero, /const BEAT_SPREAD = 0\.14/);

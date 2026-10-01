@@ -7,26 +7,27 @@ const PORTAL_BEATS = [
   {
     side: "left",
     label: "MAWD CHALLENGE",
-    title: "Make ideas visible.",
-    text: "아이디어를 실제 결과물로 만드는 청소년 창업 챌린지",
+    title: "MAWD CHALLENGE",
+    text: "자신의 분야에서 문제를 해결하는 개발 챌린지",
   },
   {
     side: "right",
     label: "TARGET",
-    title: "비전공자도 시작할 수 있게.",
-    text: "참가대상은 쉽게 이해하고 바로 움직일 수 있는 학생/팀 중심으로 정리",
+    title: "비전공자도",
+    titleNowrap: "시작할 수 있게.",
+    text: "더 많은 아이디어는 비전공자에게 있다.",
   },
   {
     side: "left",
     label: "OUTPUT",
     title: "PRD, Prototype, MVP, Portfolio.",
-    text: "결과물이 먼저 보이도록, 만들 것과 남길 것을 명확하게 보여준다",
+    text: "결과물을 남겨 경력이 되도록",
   },
   {
     side: "right",
     label: "FLOW",
-    title: "4 short steps.",
-    text: "오리엔테이션 → 1라운드 → 2라운드 → 최종 공유처럼 짧고 명확하게",
+    title: "Every Hackathon",
+    text: "다양한 주제의 해커톤으로 모두가 참여 가능",
   },
   {
     side: "center",
@@ -135,22 +136,32 @@ export function Hero() {
         </div>
 
         <div className="portal-copy" aria-live="off">
-          {PORTAL_BEATS.map((beat, index) => (
-            <article
-              className={`portal-beat portal-beat-${beat.side}`}
-              data-index={index + 1}
-              data-label={beat.label}
-              key={beat.label}
-            >
-              <p className="portal-label">{beat.label}</p>
-              {index === 0 ? (
-                <h1 id="hero-title">{beat.title}</h1>
-              ) : (
-                <h2>{beat.title}</h2>
-              )}
-              <p className="portal-text">{beat.text}</p>
-            </article>
-          ))}
+          {PORTAL_BEATS.map((beat, index) => {
+            const title = "titleNowrap" in beat ? (
+              <>
+                {beat.title}
+                <br />
+                <span className="portal-title-nowrap">{beat.titleNowrap}</span>
+              </>
+            ) : beat.title;
+
+            return (
+              <article
+                className={`portal-beat portal-beat-${beat.side}`}
+                data-index={index + 1}
+                data-label={beat.label}
+                key={beat.label}
+              >
+                <p className="portal-label">{beat.label}</p>
+                {index === 0 ? (
+                  <h1 id="hero-title">{title}</h1>
+                ) : (
+                  <h2>{title}</h2>
+                )}
+                <p className="portal-text">{beat.text}</p>
+              </article>
+            );
+          })}
         </div>
 
         <div className="portal-actions" role="group" aria-label="주요 행동">

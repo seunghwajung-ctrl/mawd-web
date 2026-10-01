@@ -4431,6 +4431,14 @@ body {
   text-wrap: balance;
 }
 
+.portal-title-nowrap {
+  white-space: nowrap;
+}
+
+.portal-beat[data-label="TARGET"] h2 {
+  line-height: 1.08;
+}
+
 .portal-text {
   max-width: 39rem;
   margin: 22px 0 0;
