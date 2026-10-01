@@ -52,7 +52,7 @@ export function Nav() {
     <nav className={`nav${introRevealed ? "" : " is-intro-hidden"}`} aria-label="주요 메뉴">
       <div className="wrap nav-inner">
         <div className={`nav-links${menuOpen ? " is-open" : ""}`}>
-          <a href="#program" onClick={closeMenu}>프로그램</a>
+          <a href="/programs" onClick={closeMenu}>프로그램</a>
           <a href="#benefits" onClick={closeMenu}>혜택</a>
           <a href="#faq" onClick={closeMenu}>FAQ</a>
           <a className="nav-link-btn" href="mailto:team.mawd@cyz.today" onClick={closeMenu}>

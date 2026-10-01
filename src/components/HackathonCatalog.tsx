@@ -20,7 +20,10 @@ export function HackathonCatalog() {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<Program[]>(fallback);
   const [message, setMessage] = useState("");
+  const [mobileSlide, setMobileSlide] = useState(0);
   const rail = useRef<HTMLDivElement>(null);
+  const swipeStartX = useRef<number | null>(null);
+  const swiped = useRef(false);
 
   useEffect(() => {
     fetch("/api/catalog", { cache: "no-store" }).then(async (response) => {
@@ -34,6 +37,21 @@ export function HackathonCatalog() {
   }, []);
 
   const slide = (direction: number) => rail.current?.scrollBy({ left: direction * Math.min(440, rail.current.clientWidth * 0.85), behavior: "smooth" });
+  const moveMobileSlide = (direction: number) => {
+    setMobileSlide((current) => (current + direction + programs.length) % programs.length);
+  };
+  const handleMobileSwipeStart = (event: React.PointerEvent<HTMLButtonElement>) => {
+    swipeStartX.current = event.clientX;
+    swiped.current = false;
+  };
+  const handleMobileSwipeEnd = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (swipeStartX.current === null) return;
+    const distance = event.clientX - swipeStartX.current;
+    swipeStartX.current = null;
+    if (Math.abs(distance) < 36) return;
+    swiped.current = true;
+    moveMobileSlide(distance < 0 ? 1 : -1);
+  };
   const update = (index: number, field: keyof Program, value: string | string[]) => setDraft((items) => items.map((item, i) => i === index ? { ...item, [field]: value } : item));
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -55,6 +73,36 @@ export function HackathonCatalog() {
 
   return <section id="hackathons" className="hackathon-catalog">
     <div className="wrap">
+      <div className="mobile-program-intro" aria-label="MAWD 프로그램 안내">
+        <div className="mobile-featured-viewport">
+          <div className="mobile-featured-track" style={{ transform: `translateX(-${mobileSlide * 100}%)` }}>
+            {programs.map((program, index) => <button
+              type="button"
+              className="mobile-featured-program"
+              key={program.id}
+              aria-label={`${program.title} 상세 보기`}
+              onPointerDown={handleMobileSwipeStart}
+              onPointerUp={handleMobileSwipeEnd}
+              onPointerCancel={() => { swipeStartX.current = null; }}
+              onClick={() => { if (!swiped.current) setSelected(program); }}
+            >
+              <Image src={program.image} alt="" fill sizes="100vw" priority={index === 0} />
+              <span className="mobile-featured-shade" />
+              <strong>MAWD<br />CHALLENGE</strong>
+              <span className="mobile-featured-copy">{program.title.replace("\n", " ")}</span>
+            </button>)}
+          </div>
+        </div>
+        <div className="mobile-featured-dots" aria-label="프로그램 슬라이드 페이지">
+          {programs.map((program, index) => <button key={program.id} type="button" className={index === mobileSlide ? "is-active" : ""} aria-label={`${index + 1}번 슬라이드 보기`} aria-current={index === mobileSlide ? "true" : undefined} onClick={() => setMobileSlide(index)} />)}
+        </div>
+        <div className="mobile-program-shortcuts" aria-label="프로그램 바로가기">
+          <a href="#program"><span aria-hidden="true">✦</span>프로그램</a>
+          <a href="#benefits"><span aria-hidden="true">◎</span>참가 혜택</a>
+          <a href="#faq"><span aria-hidden="true">?</span>자주 묻는 질문</a>
+          <button type="button" onClick={() => setSelected(programs[0] ?? null)}><span aria-hidden="true">↗</span>참가 안내</button>
+        </div>
+      </div>
       <div className="catalog-head"><div><p className="section-kicker">CHOOSE YOUR QUEST</p><h2>지금, 만들고 싶은<br />해커톤을 고르세요.</h2></div><p>내 문제와 관심사에서 출발하는 빌드 챌린지. 카드를 열어 자세히 보고, 원하는 주제에 바로 참가할 수 있어요.</p></div>
       <div className="catalog-controls"><button type="button" onClick={() => slide(-1)} aria-label="이전 해커톤">←</button><span>좌우로 밀어서 더 보기</span><button type="button" onClick={() => slide(1)} aria-label="다음 해커톤">→</button></div>
       <div className="hackathon-rail-shell"><div className="hackathon-rail" ref={rail}>{programs.map((program, index) => <button className={`hackathon-card hackathon-card--${program.tone}`} type="button" onClick={() => setSelected(program)} key={program.id}>

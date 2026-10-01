@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import DepthText from "./DepthText";
-import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
 type FlowStep = {
@@ -39,32 +38,10 @@ export function Hero() {
     let animationFrame = 0;
     const mobileViewport = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
-    // A scroll-driven React render is especially expensive here: this hero contains
-    // two layered 3D wordmarks. On mobile, reveal the second panel once instead of
-    // recalculating both progress values for every scroll frame.
+    // Mobile keeps only the landing wordmark; the full hero panel is desktop-only.
     if (mobileViewport.matches) {
-      const mainHero = mainRef.current;
-      if (!mainHero) return undefined;
-
-      const reveal = () => {
-        setHeroRevealProgress(1);
-        document.body.classList.remove("hero-intro-active");
-      };
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            reveal();
-            observer.disconnect();
-          }
-        },
-        { rootMargin: "0px 0px -14%", threshold: 0.01 },
-      );
-
-      observer.observe(mainHero);
-      return () => {
-        observer.disconnect();
-        document.body.classList.remove("hero-intro-active");
-      };
+      document.body.classList.remove("hero-intro-active");
+      return undefined;
     }
 
     const update = () => {
@@ -201,17 +178,15 @@ export function Hero() {
               <em>세상밖</em>으로 나올 차례입니다.
             </p>
             <div className="btn-row" role="group" aria-label="주요 행동">
-              <LumaCheckoutButton
-                className="btn primary"
-              >
-                참가 하기 <span className="arrow">›</span>
-              </LumaCheckoutButton>
+              <a className="btn primary" href="#hackathons">
+                모든 프로그램 보기 <span className="arrow">›</span>
+              </a>
               <button
                 type="button"
                 className="btn"
                 onClick={openSponsorModal}
               >
-                스폰서 문의 <span className="arrow">›</span>
+                도입하기 <span className="arrow">›</span>
               </button>
             </div>
             <p className="sr-only">프로그램 흐름</p>
