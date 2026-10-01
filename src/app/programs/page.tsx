@@ -1,7 +1,4 @@
-import { Footer } from "@/components/Footer";
-import { HackathonCatalog } from "@/components/HackathonCatalog";
-import { Nav } from "@/components/Nav";
-import { SponsorModalProvider } from "@/components/SponsorModalProvider";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "프로그램 | MAWD Challenge",
@@ -9,13 +6,8 @@ export const metadata = {
 };
 
 export default function ProgramsPage() {
-  return (
-    <SponsorModalProvider>
-      <Nav />
-      <main id="top">
-        <HackathonCatalog />
-      </main>
-      <Footer />
-    </SponsorModalProvider>
-  );
+  // The program cards belong in the original landing-page journey, not in a
+  // stripped-down standalone page. Keep old links working by returning them
+  // to that section of the complete site.
+  redirect("/#hackathons");
 }
