@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Black_Han_Sans, Press_Start_2P } from "next/font/google";
+import { Black_Han_Sans, Press_Start_2P, Sora, Syne } from "next/font/google";
 import Script from "next/script";
 import { BackgroundPixelStars } from "@/components/BackgroundPixelStars";
 import { LUMA_CHECKOUT_SCRIPT_ID, LUMA_CHECKOUT_SCRIPT_SRC } from "@/lib/luma-config";
@@ -16,6 +16,18 @@ const pressStart2P = Press_Start_2P({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-press-start-2p",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
   display: "swap",
 });
 
@@ -58,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${blackHanSans.variable} ${pressStart2P.variable}`}
+      className={`${blackHanSans.variable} ${pressStart2P.variable} ${syne.variable} ${sora.variable}`}
     >
       <body>
         <BackgroundPixelStars />

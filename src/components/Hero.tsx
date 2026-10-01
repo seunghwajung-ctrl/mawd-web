@@ -1,10 +1,40 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import DepthText from "./DepthText";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
-const MOBILE_BREAKPOINT = 768;
+const PORTAL_BEATS = [
+  {
+    side: "left",
+    label: "MAWD CHALLENGE",
+    title: "Make ideas visible.",
+    text: "아이디어를 실제 결과물로 만드는 청소년 창업 챌린지",
+  },
+  {
+    side: "right",
+    label: "TARGET",
+    title: "비전공자도 시작할 수 있게.",
+    text: "참가대상은 쉽게 이해하고 바로 움직일 수 있는 학생/팀 중심으로 정리",
+  },
+  {
+    side: "left",
+    label: "OUTPUT",
+    title: "PRD, Prototype, MVP, Portfolio.",
+    text: "결과물이 먼저 보이도록, 만들 것과 남길 것을 명확하게 보여준다",
+  },
+  {
+    side: "right",
+    label: "FLOW",
+    title: "4 short steps.",
+    text: "오리엔테이션 → 1라운드 → 2라운드 → 최종 공유처럼 짧고 명확하게",
+  },
+  {
+    side: "center",
+    label: "START",
+    title: "Build before you explain.",
+    text: "아래 기존 페이지로 자연스럽게 이어진다",
+  },
+] as const;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -12,52 +42,55 @@ function clamp(value: number, min: number, max: number) {
 
 export function Hero() {
   const { openSponsorModal } = useSponsorModal();
-  const introRef = useRef<HTMLDivElement | null>(null);
-  const mainRef = useRef<HTMLDivElement | null>(null);
+  const heroRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    document.body.classList.add("hero-intro-active");
-    let animationFrame = 0;
-    const mobileViewport = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+    const hero = heroRef.current;
+    if (!hero) return undefined;
 
-    // Mobile keeps only the landing wordmark; the full hero panel is desktop-only.
-    if (mobileViewport.matches) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
       document.body.classList.remove("hero-intro-active");
       return undefined;
     }
 
+    document.body.classList.add("hero-intro-active");
+    const beats = Array.from(hero.querySelectorAll<HTMLElement>(".portal-beat"));
+    let animationFrame = 0;
+
     const update = () => {
-      if (!introRef.current || !mainRef.current) return;
-
       const viewport = window.innerHeight || 1;
-      const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-      const revealStart = isMobile ? 0.9 : 0.5;
-      const revealDistance = isMobile ? 0.1 : 0.58;
-      const nextProgress = clamp(
-        -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
-        0,
-        1,
-      );
-      const nextRevealProgress = clamp(
-        (viewport * revealStart - mainRef.current.getBoundingClientRect().top) /
-          (viewport * revealDistance),
-        0,
-        1,
-      );
+      const rect = hero.getBoundingClientRect();
+      const travel = Math.max(rect.height - viewport, 1);
+      const progress = clamp(-rect.top / travel, 0, 1);
 
-      introRef.current.style.setProperty("--intro-title-opacity", String(clamp(1 - nextProgress, 0, 1)));
-      mainRef.current.style.setProperty("--hero-reveal-opacity", String(nextRevealProgress));
-      mainRef.current.style.setProperty("--hero-reveal-y", `${Math.round((1 - nextRevealProgress) * 18)}px`);
-      document.body.classList.toggle("hero-intro-active", nextRevealProgress < 0.85);
+      hero.style.setProperty("--portal-progress", progress.toFixed(4));
+      hero.style.setProperty("--portal-bg-scale", String(1.055 - progress * 0.045));
+      hero.style.setProperty("--portal-veil", String(0.08 + progress * 0.18));
+      hero.style.setProperty("--portal-dot-shift", `${Math.round(progress * 42)}vw`);
+      document.body.classList.toggle("hero-intro-active", progress < 0.82);
+
+      beats.forEach((beat, index) => {
+        const center = index / (PORTAL_BEATS.length - 1);
+        const spread = index === 0 || index === PORTAL_BEATS.length - 1 ? 0.2 : 0.18;
+        const alpha = clamp(1 - Math.abs(progress - center) / spread, 0, 1);
+        const y = Math.round((1 - alpha) * 36);
+        const blur = ((1 - alpha) * 9).toFixed(2);
+        const tracking = (0.03 + (1 - alpha) * 0.045).toFixed(3);
+
+        beat.style.setProperty("--beat-opacity", alpha.toFixed(3));
+        beat.style.setProperty("--beat-y", `${y}px`);
+        beat.style.setProperty("--beat-blur", `${blur}px`);
+        beat.style.setProperty("--beat-tracking", `${tracking}em`);
+      });
     };
 
     const scheduleUpdate = () => {
-      if (!animationFrame) {
-        animationFrame = window.requestAnimationFrame(() => {
-          animationFrame = 0;
-          update();
-        });
-      }
+      if (animationFrame) return;
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = 0;
+        update();
+      });
     };
 
     scheduleUpdate();
@@ -73,97 +106,47 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="hero" aria-labelledby="hero-title">
-      <div
-        ref={introRef}
-        className="hero-intro"
-      >
-        <div className="hero-intro-stage">
-          <h1 id="hero-title" className="hero-logo hero-logo-intro">
-            <DepthText
-              text="MAWD"
-              layers={34}
-              depth={2.4}
-              faceColor="#f8fafc"
-              depthColor="#7c3aed"
-              tilt={7.5}
-              pointerTracking
-              smoothing={0.14}
-              perspective={900}
-              autoOrbit
-              orbitSpeed={0.35}
-              fontSize="clamp(7rem, 26vw, 17rem)"
-              fontWeight={900}
-              shadow
-            />
-          </h1>
+    <section ref={heroRef} className="hero portal-hero" aria-labelledby="hero-title">
+      <div className="portal-stage">
+        <div className="portal-backdrop" aria-hidden="true" />
+        <div className="portal-duotone" aria-hidden="true" />
+        <div className="portal-lines" aria-hidden="true" />
+        <div className="portal-dot portal-dot-left" aria-hidden="true" />
+        <div className="portal-dot portal-dot-right" aria-hidden="true" />
+
+        <div className="portal-wordmark" aria-hidden="true">
+          <span>MA</span>
+          <span>WD</span>
+        </div>
+
+        <div className="portal-copy" aria-live="off">
+          {PORTAL_BEATS.map((beat, index) => (
+            <article
+              className={`portal-beat portal-beat-${beat.side}`}
+              data-index={index + 1}
+              key={beat.label}
+            >
+              <p className="portal-label">{beat.label}</p>
+              {index === 0 ? (
+                <h1 id="hero-title">{beat.title}</h1>
+              ) : (
+                <h2>{beat.title}</h2>
+              )}
+              <p className="portal-text">{beat.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="portal-actions" role="group" aria-label="주요 행동">
+          <a className="btn primary" href="#hackathons">
+            모든 프로그램 보기 <span className="arrow">›</span>
+          </a>
+          <button type="button" className="btn" onClick={openSponsorModal}>
+            도입하기 <span className="arrow">›</span>
+          </button>
         </div>
       </div>
-
-      <div className="hero-gap" aria-hidden="true" />
-
-      <div
-        ref={mainRef}
-        className="hero-page hero-page-second"
-      >
-        <div className="burst" aria-hidden="true" />
-        <div className="wrap hero-layout">
-          <div className="hero-main">
-            <h2 className="hero-logo">
-              <DepthText
-                text="MAWD"
-                layers={34}
-                depth={2.4}
-                faceColor="#f8fafc"
-                depthColor="#7c3aed"
-                tilt={7.5}
-                pointerTracking
-                smoothing={0.14}
-                perspective={900}
-                autoOrbit
-                orbitSpeed={0.35}
-                fontSize="clamp(6.5rem, 24vw, 15.5rem)"
-                fontWeight={900}
-                shadow
-              />
-            </h2>
-            <p className="challenge" aria-label="CHALLENGE">
-              <DepthText
-                text="CHALLENGE"
-                layers={24}
-                depth={1.5}
-                faceColor="#f8fafc"
-                depthColor="#7c3aed"
-                tilt={7.5}
-                pointerTracking
-                smoothing={0.14}
-                perspective={900}
-                autoOrbit
-                orbitSpeed={0.35}
-                fontSize="clamp(1.6rem, 5.4vw, 4rem)"
-                fontWeight={900}
-                shadow
-              />
-            </p>
-            <p className="headline">
-              <em>비전공자</em>들의 아이디어가 <em>바이브 코딩</em>을 만나{" "}
-              <em>세상밖</em>으로 나올 차례입니다.
-            </p>
-            <div className="btn-row" role="group" aria-label="주요 행동">
-              <a className="btn primary" href="#hackathons">
-                모든 프로그램 보기 <span className="arrow">›</span>
-              </a>
-              <button
-                type="button"
-                className="btn"
-                onClick={openSponsorModal}
-              >
-                도입하기 <span className="arrow">›</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="hero-page-second portal-nav-trigger" aria-hidden="true" />
     </section>
   );
 }

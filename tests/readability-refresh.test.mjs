@@ -9,9 +9,32 @@ test('hero keeps the intro clean without summary cards or flow cards', () => {
   for (const removedClass of ['hero-summary', 'flow-band', 'flow-card']) {
     assert.doesNotMatch(hero, new RegExp(removedClass));
   }
-  for (const removedLabel of ['참가대상', '진행일정', '결과물', '혜택', '오리엔테이션', '최종 공유']) {
+  for (const removedLabel of ['진행일정', '혜택']) {
     assert.doesNotMatch(hero, new RegExp(removedLabel));
   }
+});
+
+test('hero is a sticky portal sequence that preserves the current actions', () => {
+  const hero = read('src/components/Hero.tsx');
+  const css = read('src/app/globals.css');
+
+  assert.match(hero, /PORTAL_BEATS/);
+  assert.equal((hero.match(/side: "(left|right|center)"/g) || []).length, 5);
+  for (const text of [
+    'Make ideas visible.',
+    '비전공자도 시작할 수 있게.',
+    'PRD, Prototype, MVP, Portfolio.',
+    '4 short steps.',
+    'Build before you explain.',
+    '모든 프로그램 보기',
+    '도입하기',
+  ]) {
+    assert.match(hero, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+
+  assert.match(css, /\.portal-stage[\s\S]*position: sticky/);
+  assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
+  assert.match(css, /prefers-reduced-motion: reduce[\s\S]*\.portal-beat/);
 });
 
 test('output-first page is removed from the landing flow', () => {
