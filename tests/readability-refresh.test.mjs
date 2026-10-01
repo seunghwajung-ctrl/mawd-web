@@ -14,13 +14,10 @@ test('hero keeps the intro clean without summary cards or flow cards', () => {
   }
 });
 
-test('outcomes section appears before program cards and highlights PRD prototype MVP portfolio', () => {
+test('output-first page is removed from the landing flow', () => {
   const page = read('src/app/page.tsx');
-  assert.ok(page.indexOf('<ExperienceSection />') < page.indexOf('<HackathonCatalog />'));
-  const experience = read('src/components/ExperienceSection.tsx');
-  for (const text of ['PRD', '프로토타입', 'MVP', '포트폴리오']) {
-    assert.match(experience, new RegExp(text));
-  }
+  assert.equal(page.includes('ExperienceSection'), false);
+  assert.equal(existsSync(new URL('../src/components/ExperienceSection.tsx', import.meta.url)), false);
 });
 
 test('program timeline is four short steps and benefits copy is participant centered', () => {
