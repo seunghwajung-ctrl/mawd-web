@@ -14,27 +14,39 @@ test('hero keeps the intro clean without summary cards or flow cards', () => {
   }
 });
 
-test('hero keeps the previous 3D intro and centers the TEAM MAWD split mark', () => {
+test('hero restores the sticky portal intro and centers the TEAM MAWD split mark', () => {
   const hero = read('src/components/Hero.tsx');
   const css = read('src/app/globals.css');
 
-  assert.doesNotMatch(hero, /PORTAL_BEATS/);
-  assert.doesNotMatch(hero, /portal-panel/);
-  assert.match(hero, /className="hero-logo hero-logo-intro hero-logo-intro-split"/);
+  assert.match(hero, /PORTAL_BEATS/);
+  assert.match(hero, /portal-panel portal-panel-left/);
+  assert.match(hero, /portal-panel portal-panel-right/);
+  assert.equal((hero.match(/side: "(left|right|center)"/g) || []).length, 5);
+  assert.match(hero, /className="portal-wordmark"/);
   assert.match(hero, /aria-label="TEAM MAWD"/);
-  assert.match(hero, /text="TEAM"/);
-  assert.match(hero, /text="MAWD"/);
+  assert.match(hero, />TEAM</);
+  assert.match(hero, />MAWD</);
+  assert.doesNotMatch(hero, /DepthText/);
   for (const text of [
+    'Make ideas visible.',
+    '비전공자도 시작할 수 있게.',
+    'PRD, Prototype, MVP, Portfolio.',
+    '4 short steps.',
+    'Build before you explain.',
     '모든 프로그램 보기',
     '도입하기',
   ]) {
     assert.match(hero, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
 
-  assert.match(css, /\.hero-logo-intro-split[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\)/);
-  assert.match(css, /\.hero-logo-intro-half-left[\s\S]*justify-content: flex-end/);
-  assert.match(css, /\.hero-logo-intro-half-right[\s\S]*justify-content: flex-start/);
-  assert.doesNotMatch(css, /\.portal-stage/);
+  assert.match(css, /\.portal-stage[\s\S]*position: sticky/);
+  assert.match(css, /\.portal-panel[\s\S]*width: 50vw/);
+  assert.match(css, /\.portal-panel-left[\s\S]*border-right: 0/);
+  assert.match(css, /\.portal-panel-right[\s\S]*border-left: 1px solid var\(--portal-hairline\)/);
+  assert.match(css, /\.portal-wordmark[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\)/);
+  assert.match(css, /\.portal-wordmark span:first-child[\s\S]*justify-content: flex-end/);
+  assert.match(css, /\.portal-wordmark span:last-child[\s\S]*justify-content: flex-start/);
+  assert.match(css, /\.portal-beat[\s\S]*--beat-opacity/);
 });
 
 test('output-first page is removed from the landing flow', () => {
