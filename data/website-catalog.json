@@ -44,6 +44,24 @@
       ],
       "image": "/gallery/mawd-field-03.jpg",
       "tone": "orange"
+    },
+    {
+      "id": "mawd-startup-challenge",
+      "status": "",
+      "title": "MAWD START-UP CHALLENGE",
+      "summary": "기획,개발,마케팅,디자인 전공 대학생들이 팀이 되어 1인 기업 자동화 챌린지를 진행합니다.",
+      "description": "기획,개발,마케팅,디자인 전공 대학생들이 팀이 되어 1인 기업 자동화 챌린지를 진행합니다.",
+      "date": "11월 14일 / 장소 공개 예정",
+      "tags": [
+        "#스타트업",
+        "#개발",
+        "#기획",
+        "#마케팅",
+        "#디자인"
+      ],
+      "image": "/programs/mawd-startup-challenge.jpg",
+      "tone": "lime",
+      "applyUrl": "https://luma.com/ml5gw54p"
     }
   ]
 }
