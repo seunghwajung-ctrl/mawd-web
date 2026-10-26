@@ -4,6 +4,15 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+## Baseline Version (read first)
+
+The approved baseline is tag `v0.6-startup-challenge-baseline` (commit `a5d448b`), restored from Vercel production deployment `dpl_E4GvCnVtVCufJ5ijeRM33AnqzhwL` (2026-10-14 21:54 KST). It has the MAWD START-UP CHALLENGE card first, with its image at `public/programs/mawd-startup-challenge.jpg`.
+
+1. Start every task from the latest `origin/main` (`git fetch origin && git checkout main && git pull --ff-only`). It must contain `v0.6-startup-challenge-baseline` (`git merge-base --is-ancestor v0.6-startup-challenge-baseline HEAD`). If not, stop and ask.
+2. Never reset, revert, or "restore" `main` to an older commit or tag (including `541ae87`, `763a2c6`, `v0.1`–`v0.5`) unless the owner explicitly asks for that exact target.
+3. Deploy only by pushing committed work to `main`; Vercel builds production from it. Never run `vercel deploy`/`vercel --prod` from a local working tree: that ships uncommitted files that then exist nowhere in git, which is how this baseline was nearly lost.
+4. Commit every asset the site references (images in `public/`, data in `data/`) in the same commit as the code that uses it.
+
 ## Surgical Fix Default
 
 For every change to existing MAWD code, use a **minimal, scope-locked patch** by default. This applies unless the requester explicitly asks for a broader refactor, redesign, or architecture change.

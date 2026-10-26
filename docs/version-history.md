@@ -6,7 +6,8 @@ Use this file with GitHub tags to find important website milestones quickly.
 
 | Version | Git tag | Commit | What to use it for |
 |---|---|---|---|
-| v0.5 | `v0.5-cardnews-application-flow` | `9a14cc1` | Current production version with updated application flow and cardnews |
+| v0.6 | `v0.6-startup-challenge-baseline` | `a5d448b` | **Default baseline.** Production deployment `dpl_E4GvCnVtVCufJ5ijeRM33AnqzhwL` (2026-10-14) with the MAWD START-UP CHALLENGE card and image. All new work starts here. |
+| v0.5 | `v0.5-cardnews-application-flow` | `9a14cc1` | Earlier production version with updated application flow and cardnews |
 | v0.4 | `v0.4-production-flow` | `d1c944e` | Production application-flow baseline after final PRD was added |
 | v0.3 | `v0.3-final-landing` | `dc89f1c` | Finalized landing page with Google Form integration and sponsor/contact refinements |
 | v0.2 | `v0.2-pixel-redesign` | `eac89f9` | Pixel-art redesign with circuit background and UX enhancements |
