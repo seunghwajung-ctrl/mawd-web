@@ -3278,7 +3278,7 @@ section.sponsor-section {
 
 .sponsor-logo-link {
   display: block;
-  width: clamp(138px, 16vw, 216px);
+  width: var(--logo-w, clamp(138px, 16vw, 216px));
   color: var(--lime);
   text-decoration: none;
   transition: transform 180ms ease, opacity 180ms ease;
@@ -3291,7 +3291,7 @@ section.sponsor-section {
 .sponsor-logo-link img {
   display: block;
   width: 100%;
-  height: 86px;
+  height: var(--logo-h, 86px);
   object-fit: contain;
   object-position: left center;
 }
@@ -3308,14 +3308,21 @@ section.sponsor-section {
 .sponsor-logo-channel {
   object-position: left center;
 }
+.sponsor-logo-stibee { object-position: left center; }
 .sponsor-logo-ajd { object-position: left center; }
-.sponsor-logo-selfish { object-position: left center; }
+.sponsor-logo-liner { object-position: left center; }
+.sponsor-logo-render { object-position: left center; }
 .sponsor-logo-vapi { object-position: left center; }
 .sponsor-logo-zetic {
   object-fit: cover;
   object-position: center;
   filter: invert(1);
 }
+
+/* Lower tiers step down in size; premier is the largest. */
+.sponsor-tier--2 { --logo-w: clamp(300px, 36vw, 500px); --logo-h: clamp(90px, 11vw, 150px); }
+.sponsor-tier--3 { --logo-w: clamp(124px, 14vw, 190px); --logo-h: 68px; }
+.sponsor-tier--4 { --logo-w: clamp(104px, 11vw, 150px); --logo-h: 52px; }
 
 .sponsor-vacancy {
   margin: 0;
@@ -3330,7 +3337,8 @@ section.sponsor-section {
   .sponsor-tiers { gap: 52px; margin-top: 48px; }
   .sponsor-logos { gap: 22px 18px; min-height: 0; padding-top: 18px; }
   .sponsor-logo-link { width: calc(50% - 9px); }
-  .sponsor-logo-link img { height: 38px; }
+  .sponsor-tier--2 { --logo-h: 72px; }
+  .sponsor-tier--3 { --logo-h: 44px; }
 
   /* API partners stay compact and aligned in a single row on mobile. */
   .sponsor-tier--4 .sponsor-logos {
