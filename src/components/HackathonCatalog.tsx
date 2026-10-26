@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
+import { createPortal } from "react-dom";
 
 type Tone = "lime" | "violet" | "orange";
-type Program = { id: string; status: string; title: string; summary: string; description: string; date: string; tags: string[]; image: string; tone: Tone };
+type Program = { id: string; status: string; title: string; summary: string; description: string; date: string; tags: string[]; image: string; tone: Tone; applyUrl?: string };
 const fallback: Program[] = [
+  { id: "mawd-startup-challenge", status: "", title: "MAWD START-UP CHALLENGE", summary: "기획,개발,마케팅,디자인 전공 대학생들이 팀이 되어 1인 기업 자동화 챌린지를 진행합니다.", description: "기획,개발,마케팅,디자인 전공 대학생들이 팀이 되어 1인 기업 자동화 챌린지를 진행합니다.", date: "11월 14일 / 장소 공개 예정", tags: ["#스타트업", "#개발", "#기획", "#마케팅", "#디자인"], image: "/programs/mawd-startup-challenge.jpg", tone: "lime", applyUrl: "https://luma.com/ml5gw54p" },
   { id: "local-impact", status: "", title: "AI로 동네의 문제를 푸는\n로컬 임팩트 해커톤", summary: "우리 동네에서 실제로 반복되는 불편을 찾아, AI로 작동하는 첫 해결책을 만듭니다.", description: "동네의 문제를 한 가지 고르고, 팀과 함께 AI 기반 해결책을 만들어요.", date: "일정 / 장소 공개 예정", tags: ["#로컬", "#AI에이전트", "#초보환영"], image: "/gallery/mawd-field-01.jpg", tone: "lime" },
   { id: "ai-workflow", status: "", title: "혼자 일하는 사람을 위한\nAI 워크플로 해커톤", summary: "매일 반복되는 일을 덜어내는 나만의 AI 워크플로를 팀과 함께 설계합니다.", description: "반복되는 일을 골라 나만의 자동화 흐름을 설계합니다.", date: "일정 / 장소 공개 예정", tags: ["#1인사업", "#자동화", "#빌드데이"], image: "/gallery/mawd-field-02.jpg", tone: "violet" },
   { id: "creator-ai", status: "", title: "콘텐츠가 결과가 되는\n크리에이터 AI 해커톤", summary: "아이디어부터 발행, 반응 분석까지. 창작자의 시간을 돌려주는 도구를 만듭니다.", description: "창작의 전 과정을 돕는 AI 도구를 직접 만들어 봅니다.", date: "일정 / 장소 공개 예정", tags: ["#콘텐츠", "#크리에이터", "#바이브코딩"], image: "/gallery/mawd-field-03.jpg", tone: "orange" },
@@ -32,8 +33,16 @@ export function HackathonCatalog() {
       if (response.ok) setAuthenticated(Boolean(data.authenticated));
     }).catch(() => undefined);
     const open = () => setLoginOpen(true);
+    const openFromHash = () => {
+      if (window.location.hash === "#admin") setLoginOpen(true);
+    };
+    openFromHash();
     window.addEventListener("mawd:admin-login", open);
-    return () => window.removeEventListener("mawd:admin-login", open);
+    window.addEventListener("hashchange", openFromHash);
+    return () => {
+      window.removeEventListener("mawd:admin-login", open);
+      window.removeEventListener("hashchange", openFromHash);
+    };
   }, []);
 
   const slide = (direction: number) => rail.current?.scrollBy({ left: direction * Math.min(440, rail.current.clientWidth * 0.85), behavior: "smooth" });
@@ -70,6 +79,7 @@ export function HackathonCatalog() {
     setPrograms(data.catalog); setDraft(data.catalog); setEditing(false); setMessage("저장했어.");
   }
   async function logout() { await fetch("/api/catalog", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "logout" }) }); setAuthenticated(false); setEditing(false); }
+  const selectedModal = selected && <div className="catalog-modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}><article className={`catalog-modal catalog-modal--${selected.tone}`} role="dialog" aria-modal="true" aria-label={`${selected.title} 상세`} onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" type="button" onClick={() => setSelected(null)}>×</button><div className="catalog-modal-image"><Image src={selected.image} alt="" fill sizes="(max-width: 760px) 100vw, 640px" unoptimized /></div><div className="catalog-modal-body"><h3>{selected.title}</h3><p className="catalog-modal-date">{selected.date}</p><p>{selected.description || selected.summary}</p><ul className="hackathon-tags">{selected.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>{selected.applyUrl ? <a className="catalog-modal-apply" href={selected.applyUrl} target="_blank" rel="noreferrer">이 해커톤 참가하기 <span>↗</span></a> : <button className="catalog-modal-apply" type="button" onClick={() => window.alert("아직 준비중인 헤커톤입니다.")}>이 해커톤 참가하기 <span>↗</span></button>}</div></article></div>;
 
   return <section id="hackathons" className="hackathon-catalog">
     <div className="wrap">
@@ -86,7 +96,7 @@ export function HackathonCatalog() {
               onPointerCancel={() => { swipeStartX.current = null; }}
               onClick={() => { if (!swiped.current) setSelected(program); }}
             >
-              <Image src={program.image} alt="" fill sizes="100vw" priority={index === 0} />
+              <Image src={program.image} alt="" fill sizes="100vw" priority={index === 0} unoptimized />
               <span className="mobile-featured-shade" />
               <strong>MAWD<br />CHALLENGE</strong>
               <span className="mobile-featured-copy">{program.title.replace("\n", " ")}</span>
@@ -106,11 +116,11 @@ export function HackathonCatalog() {
       <div className="catalog-head"><div><p className="section-kicker">CHOOSE YOUR QUEST</p><h2>지금, 만들고 싶은<br />해커톤을 고르세요.</h2></div><p>내 문제와 관심사에서 출발하는 빌드 챌린지. 카드를 열어 자세히 보고, 원하는 주제에 바로 참가할 수 있어요.</p></div>
       <div className="catalog-controls"><button type="button" onClick={() => slide(-1)} aria-label="이전 해커톤">←</button><span>좌우로 밀어서 더 보기</span><button type="button" onClick={() => slide(1)} aria-label="다음 해커톤">→</button></div>
       <div className="hackathon-rail-shell"><div className="hackathon-rail" ref={rail}>{programs.map((program, index) => <button className={`hackathon-card hackathon-card--${program.tone}`} type="button" onClick={() => setSelected(program)} key={program.id}>
-        <div className="hackathon-thumb"><Image src={program.image} alt="" fill sizes="(max-width: 760px) 84vw, 390px" priority={index === 0} /><div className="hackathon-thumb-shade" /><div className="hackathon-thumb-top"><span>{String(index + 1).padStart(2, "0")}</span></div><h3>{program.title}</h3></div>
+        <div className="hackathon-thumb"><Image src={program.image} alt="" fill sizes="(max-width: 760px) 84vw, 390px" priority={index === 0} unoptimized /><div className="hackathon-thumb-shade" /><div className="hackathon-thumb-top"><span>{String(index + 1).padStart(2, "0")}</span></div><h3>{program.title}</h3></div>
         <div className="hackathon-card-body"><p className="hackathon-date">{program.date}</p><p className="hackathon-summary">{program.summary}</p><ul className="hackathon-tags">{program.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul></div>
       </button>)}</div></div>
       {authenticated && <div className="catalog-admin-bar"><span>관리자 편집 모드</span><button type="button" onClick={() => setEditing(true)}>카드 편집</button><button type="button" onClick={logout}>로그아웃</button></div>}
-      {selected && <div className="catalog-modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}><article className={`catalog-modal catalog-modal--${selected.tone}`} role="dialog" aria-modal="true" aria-label={`${selected.title} 상세`} onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" type="button" onClick={() => setSelected(null)}>×</button><div className="catalog-modal-image"><Image src={selected.image} alt="" fill sizes="(max-width: 760px) 100vw, 640px" /></div><div className="catalog-modal-body"><h3>{selected.title}</h3><p className="catalog-modal-date">{selected.date}</p><p>{selected.description || selected.summary}</p><ul className="hackathon-tags">{selected.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul><LumaCheckoutButton className="catalog-modal-apply">이 해커톤 참가하기 <span>↗</span></LumaCheckoutButton></div></article></div>}
+      {selectedModal && typeof document !== "undefined" ? createPortal(selectedModal, document.body) : null}
       {loginOpen && <div className="catalog-modal-backdrop"><form className="login-dialog" onSubmit={login}><button className="modal-close" type="button" onClick={() => setLoginOpen(false)}>×</button><p className="section-kicker">ADMIN ONLY</p><h3>관리자 로그인</h3><label>아이디<input name="username" autoComplete="username" required /></label><label>비밀번호<input name="password" type="password" autoComplete="current-password" required /></label>{message && <p className="login-error">{message}</p>}<button className="btn primary" type="submit">로그인</button></form></div>}
       {editing && <div className="catalog-modal-backdrop"><section className="catalog-editor" role="dialog" aria-modal="true"><button className="modal-close" type="button" onClick={() => setEditing(false)}>×</button><p className="section-kicker">EDIT CATALOG</p><h3>해커톤 카드 편집</h3>{draft.map((card, index) => <fieldset key={card.id}><legend>{`CARD ${index + 1}`}</legend><label>제목<textarea value={card.title} onChange={(e) => update(index, "title", e.target.value)} /></label><label>한 줄 소개<textarea value={card.summary} onChange={(e) => update(index, "summary", e.target.value)} /></label><label>상세 설명<textarea value={card.description} onChange={(e) => update(index, "description", e.target.value)} /></label><label>일정<input value={card.date} onChange={(e) => update(index, "date", e.target.value)} /></label><label>태그 (쉼표로 구분)<input value={card.tags.join(", ")} onChange={(e) => update(index, "tags", e.target.value.split(",").map((tag) => tag.trim()).filter(Boolean))} /></label><label>이미지 주소<input value={card.image} onChange={(e) => update(index, "image", e.target.value)} /></label><label>색상<select value={card.tone} onChange={(e) => update(index, "tone", e.target.value as Tone)}><option value="lime">Lime</option><option value="violet">Violet</option><option value="orange">Orange</option></select></label></fieldset>)}<div className="editor-actions"><span>{message}</span><button type="button" onClick={save}>저장하기</button></div></section></div>}
     </div>

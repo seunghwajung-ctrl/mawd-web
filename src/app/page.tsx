@@ -2,8 +2,6 @@ import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { SponsorSection } from "@/components/SponsorSection";
 import { VibeCodingSection } from "@/components/VibeCodingSection";
-import { NoBarrierSection } from "@/components/NoBarrierSection";
-import { ExperienceSection } from "@/components/ExperienceSection";
 import { ProblemSection } from "@/components/ProblemSection";
 import { ReasonSection } from "@/components/ReasonSection";
 import { PrizeSection } from "@/components/PrizeSection";
@@ -17,6 +15,7 @@ import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { SponsorModalProvider } from "@/components/SponsorModalProvider";
 import { ChallengeStartModal } from "@/components/ChallengeStartModal";
 import { HackathonCatalog } from "@/components/HackathonCatalog";
+import { MawdDetailStory } from "@/components/MawdDetailStory";
 
 // Keep the popup implementation for future campaigns. Change to `true` to show it again.
 const SHOW_CHALLENGE_START_MODAL = false;
@@ -34,13 +33,13 @@ export default function Home() {
           <SponsorSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <VibeCodingSection />
+          <MawdDetailStory />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <NoBarrierSection />
+          <ProgramSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <ExperienceSection />
+          <BenefitsSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <ProblemSection />
@@ -52,10 +51,7 @@ export default function Home() {
           <PrizeSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <ProgramSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <BenefitsSection />
+          <VibeCodingSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <FaqSection />
