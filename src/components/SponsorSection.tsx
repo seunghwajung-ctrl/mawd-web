@@ -16,28 +16,16 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
         href: "https://channel.io/ko",
         className: "sponsor-logo-channel",
       },
-      {
-        name: "스티비",
-        logoUrl: "/sponsors/stibee-logo-white.png",
-        href: "https://stibee.com/",
-        className: "sponsor-logo-stibee",
-      },
     ],
   },
   {
     tier: "SILVER SPONSOR",
     sponsors: [
       {
-        name: "라이너",
-        logoUrl: "/sponsors/liner-logo-white.png",
-        href: "https://liner.com/",
-        className: "sponsor-logo-liner",
-      },
-      {
-        name: "Render",
-        logoUrl: "/sponsors/render-logo-white.png",
-        href: "https://render.com/",
-        className: "sponsor-logo-render",
+        name: "셀피쉬클럽",
+        logoUrl: "https://cdn.prod.website-files.com/645118d6c53a1df851717d70/65e43d32a113437e30c4b16d_Group%2041.svg",
+        href: "https://www.selfishclub.xyz/",
+        className: "sponsor-logo-selfish",
       },
     ],
   },
