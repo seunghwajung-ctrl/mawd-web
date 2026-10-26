@@ -1,44 +1,26 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import DepthText from "./DepthText";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
-const PORTAL_BEATS = [
-  {
-    side: "left",
-    label: "MAWD CHALLENGE",
-    title: "MAWD CHALLENGE",
-    text: "자신의 분야에서 문제를 해결하는 개발 챌린지",
-  },
-  {
-    side: "right",
-    label: "TARGET",
-    title: "비전공자도",
-    titleNowrap: "시작할 수 있게.",
-    text: "더 많은 아이디어는 비전공자에게 있다.",
-  },
-  {
-    side: "left",
-    label: "OUTPUT",
-    title: "PRD, Prototype, MVP, Portfolio.",
-    text: "결과물을 남겨 경력이 되도록",
-  },
-  {
-    side: "right",
-    label: "FLOW",
-    title: "Every Hackathon",
-    text: "다양한 주제의 해커톤으로 모두가 참여 가능",
-  },
-  {
-    side: "center",
-    label: "START",
-    title: "Build your future yourself",
-    text: "미래를 직접 빌딩하세요",
-  },
-] as const;
+type FlowStep = {
+  num: string;
+  label: string;
+  icon: string;
+  final?: boolean;
+};
 
-const BEAT_SPREAD = 0.14;
-const BEAT_CLEAR_RANGE = 0.07;
+const flowSteps: FlowStep[] = [
+  { num: "01", label: "모집", icon: "▤" },
+  { num: "02", label: "오리엔테이션", icon: "⚑" },
+  { num: "03", label: "1라운드", icon: "♜" },
+  { num: "04", label: "라이크 심사", icon: "♥" },
+  { num: "05", label: "2라운드", icon: "⬡" },
+  { num: "06", label: "시상", icon: "★", final: true },
+];
+
+const MOBILE_BREAKPOINT = 768;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -46,64 +28,53 @@ function clamp(value: number, min: number, max: number) {
 
 export function Hero() {
   const { openSponsorModal } = useSponsorModal();
-  const heroRef = useRef<HTMLElement | null>(null);
+  const introRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
+  const [introProgress, setIntroProgress] = useState(0);
+  const [heroRevealProgress, setHeroRevealProgress] = useState(0);
 
   useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return undefined;
+    document.body.classList.add("hero-intro-active");
+    let animationFrame = 0;
+    const mobileViewport = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
+    // Mobile keeps only the landing wordmark; the full hero panel is desktop-only.
+    if (mobileViewport.matches) {
       document.body.classList.remove("hero-intro-active");
       return undefined;
     }
 
-    document.body.classList.add("hero-intro-active");
-    const beats = Array.from(hero.querySelectorAll<HTMLElement>(".portal-beat"));
-    let animationFrame = 0;
-
     const update = () => {
+      if (!introRef.current || !mainRef.current) return;
+
       const viewport = window.innerHeight || 1;
-      const rect = hero.getBoundingClientRect();
-      const travel = Math.max(rect.height - viewport, 1);
-      const progress = clamp(-rect.top / travel, 0, 1);
-      const portalOpen = clamp(progress / 0.28, 0, 1);
-      const contentOpacity = clamp((progress - 0.18) / 0.16, 0, 1);
+      const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+      const revealStart = isMobile ? 0.9 : 0.5;
+      const revealDistance = isMobile ? 0.1 : 0.58;
+      const nextProgress = clamp(
+        -introRef.current.getBoundingClientRect().top / (viewport * 1.35),
+        0,
+        1,
+      );
+      const nextRevealProgress = clamp(
+        (viewport * revealStart - mainRef.current.getBoundingClientRect().top) /
+          (viewport * revealDistance),
+        0,
+        1,
+      );
 
-      hero.style.setProperty("--portal-progress", progress.toFixed(4));
-      hero.style.setProperty("--portal-open", portalOpen.toFixed(4));
-      hero.style.setProperty("--portal-content-opacity", contentOpacity.toFixed(4));
-      hero.style.setProperty("--portal-bg-scale", String(1.055 - progress * 0.045));
-      hero.style.setProperty("--portal-veil", String(0.04 + portalOpen * 0.22));
-      hero.style.setProperty("--portal-dot-shift", `${Math.round(portalOpen * 42)}vw`);
-      document.body.classList.toggle("hero-intro-active", progress < 0.82);
-      hero.classList.toggle("portal-content-ready", contentOpacity > 0.88);
-
-      beats.forEach((beat, index) => {
-        const center = 0.34 + (index / (PORTAL_BEATS.length - 1)) * 0.58;
-        const distance = Math.abs(progress - center);
-        const alpha = distance <= BEAT_CLEAR_RANGE ? 1 : clamp(
-          1 - (distance - BEAT_CLEAR_RANGE) / (BEAT_SPREAD - BEAT_CLEAR_RANGE),
-          0,
-          1,
-        );
-        const y = Math.round((1 - alpha) * 36);
-        const blur = ((1 - alpha) * 9).toFixed(2);
-        const tracking = (0.03 + (1 - alpha) * 0.045).toFixed(3);
-
-        beat.style.setProperty("--beat-opacity", alpha.toFixed(3));
-        beat.style.setProperty("--beat-y", `${y}px`);
-        beat.style.setProperty("--beat-blur", `${blur}px`);
-        beat.style.setProperty("--beat-tracking", `${tracking}em`);
-      });
+      setIntroProgress(nextProgress);
+      setHeroRevealProgress(nextRevealProgress);
+      document.body.classList.toggle("hero-intro-active", nextRevealProgress < 0.85);
     };
 
     const scheduleUpdate = () => {
-      if (animationFrame) return;
-      animationFrame = window.requestAnimationFrame(() => {
-        animationFrame = 0;
-        update();
-      });
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(() => {
+          animationFrame = 0;
+          update();
+        });
+      }
     };
 
     scheduleUpdate();
@@ -113,67 +84,127 @@ export function Hero() {
     return () => {
       window.cancelAnimationFrame(animationFrame);
       document.body.classList.remove("hero-intro-active");
-      hero.classList.remove("portal-content-ready");
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
     };
   }, []);
 
   return (
-    <section ref={heroRef} className="hero portal-hero" aria-labelledby="hero-title">
-      <div className="portal-stage">
-        <div className="portal-backdrop" aria-hidden="true" />
-        <div className="portal-duotone" aria-hidden="true" />
-        <div className="portal-lines" aria-hidden="true" />
-        <div className="portal-panel portal-panel-left" aria-hidden="true" />
-        <div className="portal-panel portal-panel-right" aria-hidden="true" />
-        <div className="portal-dot portal-dot-left" aria-hidden="true" />
-        <div className="portal-dot portal-dot-right" aria-hidden="true" />
-
-        <div className="portal-wordmark" aria-label="TEAM MAWD">
-          <span aria-hidden="true">TEAM</span>
-          <span aria-hidden="true">MAWD</span>
-        </div>
-
-        <div className="portal-copy" aria-live="off">
-          {PORTAL_BEATS.map((beat, index) => {
-            const title = "titleNowrap" in beat ? (
-              <>
-                {beat.title}
-                <br />
-                <span className="portal-title-nowrap">{beat.titleNowrap}</span>
-              </>
-            ) : beat.title;
-
-            return (
-              <article
-                className={`portal-beat portal-beat-${beat.side}`}
-                data-index={index + 1}
-                data-label={beat.label}
-                key={beat.label}
-              >
-                <p className="portal-label">{beat.label}</p>
-                {index === 0 ? (
-                  <h1 id="hero-title">{title}</h1>
-                ) : (
-                  <h2>{title}</h2>
-                )}
-                <p className="portal-text">{beat.text}</p>
-              </article>
-            );
-          })}
-        </div>
-
-        <div className="portal-actions" role="group" aria-label="주요 행동">
-          <a className="btn primary" href="#hackathons">
-            모든 프로그램 보기 <span className="arrow">›</span>
-          </a>
-          <button type="button" className="btn" onClick={openSponsorModal}>
-            도입하기 <span className="arrow">›</span>
-          </button>
+    <section className="hero" aria-labelledby="hero-title">
+      <div
+        ref={introRef}
+        className="hero-intro"
+        style={
+          {
+            "--intro-title-opacity": clamp(1 - introProgress, 0, 1),
+          } as React.CSSProperties
+        }
+      >
+        <div className="hero-intro-stage">
+          <h1 id="hero-title" className="hero-logo hero-logo-intro">
+            <DepthText
+              text="MAWD"
+              layers={34}
+              depth={2.4}
+              faceColor="#f8fafc"
+              depthColor="#7c3aed"
+              tilt={7.5}
+              pointerTracking
+              smoothing={0.14}
+              perspective={900}
+              autoOrbit
+              orbitSpeed={0.35}
+              fontSize="clamp(7rem, 26vw, 17rem)"
+              fontWeight={900}
+              shadow
+            />
+          </h1>
         </div>
       </div>
-      <div className="hero-page-second portal-nav-trigger" aria-hidden="true" />
+
+      <div className="hero-gap" aria-hidden="true" />
+
+      <div
+        ref={mainRef}
+        className="hero-page hero-page-second"
+        style={
+          {
+            "--hero-reveal-opacity": heroRevealProgress,
+            "--hero-reveal-y": `${Math.round((1 - heroRevealProgress) * 18)}px`,
+          } as React.CSSProperties
+        }
+      >
+        <div className="burst" aria-hidden="true" />
+        <div className="wrap hero-layout">
+          <div className="hero-main">
+            <h2 className="hero-logo">
+              <DepthText
+                text="MAWD"
+                layers={34}
+                depth={2.4}
+                faceColor="#f8fafc"
+                depthColor="#7c3aed"
+                tilt={7.5}
+                pointerTracking
+                smoothing={0.14}
+                perspective={900}
+                autoOrbit
+                orbitSpeed={0.35}
+                fontSize="clamp(6.5rem, 24vw, 15.5rem)"
+                fontWeight={900}
+                shadow
+              />
+            </h2>
+            <p className="challenge" aria-label="CHALLENGE">
+              <DepthText
+                text="CHALLENGE"
+                layers={24}
+                depth={1.5}
+                faceColor="#f8fafc"
+                depthColor="#7c3aed"
+                tilt={7.5}
+                pointerTracking
+                smoothing={0.14}
+                perspective={900}
+                autoOrbit
+                orbitSpeed={0.35}
+                fontSize="clamp(1.6rem, 5.4vw, 4rem)"
+                fontWeight={900}
+                shadow
+              />
+            </p>
+            <p className="headline">
+              <em>비전공자</em>들의 아이디어가 <em>바이브 코딩</em>을 만나{" "}
+              <em>세상밖</em>으로 나올 차례입니다.
+            </p>
+            <div className="btn-row" role="group" aria-label="주요 행동">
+              <a className="btn primary" href="#hackathons">
+                모든 프로그램 보기 <span className="arrow">›</span>
+              </a>
+              <button
+                type="button"
+                className="btn"
+                onClick={openSponsorModal}
+              >
+                도입하기 <span className="arrow">›</span>
+              </button>
+            </div>
+            <p className="sr-only">프로그램 흐름</p>
+            <ul className="flow-band">
+              {flowSteps.map((step) => (
+                <li
+                  key={step.num}
+                  className={`flow-card${step.final ? " final" : ""}`}
+                >
+                  <b>{step.num}</b>
+                  <span>{step.label}</span>
+                  <span className="flow-icon">{step.icon}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
