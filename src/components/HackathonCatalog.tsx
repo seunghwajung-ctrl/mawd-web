@@ -7,9 +7,9 @@ import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 type Tone = "lime" | "violet" | "orange";
 type Program = { id: string; status: string; title: string; summary: string; description: string; date: string; tags: string[]; image: string; tone: Tone };
 const fallback: Program[] = [
-  { id: "local-impact", status: "", title: "AI로 동네의 문제를 푸는\n로컬 임팩트 해커톤", summary: "우리 동네에서 실제로 반복되는 불편을 찾아, AI로 작동하는 첫 해결책을 만듭니다.", description: "동네의 문제를 한 가지 고르고, 팀과 함께 AI 기반 해결책을 만들어요.", date: "일정 / 장소 공개 예정", tags: ["#로컬", "#AI에이전트", "#초보환영"], image: "/gallery/mawd-field-01.jpg", tone: "lime" },
-  { id: "ai-workflow", status: "", title: "혼자 일하는 사람을 위한\nAI 워크플로 해커톤", summary: "매일 반복되는 일을 덜어내는 나만의 AI 워크플로를 팀과 함께 설계합니다.", description: "반복되는 일을 골라 나만의 자동화 흐름을 설계합니다.", date: "일정 / 장소 공개 예정", tags: ["#1인사업", "#자동화", "#빌드데이"], image: "/gallery/mawd-field-02.jpg", tone: "violet" },
-  { id: "creator-ai", status: "", title: "콘텐츠가 결과가 되는\n크리에이터 AI 해커톤", summary: "아이디어부터 발행, 반응 분석까지. 창작자의 시간을 돌려주는 도구를 만듭니다.", description: "창작의 전 과정을 돕는 AI 도구를 직접 만들어 봅니다.", date: "일정 / 장소 공개 예정", tags: ["#콘텐츠", "#크리에이터", "#바이브코딩"], image: "/gallery/mawd-field-03.jpg", tone: "orange" },
+  { id: "vibe-coding-starter", status: "", title: "비전공자를 위한\n바이브코딩 입문 챌린지", summary: "아이디어를 PRD와 첫 프로토타입으로 바꾸는 모집 프로그램입니다.", description: "개발 경험이 없어도 AI 도구로 문제 정의와 화면 흐름을 만들어 봅니다.", date: "모집 중 / 온라인 OT 예정", tags: ["#비전공자", "#PRD", "#프로토타입"], image: "/gallery/mawd-field-01.jpg", tone: "lime" },
+  { id: "ai-startup-mvp", status: "", title: "예비창업자를 위한\nAI 창업 MVP 챌린지", summary: "창업 아이디어를 검증 가능한 MVP와 발표 자료로 정리합니다.", description: "문제, 고객, 핵심 기능을 좁히고 팀과 함께 작동하는 MVP를 만듭니다.", date: "모집 중 / 1라운드 제출 예정", tags: ["#예비창업", "#MVP", "#피드백"], image: "/gallery/mawd-field-02.jpg", tone: "violet" },
+  { id: "local-problem-builder", status: "", title: "우리 동네에서 시작하는\n로컬 문제해결 챌린지", summary: "생활 속 불편을 찾고 AI 기반 해결책으로 구체화합니다.", description: "주변에서 발견한 문제를 팀 프로젝트로 만들고 포트폴리오에 남깁니다.", date: "모집 중 / 대면 빌드 예정", tags: ["#로컬", "#팀빌딩", "#포트폴리오"], image: "/gallery/mawd-field-03.jpg", tone: "orange" },
 ];
 
 export function HackathonCatalog() {
@@ -32,8 +32,16 @@ export function HackathonCatalog() {
       if (response.ok) setAuthenticated(Boolean(data.authenticated));
     }).catch(() => undefined);
     const open = () => setLoginOpen(true);
+    const openFromHash = () => {
+      if (window.location.hash === "#admin") setLoginOpen(true);
+    };
+    openFromHash();
     window.addEventListener("mawd:admin-login", open);
-    return () => window.removeEventListener("mawd:admin-login", open);
+    window.addEventListener("hashchange", openFromHash);
+    return () => {
+      window.removeEventListener("mawd:admin-login", open);
+      window.removeEventListener("hashchange", openFromHash);
+    };
   }, []);
 
   const slide = (direction: number) => rail.current?.scrollBy({ left: direction * Math.min(440, rail.current.clientWidth * 0.85), behavior: "smooth" });
