@@ -4979,3 +4979,15 @@ body::after,
     transform: none;
   }
 }
+
+/* Signup link inside the mobile menu; desktop keeps the 참가하기 button in .nav-auth. */
+.nav-links-join {
+  display: none;
+}
+
+@media (max-width: 1060px) {
+  .nav-links .nav-links-join {
+    display: block;
+    color: var(--lime);
+  }
+}

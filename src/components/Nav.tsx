@@ -52,6 +52,9 @@ export function Nav() {
     <nav className={`nav${introRevealed ? "" : " is-intro-hidden"}`} aria-label="주요 메뉴">
       <div className="wrap nav-inner">
         <div className={`nav-links${menuOpen ? " is-open" : ""}`}>
+          <LumaCheckoutButton className="nav-links-join" onClick={closeMenu}>
+            참가하기 <span className="arrow">↗</span>
+          </LumaCheckoutButton>
           <a href="/programs" onClick={closeMenu}>프로그램</a>
           <a href="#benefits" onClick={closeMenu}>혜택</a>
           <a href="#faq" onClick={closeMenu}>FAQ</a>
