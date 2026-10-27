@@ -139,7 +139,6 @@ export function Hero() {
 
         <div className="portal-intro">
           <p className="portal-intro-date">11월 14일 · MAWD START-UP CHALLENGE</p>
-          <p className="portal-intro-line">코딩을 몰라도, 아이디어를 실제 결과물로.</p>
           <LumaCheckoutButton className="btn primary">참가하기 <span className="arrow">↗</span></LumaCheckoutButton>
         </div>
 

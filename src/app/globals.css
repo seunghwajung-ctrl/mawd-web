@@ -4857,7 +4857,7 @@ body::after,
   --violet-2: var(--color-ash-mute);
 }
 
-/* First screen: date, one line and the signup action before the portal opens. */
+/* First screen: date and the signup action before the portal opens. */
 .portal-intro {
   position: absolute;
   z-index: 4;
@@ -4887,13 +4887,6 @@ body::after,
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.04em !important;
-}
-
-.portal-intro-line {
-  font-size: clamp(20px, 2.2vw, 28px);
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.02em !important;
 }
 
 .portal-intro .btn {
