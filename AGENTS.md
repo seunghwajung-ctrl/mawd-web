@@ -13,6 +13,14 @@ The approved baseline is tag `v0.6-startup-challenge-baseline` (commit `a5d448b`
 3. Deploy only by pushing committed work to `main`; Vercel builds production from it. Never run `vercel deploy`/`vercel --prod` from a local working tree: that ships uncommitted files that then exist nowhere in git, which is how this baseline was nearly lost.
 4. Commit every asset the site references (images in `public/`, data in `data/`) in the same commit as the code that uses it.
 
+## Workspace
+
+All MAWD website work happens in this repo. Pull skills and reference material from here first:
+
+- `.claude/skills/` — MAWD skills (Claude Code loads them automatically in this repo). Add new MAWD skills here.
+- `docs/` — PRDs, version history, and design references (`docs/figma/`). Keep reference files out of `public/`, which is deployed.
+- Live site: https://mawd.cyz.today/ (Vercel project `mawd-web`). `mawd-web.vercel.app` is an unrelated site.
+
 ## Surgical Fix Default
 
 For every change to existing MAWD code, use a **minimal, scope-locked patch** by default. This applies unless the requester explicitly asks for a broader refactor, redesign, or architecture change.
