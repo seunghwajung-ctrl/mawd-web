@@ -30,6 +30,9 @@ export default function Home() {
           <HackathonCatalog />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
+          <SponsorSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
           <VibeCodingSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
@@ -49,9 +52,6 @@ export default function Home() {
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <ReasonSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <SponsorSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <FaqSection />
