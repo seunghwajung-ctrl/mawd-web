@@ -22,7 +22,7 @@ export function ApplyFormSection() {
           <LumaCheckoutButton
             className="btn primary"
           >
-            참가 신청 <span className="arrow">{"\u203A"}</span>
+            참가하기 <span className="arrow">{"\u203A"}</span>
           </LumaCheckoutButton>
           <button
             type="button"

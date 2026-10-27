@@ -9,7 +9,7 @@ const PORTAL_BEATS = [
     side: "left",
     label: "MAWD CHALLENGE",
     title: "MAWD CHALLENGE",
-    text: "자신의 분야에서 문제를 해결하는 개발 챌린지",
+    text: "자신의 분야에서 문제를 해결하는 AI 빌드 챌린지",
   },
   {
     side: "right",
@@ -22,7 +22,7 @@ const PORTAL_BEATS = [
     side: "left",
     label: "OUTPUT",
     title: "PRD, Prototype, MVP, Portfolio.",
-    text: "결과물을 남겨 경력이 되도록",
+    text: "기획서(PRD)부터 시제품, 포트폴리오까지 결과물로 남도록",
   },
   {
     side: "right",
@@ -183,7 +183,7 @@ export function Hero() {
             모든 프로그램 보기 <span className="arrow">›</span>
           </a>
           <button type="button" className="btn" onClick={openSponsorModal}>
-            도입하기 <span className="arrow">›</span>
+            스폰서 문의 <span className="arrow">›</span>
           </button>
         </div>
       </div>

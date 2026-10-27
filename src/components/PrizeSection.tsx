@@ -12,7 +12,7 @@ export function PrizeSection() {
           </h2>
           <p className="section-lead">
             상금은 미리 정해진 숫자가 아닙니다. 참가자가 받은 가상머니가
-            그대로 현금으로 환전되는 구조입니다. 더 많은 투자를 받을수록 상금도
+            최종 상금의 기준이 됩니다. 더 많은 투자를 받을수록 상금도
             커집니다.
           </p>
           <div className="prize-rule">
