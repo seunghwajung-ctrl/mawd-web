@@ -1,78 +1,151 @@
 ---
 name: "mawd-ui-design-system"
-description: "MAWD retro-arcade UI rules"
+description: "MAWD Challenge UI rules as deployed on mawd.cyz.today: pixel type, circuit field, hairline gallery panels, lime/violet accents, and the Syne/Sora portal hero. Use when building or revising any MAWD website UI."
 ---
 
 # MAWD UI Design System
 
-Use this skill when building or revising MAWD Challenge UI. Preserve the existing retro-arcade / game-HUD identity rather than introducing a generic SaaS or glassmorphism style.
+Use this skill when building or revising MAWD Challenge UI. It describes the site as deployed on https://mawd.cyz.today/ (measured 2026-10-27, commit `a1de083`). When this file and the live site disagree, the live site wins; update this file.
+
+The look has two layers:
+
+1. **Brand layer:** pixel typeface, circuit background, pixel starfall, lime/violet accents. Always on.
+2. **Gallery layer:** quiet, monochrome hairline panels and outline buttons. No neon cards, no hard offset shadows.
+
+The first screen (portal hero) is a separate, intentional exception with its own type and palette.
 
 ## Source of truth
 
-Before editing, inspect the target component and its direct CSS dependencies. Reuse the existing variables and classes in `src/app/globals.css`; do not introduce a competing token set or external font.
+All styles live in `src/app/globals.css` (one file, ~4.8k lines). Later blocks override earlier ones, so read from the bottom up:
 
-## Visual contract
+| Lines (approx.) | Block | Status |
+|---|---|---|
+| 1–1070 | Original retro-arcade system: tokens, nav, old hero, sections | Base; many rules overridden below |
+| 3952–4300 | "Endless-tools gallery skin": hairline panels, outline buttons | **Active** for panels and buttons |
+| 4302–4327 | "MAWD retro defaults": pixel font on everything, circuit background | **Active**, `!important` |
+| 4329–4790 | Sticky portal hero | **Active**, first screen only |
+| 4792–4832 | Re-enables starfall and forces pixel font on named classes | **Active** |
 
-- Typography: use `NeoDunggeunmoPro` for all visible UI copy, including navigation, buttons, form controls, modal copy, and footer. The sole exception is an explicitly approved image/logo treatment.
-- Base: near-black background; off-white text; lime is the primary action/status color; violet is the secondary/accent color.
-- Depth: favor hard 4–14px offset shadows, thin outlined borders, subtle inset highlights, and restrained lime/violet glow. Avoid soft, neutral card shadows.
-- Pixel language: favor squared corners (4px maximum for primary UI), crisp borders, pixel-grid or scanline texture, and `image-rendering: pixelated` for pixel assets.
-- Contrast: primary lime actions use near-black text. Preserve readable body copy and visible focus outlines.
-- Motion: keep it short and purposeful. Hover may lift 1px; pressed controls move down/right to visually consume the offset shadow. Respect `prefers-reduced-motion`.
+Add new rules near the block they belong to. Do not add a third competing token set.
 
-## Tokens
+## Typography
 
-Use the existing variables before adding values:
+- **All readable UI copy:** `NeoDunggeunmoPro` (pixel). Enforced by `body, body * { font-family: "NeoDunggeunmoPro" !important; letter-spacing: 0 !important; }`. Don't fight it with Inter, Pretendard, or a new web font. The gallery-skin rules still name Inter, but the pixel font wins.
+- **Portal hero only:** `Syne` 800 uppercase for the wordmark and beat titles; `Sora` 500–600 for labels, body copy, and hero buttons. They're loaded in `layout.tsx` as `--font-syne` and `--font-sora`, and reach the hero through `!important`.
+- **Sizes seen live:** section titles 54–72px desktop (`clamp`), kicker 12px, body 15px (html is 93.75%), nav 14px, tags 12px, footer 13px.
+
+## Color
+
+Tokens in `:root` (top of `globals.css`) plus the gallery tokens:
 
 ```css
---black: #050505; --ink: #101010; --paper: #f4f1e8; --white: #f8f8f2;
---lime: #4dff00; --lime-2: #b8ff3d; --lime-bright: #66ff00;
---violet: #9d00ff; --violet-2: #c78cff; --violet-bright: #b026ff;
---line: rgba(248, 248, 242, 0.2);
---lime-line: rgba(102, 255, 0, 0.82);
---violet-line: rgba(157, 0, 255, 0.78);
+/* surfaces (gallery layer) */
+--color-obsidian-canvas: #080808;   /* section background */
+--color-onyx-card: #181818;         /* panel fill */
+--color-graphite-layer: #1e1e1e;    /* input fill */
+--color-slate-border: #373737;      /* default hairline */
+--color-iron-border: #505050;       /* hover hairline */
+--color-ash-mute: #959595;          /* secondary text */
+--color-paper-white: #fff;          /* primary text */
+--color-signal-blue: #1d9bf0;       /* nav/link hover only */
+
+/* brand accents */
+--lime: #4dff00;  --lime-bright: #66ff00;
+--violet: #9d00ff; --violet-2: #c78cff;
 ```
 
-## Component recipes
+How color is used:
 
-### CTA
+- **Panels, borders, buttons:** neutral only (onyx / slate / white).
+- **Lime:** accent text and small marks. Section kickers, stat values, years, FAQ toggles, sponsor logo links, the scroll-top button, the active carousel dot, and pull quotes (`.reason-pull`).
+- **Violet (`--violet`, `--violet-2`):** secondary tags and labels (`.tag`, `.faq-num`, `.stat-source`, `.message-tag`), plus small shadows on the mobile nav toggle and scroll-top button.
+- **Glow:** only as `text-shadow` on accent text (kicker, stat value, some headings). Never as a panel `box-shadow`.
 
-Use `.btn` as the base. Primary CTA: lime fill, 2px border, violet hard shadow, dark label, and a visible `:focus-visible` outline. Do not make a one-off CTA with a different font, rounded pill geometry, or soft shadow.
+## Surfaces
 
-### Cards and panels
+**Panel / card** (`.hackathon-card`, `.detail-story-card`, `.program-panel`, `.benefit`, `.faq-item`, `.prize-rule`, `.vibe-card`, and others):
 
-Use a dark translucent panel, one clear accent border (lime for participant/action; violet for sponsor/secondary), and a matching offset shadow. Keep card contents sparse and aligned to the same spacing rhythm. A dense UI needs hierarchy, not more decoration.
+```css
+border: 1px solid var(--color-slate-border);
+border-radius: 10px;
+background: var(--color-onyx-card);
+box-shadow: none;
+/* hover */
+border-color: var(--color-iron-border);
+transform: translateY(-3px);   /* catalog cards; others only change border */
+```
 
-### Sections
+New panels join the existing `:is(...)` list in the "hairline-led panels" block (around line 4211) instead of restyling from scratch.
 
-Use the existing `.wrap` width convention and full-bleed backgrounds. Use a distinct visual beat only where it helps the story: grid/scanline field, terminal-like HUD module, prize visual, or split accent. Avoid stacking unrelated gradients.
+**Tags / chips:** `1px solid rgba(255,255,255,.38)`, radius 7px, transparent fill, 12px.
 
-### Inputs and dialogs
+**Modals and inputs:** onyx panel, slate border, radius 10px. Inputs use `--color-graphite-layer` with a slate border. Backdrop `rgba(0,0,0,.82)` with `blur(12px)`.
 
-Match the dark panel, pixel font, high-contrast field border, and lime focus state. Modal/overlay controls must remain keyboard reachable and legible over the backdrop.
+**Section background:** `--color-obsidian-canvas` over the body's circuit field (`/hero-bg-circuit.svg` plus a violet/lime radial wash). `body::before/::after` (grid and scanline) and `.background-pixel-stars` stay visible; don't hide them.
 
-## Responsive rules
+## Buttons
 
-- Keep all text and CTAs inside the viewport from 320px upward.
-- Collapse multi-column layouts before content becomes narrow; preserve at least 44px interactive height.
-- Never hide the only meaningful hero asset or CTA on mobile.
-- Test desktop and mobile after any visible change; check that glow, shadows, and horizontal overflow do not clip content.
+`.btn` is an outline button:
 
-## Build workflow
+| State | Style |
+|---|---|
+| Default | transparent fill, `1px solid --color-slate-border`, radius 10px, white text |
+| `.btn.primary` | same, with a white border |
+| Hover | onyx fill, white border, `translateY(-1px)` |
+| `.btn.primary:hover` | inverts: white fill, `#080808` text |
 
-1. Read the target component and direct CSS dependencies. State the minimal file scope.
-2. Reuse existing tokens, font, and component patterns.
-3. Make the smallest coherent change; do not globally restyle unrelated pages.
+Don't bring back the old lime-filled CTA with a violet offset shadow. Lime is accent text, not a button fill.
+
+## Portal hero (first screen)
+
+`Hero.tsx` plus the `.portal-*` CSS. It's a sticky, scroll-driven stage about 1120vh tall: split panels open, and the `MAWD | CHALLENGE` wordmark separates while text "beats" fade in. It has its own scoped palette:
+
+```css
+--portal-ground: #0a0c0e;  --portal-ink: #ede7dc;  --portal-ink-2: #9ea5a8;
+--portal-amber: #e8913c;   /* left labels and dot */
+--portal-teal: #2e6b72;    /* right/center labels and dot */
+--portal-hairline: rgba(237,231,220,.13);
+```
+
+- Hero buttons: radius 4px, `1px` hairline, translucent fill with `backdrop-filter: blur(10px)`, Sora 12px/600.
+- Keep the portal palette, Syne, and Sora inside `.portal-hero`. Don't leak amber/teal into the sections below, and don't put lime/violet in the hero.
+- The `prefers-reduced-motion` branch flattens the hero into a static stack. Keep it working when you change beats.
+
+## Motion
+
+- Section entrance: `ScrollReveal` (opacity and transform, 520ms ease).
+- Hover: at most 1–3px lift with a border-color change, 180–220ms.
+- Mobile program carousel: `transform` track, 360ms `cubic-bezier(.22,.8,.25,1)`.
+- Respect `prefers-reduced-motion` for anything scroll-driven.
+
+## Layout and responsive
+
+- Container: `.wrap` = `min(1280px, calc(100% - 40px))`.
+- Section padding: about 96–100px desktop, 52–58px mobile.
+- Breakpoint: `max-width: 760px`. Grids collapse to one column. Hero buttons stack full-width.
+- No horizontal overflow from 320px up. Interactive targets are at least 44px tall.
+
+## Known leftovers (don't copy)
+
+- The Inter/Pretendard declarations in the gallery skin and mobile blocks: the pixel font overrides them.
+- `--font-display` (used by `.depth-text`) is never defined, and `DepthText` isn't on the homepage. Ask before reviving it.
+- The old hero rules (`.hero-logo`, `.challenge`, `.headline`) and hard offset-shadow recipes in the first ~1000 lines are superseded.
+
+## Workflow
+
+1. Start from latest `origin/main` (see `AGENTS.md`) and follow its surgical-fix scope rules.
+2. Find the active rule for the element. Search `globals.css` from the bottom, or check computed styles on the live site.
+3. Reuse tokens and the existing panel and button recipes. Don't add a dependency or a font.
 4. Run `npm run lint` and `npm run build`.
-5. Visually inspect desktop and mobile. Verify CTA labels, navigation, last-page application CTA, inputs, and footer all retain pixel typography.
-6. Report changed files, validation result, and whether the production deployment was performed separately.
+5. Check desktop (1440px) and mobile (390px): pixel font everywhere outside the hero, no overflow, visible focus.
 
 ## QA checklist
 
-- [ ] Every visible UI string uses the pixel font unless it is an approved image/logo treatment.
-- [ ] CTA hierarchy is lime-primary / dark-secondary with violet depth.
-- [ ] Colors use existing tokens and contrast stays readable.
-- [ ] No horizontal overflow at mobile width.
-- [ ] Keyboard focus is visible.
+- [ ] Readable copy outside the hero uses NeoDunggeunmoPro.
+- [ ] Panels are onyx with a slate hairline, radius 10px, and no box-shadow.
+- [ ] Buttons are outline style; primary hover inverts to white.
+- [ ] Lime and violet appear only as accent text, tags, and small marks.
+- [ ] Portal hero palette and fonts stay inside `.portal-hero`.
+- [ ] Circuit background and pixel stars are still visible.
+- [ ] No horizontal overflow at 320–390px; focus is visible.
 - [ ] `lint` and `build` pass.
-- [ ] Desktop and mobile visual checks pass.
