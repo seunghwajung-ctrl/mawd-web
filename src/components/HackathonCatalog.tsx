@@ -6,6 +6,8 @@ import { createPortal } from "react-dom";
 
 type Tone = "lime" | "violet" | "orange";
 type Program = { id: string; status: string; title: string; summary: string; description: string; date: string; tags: string[]; image: string; tone: Tone; applyUrl?: string };
+// The admin editor is a single-line input, so titles arrive with a literal "\n" instead of a line break.
+const withLineBreaks = (catalog: Program[]) => catalog.map((program) => ({ ...program, title: program.title.replaceAll("\\n", "\n") }));
 const fallback: Program[] = [
   { id: "mawd-startup-challenge", status: "", title: "MAWD START-UP CHALLENGE", summary: "기획,개발,마케팅,디자인 전공 대학생들이 팀이 되어 1인 기업 자동화 챌린지를 진행합니다.", description: "기획,개발,마케팅,디자인 전공 대학생들이 팀이 되어 1인 기업 자동화 챌린지를 진행합니다.", date: "11월 14일 / 장소 공개 예정", tags: ["#스타트업", "#개발", "#기획", "#마케팅", "#디자인"], image: "/programs/mawd-startup-challenge.jpg", tone: "lime", applyUrl: "https://luma.com/ml5gw54p" },
   { id: "local-impact", status: "", title: "AI로 동네의 문제를 푸는\n로컬 임팩트 해커톤", summary: "우리 동네에서 실제로 반복되는 불편을 찾아, AI로 작동하는 첫 해결책을 만듭니다.", description: "동네의 문제를 한 가지 고르고, 팀과 함께 AI 기반 해결책을 만들어요.", date: "일정 / 장소 공개 예정", tags: ["#로컬", "#AI에이전트", "#초보환영"], image: "/gallery/mawd-field-01.jpg", tone: "lime" },
@@ -29,7 +31,7 @@ export function HackathonCatalog() {
   useEffect(() => {
     fetch("/api/catalog", { cache: "no-store" }).then(async (response) => {
       const data = await response.json();
-      if (response.ok && Array.isArray(data.catalog) && data.catalog.length) { setPrograms(data.catalog); setDraft(data.catalog); }
+      if (response.ok && Array.isArray(data.catalog) && data.catalog.length) { const catalog = withLineBreaks(data.catalog); setPrograms(catalog); setDraft(catalog); }
       if (response.ok) setAuthenticated(Boolean(data.authenticated));
     }).catch(() => undefined);
     const open = () => setLoginOpen(true);
@@ -76,10 +78,10 @@ export function HackathonCatalog() {
     const response = await fetch("/api/catalog", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "save", catalog: draft }) });
     const data = await response.json();
     if (!response.ok) return setMessage(data.error || "저장에 실패했습니다.");
-    setPrograms(data.catalog); setDraft(data.catalog); setEditing(false); setMessage("저장했어.");
+    const catalog = withLineBreaks(data.catalog); setPrograms(catalog); setDraft(catalog); setEditing(false); setMessage("저장했어.");
   }
   async function logout() { await fetch("/api/catalog", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "logout" }) }); setAuthenticated(false); setEditing(false); }
-  const selectedModal = selected && <div className="catalog-modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}><article className={`catalog-modal catalog-modal--${selected.tone}`} role="dialog" aria-modal="true" aria-label={`${selected.title} 상세`} onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" type="button" onClick={() => setSelected(null)}>×</button><div className="catalog-modal-image"><Image src={selected.image} alt="" fill sizes="(max-width: 760px) 100vw, 640px" unoptimized /></div><div className="catalog-modal-body"><h3>{selected.title}</h3><p className="catalog-modal-date">{selected.date}</p><p>{selected.description || selected.summary}</p><ul className="hackathon-tags">{selected.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>{selected.applyUrl ? <a className="catalog-modal-apply" href={selected.applyUrl} target="_blank" rel="noreferrer">이 해커톤 참가하기 <span>↗</span></a> : <button className="catalog-modal-apply" type="button" onClick={() => window.alert("아직 준비중인 헤커톤입니다.")}>이 해커톤 참가하기 <span>↗</span></button>}</div></article></div>;
+  const selectedModal = selected && <div className="catalog-modal-backdrop" role="presentation" onMouseDown={() => setSelected(null)}><article className={`catalog-modal catalog-modal--${selected.tone}`} role="dialog" aria-modal="true" aria-label={`${selected.title} 상세`} onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" type="button" onClick={() => setSelected(null)}>×</button><div className="catalog-modal-image"><Image src={selected.image} alt="" fill sizes="(max-width: 760px) 100vw, 640px" unoptimized /></div><div className="catalog-modal-body"><h3>{selected.title}</h3><p className="catalog-modal-date">{selected.date}</p><p>{selected.description || selected.summary}</p><ul className="hackathon-tags">{selected.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>{selected.applyUrl ? <a className="catalog-modal-apply" href={selected.applyUrl} target="_blank" rel="noreferrer">이 해커톤 참가하기 <span>↗</span></a> : <button className="catalog-modal-apply" type="button" onClick={() => window.alert("아직 준비중인 해커톤입니다.")}>이 해커톤 참가하기 <span>↗</span></button>}</div></article></div>;
 
   return <section id="hackathons" className="hackathon-catalog">
     <div className="wrap">

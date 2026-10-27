@@ -4830,3 +4830,29 @@ body::after,
   font-family: "NeoDunggeunmoPro", monospace !important;
   letter-spacing: 0 !important;
 }
+
+/* ── Reading copy ───────────────────────────────────────────────────────
+   Pixel type stays on headings, labels, numbers and buttons; long Korean
+   paragraphs switch to Pretendard so they stay readable. */
+:is(.section-lead, .section-head p:not(.section-kicker), .catalog-head > p, .hackathon-summary, .catalog-modal-body p:not(.catalog-modal-date), .detail-story-card p, .company-desc, .problem-foot),
+:is(.vibe-card p, .benefit li, .program-panel p, .prize-rule p, .problem-section p:not(.problem-quote, .section-kicker), .reason-section p:not(.reason-pull, .section-kicker), .faq-a p, .faq-a--page p, .apply p:not(.section-kicker), .apply-form-note) {
+  font-family: "Pretendard Variable", Pretendard, system-ui, sans-serif !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.6;
+}
+
+:is(.section-lead, .section-head p:not(.section-kicker), .catalog-head > p, .faq-a p, .faq-a--page p) {
+  font-size: 17px;
+  max-width: 42em;
+}
+
+@media (max-width: 760px) {
+  :is(.section-lead, .section-head p:not(.section-kicker), .catalog-head > p, .faq-a p, .faq-a--page p) {
+    font-size: 16px;
+  }
+}
+
+/* Lime is the only accent; former violet text reads as secondary grey. */
+:root {
+  --violet-2: var(--color-ash-mute);
+}

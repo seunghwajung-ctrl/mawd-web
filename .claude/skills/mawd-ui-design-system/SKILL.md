@@ -1,6 +1,6 @@
 ---
 name: "mawd-ui-design-system"
-description: "MAWD Challenge UI rules as deployed on mawd.cyz.today: pixel type, circuit field, hairline gallery panels, lime/violet accents, and the Syne/Sora portal hero. Use when building or revising any MAWD website UI."
+description: "MAWD Challenge UI rules as deployed on mawd.cyz.today: pixel type, circuit field, hairline gallery panels, lime accent, and the Syne/Sora portal hero. Use when building or revising any MAWD website UI."
 ---
 
 # MAWD UI Design System
@@ -9,7 +9,7 @@ Use this skill when building or revising MAWD Challenge UI. It describes the sit
 
 The look has two layers:
 
-1. **Brand layer:** pixel typeface, circuit background, pixel starfall, lime/violet accents. Always on.
+1. **Brand layer:** pixel typeface, circuit background, pixel starfall, lime accent. Always on.
 2. **Gallery layer:** quiet, monochrome hairline panels and outline buttons. No neon cards, no hard offset shadows.
 
 The first screen (portal hero) is a separate, intentional exception with its own type and palette.
@@ -25,12 +25,14 @@ All styles live in `src/app/globals.css` (one file, ~4.8k lines). Later blocks o
 | 4302–4327 | "MAWD retro defaults": pixel font on everything, circuit background | **Active**, `!important` |
 | 4329–4790 | Sticky portal hero | **Active**, first screen only |
 | 4792–4832 | Re-enables starfall and forces pixel font on named classes | **Active** |
+| 4833–end | "Reading copy": Pretendard on long paragraphs; `--violet-2` remapped to grey | **Active**, `!important`, must stay last |
 
 Add new rules near the block they belong to. Do not add a third competing token set.
 
 ## Typography
 
-- **All readable UI copy:** `NeoDunggeunmoPro` (pixel). Enforced by `body, body * { font-family: "NeoDunggeunmoPro" !important; letter-spacing: 0 !important; }`. Don't fight it with Inter, Pretendard, or a new web font. The gallery-skin rules still name Inter, but the pixel font wins.
+- **Headings, labels, numbers, buttons, tags:** `NeoDunggeunmoPro` (pixel). Enforced by `body, body * { font-family: "NeoDunggeunmoPro" !important; letter-spacing: 0 !important; }`.
+- **Long reading copy** (section leads, FAQ answers, card body paragraphs, benefit lists): `Pretendard` (already loaded from CDN), line-height 1.6, letter-spacing -0.01em; section leads and FAQ answers 17px (16px on mobile). Set in the "Reading copy" block at the end of `globals.css`. Add new long-paragraph selectors there. Don't add Inter or another web font.
 - **Portal hero only:** `Syne` 800 uppercase for the wordmark and beat titles; `Sora` 500–600 for labels, body copy, and hero buttons. They're loaded in `layout.tsx` as `--font-syne` and `--font-sora`, and reach the hero through `!important`.
 - **Sizes seen live:** section titles 54–72px desktop (`clamp`), kicker 12px, body 15px (html is 93.75%), nav 14px, tags 12px, footer 13px.
 
@@ -58,7 +60,7 @@ How color is used:
 
 - **Panels, borders, buttons:** neutral only (onyx / slate / white).
 - **Lime:** accent text and small marks. Section kickers, stat values, years, FAQ toggles, sponsor logo links, the scroll-top button, the active carousel dot, and pull quotes (`.reason-pull`).
-- **Violet (`--violet`, `--violet-2`):** secondary tags and labels (`.tag`, `.faq-num`, `.stat-source`, `.message-tag`), plus small shadows on the mobile nav toggle and scroll-top button.
+- **Violet:** shadows only (mobile nav toggle, scroll-top button). `--violet-2` is remapped to `--color-ash-mute`, so tags and labels that used it (`.tag`, `.faq-num`, `.stat-source`, `.message-tag`) read as grey. Lime is the only accent colour for text. Don't add new violet text.
 - **Glow:** only as `text-shadow` on accent text (kicker, stat value, some headings). Never as a panel `box-shadow`.
 
 ## Surfaces
@@ -127,7 +129,7 @@ Don't bring back the old lime-filled CTA with a violet offset shadow. Lime is ac
 
 ## Known leftovers (don't copy)
 
-- The Inter/Pretendard declarations in the gallery skin and mobile blocks: the pixel font overrides them.
+- The Inter declarations in the gallery skin and mobile blocks: the pixel font or the Reading copy block overrides them.
 - `--font-display` (used by `.depth-text`) is never defined, and `DepthText` isn't on the homepage. Ask before reviving it.
 - The old hero rules (`.hero-logo`, `.challenge`, `.headline`) and hard offset-shadow recipes in the first ~1000 lines are superseded.
 
@@ -137,14 +139,14 @@ Don't bring back the old lime-filled CTA with a violet offset shadow. Lime is ac
 2. Find the active rule for the element. Search `globals.css` from the bottom, or check computed styles on the live site.
 3. Reuse tokens and the existing panel and button recipes. Don't add a dependency or a font.
 4. Run `npm run lint` and `npm run build`.
-5. Check desktop (1440px) and mobile (390px): pixel font everywhere outside the hero, no overflow, visible focus.
+5. Check desktop (1440px) and mobile (390px): pixel font on headings and labels outside the hero, Pretendard on long paragraphs, no overflow, visible focus.
 
 ## QA checklist
 
-- [ ] Readable copy outside the hero uses NeoDunggeunmoPro.
+- [ ] Headings and labels outside the hero use NeoDunggeunmoPro; long paragraphs use Pretendard.
 - [ ] Panels are onyx with a slate hairline, radius 10px, and no box-shadow.
 - [ ] Buttons are outline style; primary hover inverts to white.
-- [ ] Lime and violet appear only as accent text, tags, and small marks.
+- [ ] Lime is the only accent text colour; violet appears only in small shadows.
 - [ ] Portal hero palette and fonts stay inside `.portal-hero`.
 - [ ] Circuit background and pixel stars are still visible.
 - [ ] No horizontal overflow at 320–390px; focus is visible.
