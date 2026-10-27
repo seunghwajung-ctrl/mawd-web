@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
+import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
 const PORTAL_BEATS = [
   {
@@ -78,6 +79,7 @@ export function Hero() {
       hero.style.setProperty("--portal-dot-shift", `${Math.round(portalOpen * 42)}vw`);
       document.body.classList.toggle("hero-intro-active", progress < 0.82);
       hero.classList.toggle("portal-content-ready", contentOpacity > 0.88);
+      hero.classList.toggle("portal-intro-gone", portalOpen > 0.3);
 
       beats.forEach((beat, index) => {
         const center = 0.34 + (index / (PORTAL_BEATS.length - 1)) * 0.58;
@@ -133,6 +135,12 @@ export function Hero() {
         <div className="portal-wordmark" aria-label="TEAM MAWD">
           <span aria-hidden="true">TEAM</span>
           <span aria-hidden="true">MAWD</span>
+        </div>
+
+        <div className="portal-intro">
+          <p className="portal-intro-date">11월 14일 · MAWD START-UP CHALLENGE</p>
+          <p className="portal-intro-line">코딩을 몰라도, 아이디어를 실제 결과물로.</p>
+          <LumaCheckoutButton className="btn primary">참가하기 <span className="arrow">↗</span></LumaCheckoutButton>
         </div>
 
         <div className="portal-copy" aria-live="off">

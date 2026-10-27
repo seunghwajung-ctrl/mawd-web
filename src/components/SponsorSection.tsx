@@ -63,7 +63,8 @@ export function SponsorSection() {
         <h2 id="sponsor-heading">MAWD와 함께합니다.</h2>
 
         <div className="sponsor-tiers">
-          {sponsorTiers.map(({ tier, sponsors }, index) => (
+          {/* Empty tiers stay in the data for future sponsors; the index keeps the per-tier CSS classes stable. */}
+          {sponsorTiers.map((entry, index) => ({ ...entry, index })).filter(({ sponsors }) => sponsors.length).map(({ tier, sponsors, index }) => (
             <section className={`sponsor-tier sponsor-tier--${index + 1}`} key={tier} aria-label={tier}>
               <h3>{tier}</h3>
               <div className="sponsor-logos">

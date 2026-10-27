@@ -4340,8 +4340,8 @@ body {
   --portal-hairline: rgba(237, 231, 220, 0.13);
   position: relative;
   display: block;
-  height: 1120vh;
-  min-height: 6840px;
+  height: 520vh;
+  min-height: 3200px;
   overflow: visible;
   border-bottom: 1px solid var(--portal-hairline);
   background: var(--portal-ground);
@@ -4613,7 +4613,7 @@ body {
   pointer-events: auto;
 }
 
-.portal-actions .btn {
+:is(.portal-actions, .portal-intro) .btn {
   min-height: 44px;
   border: 1px solid var(--portal-hairline);
   border-radius: 4px;
@@ -4628,7 +4628,7 @@ body {
   -webkit-backdrop-filter: blur(10px);
 }
 
-.portal-actions .btn.primary {
+:is(.portal-actions, .portal-intro) .btn.primary {
   border-color: rgba(237, 231, 220, 0.52);
   background: rgba(237, 231, 220, 0.08);
   color: var(--portal-ink);
@@ -4645,8 +4645,8 @@ body {
 
 @media (max-width: 760px) {
   .portal-hero {
-    height: 1080vh;
-    min-height: 6040px;
+    height: 500vh;
+    min-height: 2800px;
   }
 
   .portal-stage {
@@ -4855,4 +4855,114 @@ body::after,
 /* Lime is the only accent; former violet text reads as secondary grey. */
 :root {
   --violet-2: var(--color-ash-mute);
+}
+
+/* First screen: date, one line and the signup action before the portal opens. */
+.portal-intro {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: clamp(32px, 9vh, 88px);
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: min(100% - 32px, 560px);
+  text-align: center;
+  opacity: calc(1 - var(--portal-open, 0) * 3.4);
+  transform: translateX(-50%);
+}
+
+.portal-intro-gone .portal-intro {
+  visibility: hidden;
+}
+
+.portal-intro p {
+  margin: 0;
+  color: var(--portal-ink);
+  font-family: var(--font-sora), "Pretendard Variable", Pretendard, system-ui, sans-serif !important;
+}
+
+.portal-intro-date {
+  color: var(--portal-amber) !important;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em !important;
+}
+
+.portal-intro-line {
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em !important;
+}
+
+.portal-intro .btn {
+  margin-top: 6px;
+  padding-inline: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-intro {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin: 40px auto 0;
+    transform: none;
+  }
+}
+
+/* Field photos: real event pictures shown large on the landing page. */
+.field-photos {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  aspect-ratio: 16 / 8;
+  margin-top: 40px;
+}
+
+.field-photos figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--color-onyx-card);
+}
+
+.field-photos figure:first-child {
+  grid-row: span 2;
+}
+
+.field-photos img {
+  object-fit: cover;
+}
+
+.field-photos-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--lime);
+  text-decoration: none;
+}
+
+.field-photos-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .field-photos {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    aspect-ratio: auto;
+    margin-top: 28px;
+  }
+
+  .field-photos figure {
+    aspect-ratio: 4 / 3;
+  }
+
+  .field-photos figure:first-child {
+    grid-row: auto;
+    grid-column: span 2;
+  }
 }

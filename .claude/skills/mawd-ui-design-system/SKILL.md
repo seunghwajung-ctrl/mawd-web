@@ -100,7 +100,7 @@ Don't bring back the old lime-filled CTA with a violet offset shadow. Lime is ac
 
 ## Portal hero (first screen)
 
-`Hero.tsx` plus the `.portal-*` CSS. It's a sticky, scroll-driven stage about 1120vh tall: split panels open, and the `MAWD | CHALLENGE` wordmark separates while text "beats" fade in. It has its own scoped palette:
+`Hero.tsx` plus the `.portal-*` CSS. It's a sticky, scroll-driven stage about 520vh tall (500vh on mobile): split panels open, and the `MAWD | CHALLENGE` wordmark separates while text "beats" fade in. The first screen carries `.portal-intro` (date, one line, the Luma 참가하기 button), which fades out as the portal opens. Keep the hero short; the signup action must stay on the first screen. It has its own scoped palette:
 
 ```css
 --portal-ground: #0a0c0e;  --portal-ink: #ede7dc;  --portal-ink-2: #9ea5a8;
