@@ -88,7 +88,7 @@ const ButtonSocialIconDemo = () => {
           key={link.label}
           variant="outline"
           aria-label={link.label}
-          className="rounded-lg hover:scale-120 transition-all duration-300 cursor-pointer"
+          className="rounded-lg hover:scale-110 active:scale-95 transition-transform duration-200 ease-out cursor-pointer"
         >
           <a href={link.href} target="_blank" rel="noopener noreferrer">
             {link.icon}

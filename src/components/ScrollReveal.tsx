@@ -37,7 +37,8 @@ export function ScrollReveal({
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.16) {
+          // No ratio threshold: a section taller than ~6 viewports can never reach 16% visible.
+          if (entry.isIntersecting) {
             node.classList.add("reveal-in");
             // Reveal only once. Re-hiding a section at the viewport boundary makes
             // mobile scrolling flash and forces unnecessary compositing work.
@@ -45,7 +46,7 @@ export function ScrollReveal({
           }
         }
       },
-      { threshold: [0, 0.16, 0.32], rootMargin: "-6% 0px -12% 0px" },
+      { threshold: 0, rootMargin: "-6% 0px -12% 0px" },
     );
 
     observer.observe(node);
