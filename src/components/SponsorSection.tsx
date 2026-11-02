@@ -16,9 +16,23 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
         href: "https://channel.io/ko",
         className: "sponsor-logo-channel",
       },
+      {
+        name: "스티비",
+        logoUrl: "/sponsors/stibee-logo-white.png",
+        href: "https://stibee.com/",
+      },
     ],
   },
-  { tier: "SILVER SPONSOR", sponsors: [] },
+  {
+    tier: "SILVER SPONSOR",
+    sponsors: [
+      {
+        name: "라이너",
+        logoUrl: "/sponsors/liner-logo-white.png",
+        href: "https://liner.com/",
+      },
+    ],
+  },
   {
     tier: "API SPONSOR",
     sponsors: [

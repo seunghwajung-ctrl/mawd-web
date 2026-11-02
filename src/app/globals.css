@@ -3360,6 +3360,15 @@ section.sponsor-section {
   .sponsor-logo-link { width: calc(50% - 9px); }
   .sponsor-logo-link img { height: 38px; }
 
+  /* Logo size follows tier rank on mobile: Premier > Silver > API. */
+  .sponsor-tier--2 .sponsor-logos {
+    flex-wrap: nowrap;
+    gap: 14px;
+  }
+  .sponsor-tier--2 .sponsor-logo-link { width: calc(50% - 7px); }
+  .sponsor-tier--3 .sponsor-logo-link { width: 36%; }
+  .sponsor-tier--3 .sponsor-logo-link img { height: 30px; }
+
   /* API partners stay compact and aligned in a single row on mobile. */
   .sponsor-tier--4 .sponsor-logos {
     flex-wrap: nowrap;
@@ -3369,7 +3378,7 @@ section.sponsor-section {
   .sponsor-tier--4 .sponsor-logo-link {
     width: calc((100% - 20px) / 3);
   }
-  .sponsor-tier--4 .sponsor-logo-link img { height: 38px; }
+  .sponsor-tier--4 .sponsor-logo-link img { height: 22px; }
   .sponsor-tier--4 .sponsor-logo-link span {
     margin-top: 9px;
     font-size: 8px;
