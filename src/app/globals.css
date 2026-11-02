@@ -3354,6 +3354,16 @@ section.sponsor-section {
   letter-spacing: 0.16em;
 }
 
+/* Logo size follows tier rank on desktop: Premier > Silver > API. */
+@media (min-width: 761px) {
+  .sponsor-tier--2 .sponsor-logo-link { width: clamp(200px, 24vw, 340px); }
+  .sponsor-tier--2 .sponsor-logo-link img { height: 76px; }
+  .sponsor-tier--3 .sponsor-logo-link { width: clamp(130px, 13vw, 180px); }
+  .sponsor-tier--3 .sponsor-logo-link img { height: 44px; }
+  .sponsor-tier--4 .sponsor-logo-link { width: 120px; }
+  .sponsor-tier--4 .sponsor-logo-link img { height: clamp(22px, 2.1vw, 30px); }
+}
+
 @media (max-width: 760px) {
   .sponsor-tiers { gap: 52px; margin-top: 48px; }
   .sponsor-logos { gap: 22px 18px; min-height: 0; padding-top: 18px; }
