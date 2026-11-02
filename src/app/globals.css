@@ -3343,13 +3343,7 @@ section.sponsor-section {
   object-position: left center;
 }
 .sponsor-logo-ajd { object-position: left center; }
-.sponsor-logo-selfish { object-position: left center; }
 .sponsor-logo-vapi { object-position: left center; }
-.sponsor-logo-zetic {
-  object-fit: cover;
-  object-position: center;
-  filter: invert(1);
-}
 
 .sponsor-vacancy {
   margin: 0;

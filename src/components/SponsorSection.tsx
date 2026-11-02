@@ -18,17 +18,7 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
       },
     ],
   },
-  {
-    tier: "SILVER SPONSOR",
-    sponsors: [
-      {
-        name: "셀피쉬클럽",
-        logoUrl: "https://cdn.prod.website-files.com/645118d6c53a1df851717d70/65e43d32a113437e30c4b16d_Group%2041.svg",
-        href: "https://www.selfishclub.xyz/",
-        className: "sponsor-logo-selfish",
-      },
-    ],
-  },
+  { tier: "SILVER SPONSOR", sponsors: [] },
   {
     tier: "API SPONSOR",
     sponsors: [
@@ -43,12 +33,6 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
         logoUrl: "https://vapi.ai/VAPI.svg",
         href: "https://vapi.ai/",
         className: "sponsor-logo-vapi",
-      },
-      {
-        name: "ZETIC.ai",
-        logoUrl: "/sponsors/zetic-ai-white-on-black.png",
-        href: "https://zetic.ai/",
-        className: "sponsor-logo-zetic",
       },
     ],
   },
