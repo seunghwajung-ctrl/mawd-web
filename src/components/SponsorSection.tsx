@@ -48,6 +48,11 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
         href: "https://vapi.ai/",
         className: "sponsor-logo-vapi",
       },
+      {
+        name: "Alt",
+        logoUrl: "/sponsors/alt-logo.png",
+        href: "https://altalt.io/ko/",
+      },
     ],
   },
   { tier: "SUPPORT", sponsors: [] },

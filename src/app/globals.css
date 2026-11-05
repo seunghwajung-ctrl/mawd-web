@@ -3360,6 +3360,7 @@ section.sponsor-section {
   .sponsor-tier--2 .sponsor-logo-link img { height: 76px; }
   .sponsor-tier--3 .sponsor-logo-link { width: clamp(130px, 13vw, 180px); }
   .sponsor-tier--3 .sponsor-logo-link img { height: 44px; }
+  .sponsor-tier--4 .sponsor-logos { gap: clamp(12px, 1.6vw, 24px); }
   .sponsor-tier--4 .sponsor-logo-link { width: 120px; }
   .sponsor-tier--4 .sponsor-logo-link img { height: clamp(22px, 2.1vw, 30px); }
 }
