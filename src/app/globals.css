@@ -2701,36 +2701,25 @@ footer {
 .nav-toggle {
   display: none;
   appearance: none;
-  background: rgba(5, 5, 5, 0.92);
-  border: 2px solid var(--white);
-  border-radius: 4px;
+  /* Matches the 참가하기 .btn.primary next to it. */
+  background: transparent;
+  border: 1px solid var(--color-paper-white);
+  border-radius: 10px;
   width: 44px;
   height: 44px;
   padding: 0;
   cursor: pointer;
   position: relative;
-  box-shadow:
-    3px 3px 0 rgba(157, 0, 255, 0.62),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.14),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.4);
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease,
-    background 0.1s ease;
+  color: var(--color-paper-white);
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
 }
 .nav-toggle:hover {
-  transform: translate(-1px, -1px);
-  background: rgba(20, 8, 32, 0.92);
-  box-shadow:
-    4px 4px 0 rgba(157, 0, 255, 0.88),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-    inset -1px -1px 0 rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+  background: var(--color-paper-white);
+  color: var(--color-obsidian-canvas);
 }
 .nav-toggle:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    inset 2px 2px 0 rgba(0, 0, 0, 0.5),
-    inset -1px -1px 0 rgba(255, 255, 255, 0.06);
+  transform: scale(0.98);
 }
 .nav-toggle span,
 .nav-toggle span::before,
@@ -2740,10 +2729,9 @@ footer {
   left: 50%;
   width: 20px;
   height: 2px;
-  background: var(--lime);
+  background: currentColor;
   transform: translateX(-50%);
   transition: transform 0.25s ease, opacity 0.2s ease;
-  box-shadow: 0 0 8px rgba(102, 255, 0, 0.5);
 }
 .nav-toggle span {
   top: 50%;
@@ -4284,9 +4272,6 @@ body::after,
   .nav-toggle {
     width: 38px;
     height: 38px;
-    border-width: 1px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 0 rgba(157, 0, 255, 0.62);
   }
   .nav-toggle span,
   .nav-toggle span::before,
