@@ -53,6 +53,11 @@ const sponsorTiers: Array<{ tier: string; sponsors: Sponsor[] }> = [
         logoUrl: "/sponsors/alt-logo.png",
         href: "https://altalt.io/ko/",
       },
+      {
+        name: "Articul8 AI",
+        logoUrl: "/sponsors/articul8-bivia-logo.webp",
+        href: "https://articul8.ai/bivia",
+      },
     ],
   },
   { tier: "SUPPORT", sponsors: [] },
