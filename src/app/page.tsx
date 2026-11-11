@@ -2,10 +2,6 @@ import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { SponsorSection } from "@/components/SponsorSection";
 import { VibeCodingSection } from "@/components/VibeCodingSection";
-import { ReasonSection } from "@/components/ReasonSection";
-import { PrizeSection } from "@/components/PrizeSection";
-import { ProgramSection } from "@/components/ProgramSection";
-import { BenefitsSection } from "@/components/BenefitsSection";
 import { FaqSection } from "@/components/FaqSection";
 import { ApplyFormSection } from "@/components/ApplyFormSection";
 import { Footer } from "@/components/Footer";
@@ -14,7 +10,6 @@ import { ScrollTopButton } from "@/components/ScrollTopButton";
 import { SponsorModalProvider } from "@/components/SponsorModalProvider";
 import { ChallengeStartModal } from "@/components/ChallengeStartModal";
 import { HackathonCatalog } from "@/components/HackathonCatalog";
-import { MawdDetailStory } from "@/components/MawdDetailStory";
 import { FieldPhotosSection } from "@/components/FieldPhotosSection";
 
 // Keep the popup implementation for future campaigns. Change to `true` to show it again.
@@ -36,22 +31,7 @@ export default function Home() {
           <VibeCodingSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
-          <MawdDetailStory />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <ProgramSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
           <FieldPhotosSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <BenefitsSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <PrizeSection />
-        </ScrollReveal>
-        <ScrollReveal className="reveal-section">
-          <ReasonSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <FaqSection />
