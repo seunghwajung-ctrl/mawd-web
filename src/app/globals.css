@@ -4562,3 +4562,8 @@ fieldset.field { margin: 0; padding: 0; border: 0; }
 @media (max-width: 760px) {
   .legal-page { padding: 104px 0 64px; }
 }
+
+/* ── B2B zone: card text variants ─────────────────────────── */
+#partners .benefit { min-height: 0; }
+.benefit p { margin: 0; color: var(--color-ash-mute); line-height: 1.7; }
+.partners-list { margin-top: 28px; }

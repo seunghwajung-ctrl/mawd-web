@@ -28,6 +28,7 @@ export function Footer() {
           <a href="/inquiry">도입하기</a>
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full load so the browser lands on the section after the homepage finishes layout; <Link> stops short */}
           <a href="/#gallery">TEAM Gallery</a>
+          <a href="/privacy">개인정보처리방침</a>
         </nav>
         <div className="footer-social" aria-label="소셜 미디어">
           <ButtonSocialIconDemo />

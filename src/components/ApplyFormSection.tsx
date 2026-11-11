@@ -9,11 +9,11 @@ export function ApplyFormSection() {
     <section id="apply" className="apply-form-section">
       <div className="wrap">
         <div className="apply-form-head">
-          <p className="section-kicker">APPLY NOW</p>
-          <h2>아이디어가 있다면, 이번엔 말보다 결과물로 증명해보세요</h2>
+          {/* TODO(copy): 다봉 초안(b2b-zone-copy.md §6). 대표 승인 전. CONTACT는 제안 */}
+          <p className="section-kicker">CONTACT</p>
+          <h2>우리 행사에 AI를 더하고 싶으신가요</h2>
           <p className="section-lead">
-            MAWD Challenge는 만들고, 등록하고, 검증받고, 투자받는 실행형 AI 빌드
-            챌린지입니다.
+            대략적인 구상만 있어도 괜찮습니다. 양식을 남겨 주시면 팀 마우드가 확인합니다.
           </p>
         </div>
 
