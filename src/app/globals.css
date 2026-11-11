@@ -4573,7 +4573,7 @@ fieldset.field { margin: 0; padding: 0; border: 0; }
 /* ── Neutral lower zone: no lime/violet in form section, consent box, footer (대표 피드백) ── */
 .apply-form-section { background: var(--color-obsidian-canvas); }
 .consent-group { border-color: var(--color-slate-border); border-radius: 12px; background: var(--color-graphite-layer); box-shadow: none; }
-.consent-item input[type="checkbox"] { border-color: var(--color-iron-border); border-radius: 4px; }
+.consent-item input[type="checkbox"] { border-color: var(--color-ash-mute); border-radius: 4px; }
 .consent-item input[type="checkbox"]:checked { background: var(--color-paper-white); border-color: var(--color-paper-white); }
 .inquiry-form .consent-text a,
 .apply-form-error a { color: var(--color-paper-white); }
