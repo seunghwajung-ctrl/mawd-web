@@ -11,6 +11,7 @@ import { SponsorModalProvider } from "@/components/SponsorModalProvider";
 import { ChallengeStartModal } from "@/components/ChallengeStartModal";
 import { HackathonCatalog } from "@/components/HackathonCatalog";
 import { FieldPhotosSection } from "@/components/FieldPhotosSection";
+import { TeamMawdSection, EventServiceSection, PartnerBenefitsSection } from "@/components/B2bSections";
 
 // Keep the popup implementation for future campaigns. Change to `true` to show it again.
 const SHOW_CHALLENGE_START_MODAL = false;
@@ -31,7 +32,16 @@ export default function Home() {
           <VibeCodingSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
+          <TeamMawdSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <EventServiceSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
           <FieldPhotosSection />
+        </ScrollReveal>
+        <ScrollReveal className="reveal-section">
+          <PartnerBenefitsSection />
         </ScrollReveal>
         <ScrollReveal className="reveal-section">
           <FaqSection />
