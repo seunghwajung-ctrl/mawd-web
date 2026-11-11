@@ -4598,7 +4598,7 @@ footer { background: var(--color-obsidian-canvas); }
 @media (prefers-reduced-motion: reduce) { .portal-logo { display: none; } }
 
 /* Sponsor modal: neutral, same palette as the inquiry form (no lime border, violet offset, green glow). */
-.modal-panel { border: 1px solid var(--color-slate-border); border-radius: 16px; background: var(--color-onyx-card); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.modal-panel:not(.challenge-start-panel) { border: 1px solid var(--color-slate-border); border-radius: 16px; background: var(--color-onyx-card); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
 .modal-head { border-bottom-color: var(--color-slate-border); }
 .modal-close:hover { border-color: var(--color-paper-white); color: var(--color-paper-white); }
 .sponsor-contact-item { border-color: var(--color-slate-border); border-radius: 10px; background: var(--color-obsidian-canvas); }
