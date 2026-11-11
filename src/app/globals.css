@@ -4584,3 +4584,4 @@ footer { background: var(--color-obsidian-canvas); }
 .footer-social :is(a, button):hover { border-color: var(--color-paper-white); background: var(--color-graphite-layer); box-shadow: none; }
 /* Old :hover rules above still add the lime glow and violet offset; match the nav 참가하기 hover instead. */
 :is(#apply, .inquiry-form) .btn:is(:hover, :active) { box-shadow: none; filter: none; }
+#apply .btn { border-color: var(--color-paper-white); }

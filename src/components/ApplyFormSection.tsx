@@ -18,7 +18,7 @@ export function ApplyFormSection() {
         </div>
 
         <div className="btn-row" role="group" aria-label="도입 및 스폰서·제휴 문의">
-          <a className="btn primary" href="/inquiry">
+          <a className="btn" href="/inquiry">
             도입하기 <span className="arrow">{"\u203A"}</span>
           </a>
           <button
