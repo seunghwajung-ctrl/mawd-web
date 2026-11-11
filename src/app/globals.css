@@ -1111,7 +1111,7 @@ h2 {
   .mobile-featured-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(10,8,14,.08), rgba(8,6,12,.2) 37%, rgba(8,6,12,.92) 100%), linear-gradient(120deg, rgba(126,58,237,.4), transparent 57%); }
   .mobile-featured-program strong { display: block; margin-top: auto; font-size: clamp(62px, 8vw, 100px); font-weight: 950; letter-spacing: -.07em; line-height: .76; text-shadow: 0 4px 18px rgba(0,0,0,.5); }
   .mobile-featured-copy { margin-top: 24px; font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 20px; font-weight: 700; }
-  .mobile-program-shortcuts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+  .mobile-program-shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
   .mobile-program-shortcuts a, .mobile-program-shortcuts button { display: grid; place-items: center; gap: 7px; min-height: 96px; padding: 10px 5px; border: 1px solid rgba(255,255,255,.12); border-radius: 19px; background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.025)); box-shadow: inset 1px 1px 0 rgba(255,255,255,.1), inset -2px -2px 0 rgba(0,0,0,.2); color: rgba(248,248,242,.8); font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 13px; font-weight: 650; line-height: 1.2; text-align: center; }
   .mobile-program-shortcuts button { font: inherit; cursor: pointer; }
   .mobile-program-shortcuts span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: rgba(255,255,255,.1); color: var(--lime); font-size: 20px; font-weight: 900; }
@@ -1387,7 +1387,7 @@ h2 {
   .mobile-featured-program strong { display: block; margin-top: auto; font-size: clamp(45px, 15vw, 63px); font-weight: 950; letter-spacing: -.07em; line-height: .76; text-shadow: 0 4px 18px rgba(0,0,0,.5); }
   .mobile-featured-copy { margin-top: 18px; font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 14px; font-weight: 700; }
 
-  .mobile-program-shortcuts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 15px; }
+  .mobile-program-shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 15px; }
   .mobile-program-shortcuts a, .mobile-program-shortcuts button { display: grid; place-items: center; gap: 6px; min-height: 82px; padding: 9px 3px; border: 1px solid rgba(255,255,255,.12); border-radius: 19px; background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.025)); box-shadow: inset 1px 1px 0 rgba(255,255,255,.1), inset -2px -2px 0 rgba(0,0,0,.2); color: rgba(248,248,242,.8); font-family: "Pretendard Variable", Pretendard, sans-serif; font-size: 11px; font-weight: 650; line-height: 1.2; text-align: center; }
   .mobile-program-shortcuts button { font: inherit; cursor: pointer; }
   .mobile-program-shortcuts span { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 11px; background: rgba(255,255,255,.1); color: var(--lime); font-size: 18px; font-weight: 900; }

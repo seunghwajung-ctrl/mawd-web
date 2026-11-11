@@ -1,6 +1,5 @@
 "use client";
 
-import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 
 export function ApplyFormSection() {
@@ -18,18 +17,16 @@ export function ApplyFormSection() {
           </p>
         </div>
 
-        <div className="btn-row" role="group" aria-label="참가 및 문의">
-          <LumaCheckoutButton
-            className="btn primary"
-          >
-            참가하기 <span className="arrow">{"\u203A"}</span>
-          </LumaCheckoutButton>
+        <div className="btn-row" role="group" aria-label="도입 및 스폰서·제휴 문의">
+          <a className="btn primary" href="/inquiry">
+            도입하기 <span className="arrow">{"\u203A"}</span>
+          </a>
           <button
             type="button"
             className="btn"
             onClick={openSponsorModal}
           >
-            스폰서 문의 <span className="arrow">{"\u203A"}</span>
+            스폰서·제휴 문의 <span className="arrow">{"\u203A"}</span>
           </button>
         </div>
       </div>

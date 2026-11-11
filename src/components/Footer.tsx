@@ -17,13 +17,17 @@ export function Footer() {
           <a href="mailto:team.mawd@cyz.today">
             문의하기
           </a>
-          <a href="#faq">FAQ</a>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full load so the browser lands on the section after the homepage finishes layout; <Link> stops short */}
+          <a href="/#faq">FAQ</a>
           <button type="button" onClick={openSponsorModal}>
             스폰서 문의
           </button>
-          <a href="#program">프로그램</a>
-          <a href="#benefits">혜택</a>
-          <a href="#gallery">갤러리</a>
+          <a href="/programs">프로그램</a>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full load so the browser lands on the section after the homepage finishes layout; <Link> stops short */}
+          <a href="/#partners">스폰서·제휴</a>
+          <a href="/inquiry">도입하기</a>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full load so the browser lands on the section after the homepage finishes layout; <Link> stops short */}
+          <a href="/#gallery">TEAM Gallery</a>
         </nav>
         <div className="footer-social" aria-label="소셜 미디어">
           <ButtonSocialIconDemo />
