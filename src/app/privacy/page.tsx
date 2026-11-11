@@ -7,8 +7,7 @@ export const metadata = {
   description: "팀 마우드 도입 문의 개인정보처리방침",
 };
 
-// 문구: 다봉 privacy-notice-and-policy.md §B (대표 확인 2026-11-11, 빈칸 없음).
-// TODO(copy): 대표가 미리보기에서 승인하면 맨 위 초안 안내(legal-draft)를 지운다.
+// 문구: 다봉 privacy-notice-and-policy.md §B (대표 승인 2026-11-12).
 
 const CONTACT = "team.mawd@cyz.today";
 
@@ -18,9 +17,6 @@ export default function PrivacyPage() {
       <Nav />
       <main className="legal-page">
         <article className="wrap legal-body">
-          <p className="legal-draft" role="note">
-            초안입니다. 대표 승인 전입니다.
-          </p>
           <h1>개인정보처리방침</h1>
           <p>
             팀 마우드(이하 &lsquo;마우드&rsquo;)는 도입 문의를 받으면서 개인정보를 처리합니다. 처리 목적, 항목, 보유 기간과
