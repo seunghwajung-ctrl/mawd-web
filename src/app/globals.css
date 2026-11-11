@@ -4596,3 +4596,13 @@ footer { background: var(--color-obsidian-canvas); }
 .portal-logo img { width: clamp(220px, 34vw, 460px); max-width: none; height: auto; }
 /* Reduced motion never sets --portal-open, so the logo would sit static behind the copy. */
 @media (prefers-reduced-motion: reduce) { .portal-logo { display: none; } }
+
+/* Sponsor modal: neutral, same palette as the inquiry form (no lime border, violet offset, green glow). */
+.modal-panel { border: 1px solid var(--color-slate-border); border-radius: 16px; background: var(--color-onyx-card); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.modal-head { border-bottom-color: var(--color-slate-border); }
+.modal-close:hover { border-color: var(--color-paper-white); color: var(--color-paper-white); }
+.sponsor-contact-item { border-color: var(--color-slate-border); border-radius: 10px; background: var(--color-obsidian-canvas); }
+.sponsor-contact-label { color: var(--color-ash-mute); }
+.sponsor-contact-value { color: var(--color-paper-white); text-shadow: none; text-decoration: underline; text-decoration-color: var(--color-iron-border); text-underline-offset: 4px; }
+.sponsor-contact-value:hover { color: var(--color-paper-white); text-decoration-color: var(--color-paper-white); }
+.modal-panel .btn:is(:hover, :active) { box-shadow: none; filter: none; }
