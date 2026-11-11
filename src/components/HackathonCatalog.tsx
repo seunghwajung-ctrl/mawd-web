@@ -24,6 +24,7 @@ export function HackathonCatalog() {
   const [draft, setDraft] = useState<Program[]>(fallback);
   const [message, setMessage] = useState("");
   const [mobileSlide, setMobileSlide] = useState(0);
+  const [mobilePaused, setMobilePaused] = useState(false);
   const rail = useRef<HTMLDivElement>(null);
   const swipeStartX = useRef<number | null>(null);
   const swiped = useRef(false);
@@ -46,6 +47,16 @@ export function HackathonCatalog() {
       window.removeEventListener("hashchange", openFromHash);
     };
   }, []);
+
+  // Featured carousel autoplay: advance every 4s. Restarts whenever the slide changes
+  // (swipe, dot click, or autoplay), and pauses while hovered/touched or a detail modal is open.
+  useEffect(() => {
+    if (mobilePaused || selected || programs.length < 2) return;
+    const timer = window.setTimeout(() => {
+      setMobileSlide((current) => (current + 1) % programs.length);
+    }, 4000);
+    return () => window.clearTimeout(timer);
+  }, [mobileSlide, mobilePaused, selected, programs.length]);
 
   const slide = (direction: number) => rail.current?.scrollBy({ left: direction * Math.min(440, rail.current.clientWidth * 0.85), behavior: "smooth" });
   const moveMobileSlide = (direction: number) => {
@@ -86,7 +97,7 @@ export function HackathonCatalog() {
   return <section id="hackathons" className="hackathon-catalog">
     <div className="wrap">
       <div className="mobile-program-intro" aria-label="MAWD 프로그램 안내">
-        <div className="mobile-featured-viewport">
+        <div className="mobile-featured-viewport" onPointerEnter={() => setMobilePaused(true)} onPointerLeave={() => setMobilePaused(false)}>
           <div className="mobile-featured-track" style={{ transform: `translateX(-${mobileSlide * 100}%)` }}>
             {programs.map((program, index) => <button
               type="button"
