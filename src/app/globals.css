@@ -4585,3 +4585,15 @@ footer { background: var(--color-obsidian-canvas); }
 /* Old :hover rules above still add the lime glow and violet offset; match the nav 참가하기 hover instead. */
 :is(#apply, .inquiry-form, .portal-actions, .portal-intro) .btn:is(:hover, :active) { box-shadow: none; filter: none; }
 #apply .btn { border-color: var(--color-paper-white); }
+
+/* Nav logo: home link on every page. */
+.nav-logo { display: flex; align-items: center; margin-right: auto; }
+.nav-logo img { width: auto; height: 40px; }
+@media (max-width: 760px) { .nav-logo img { height: 34px; } }
+
+/* Hero: logo halves replace the TEAM MAWD text; they fade out while sliding apart. */
+.portal-logo { --logo-w: clamp(220px, 34vw, 460px); column-gap: 0; opacity: calc(1 - var(--portal-open, 0) * 1.6); }
+.portal-logo span { overflow: hidden; }
+.portal-logo img { flex: none; width: var(--logo-w); max-width: none; height: auto; }
+.portal-logo span:first-child img { margin-right: calc(var(--logo-w) / -2); }
+.portal-logo span:last-child img { margin-left: calc(var(--logo-w) / -2); }

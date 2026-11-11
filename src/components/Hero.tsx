@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { useSponsorModal } from "@/components/SponsorModalProvider";
 import { LumaCheckoutButton } from "@/components/LumaCheckoutButton";
 
@@ -132,9 +133,14 @@ export function Hero() {
         <div className="portal-dot portal-dot-left" aria-hidden="true" />
         <div className="portal-dot portal-dot-right" aria-hidden="true" />
 
-        <div className="portal-wordmark" aria-label="TEAM MAWD">
-          <span aria-hidden="true">TEAM</span>
-          <span aria-hidden="true">MAWD</span>
+        {/* Same logo twice; each span clips one half so the halves can slide apart. */}
+        <div className="portal-wordmark portal-logo" role="img" aria-label="MAWD">
+          <span aria-hidden="true">
+            <Image src="/mawd-logo.png" alt="" width={640} height={519} loading="eager" unoptimized />
+          </span>
+          <span aria-hidden="true">
+            <Image src="/mawd-logo.png" alt="" width={640} height={519} loading="eager" unoptimized />
+          </span>
         </div>
 
         <div className="portal-intro">
