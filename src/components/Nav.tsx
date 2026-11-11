@@ -54,7 +54,7 @@ export function Nav() {
     <nav className={`nav${introRevealed ? "" : " is-intro-hidden"}`} aria-label="주요 메뉴">
       <div className="wrap nav-inner">
         <Link className="nav-logo" href="/" aria-label="MAWD 홈으로" onClick={closeMenu}>
-          <Image src="/mawd-logo.png" alt="" width={640} height={519} unoptimized />
+          <Image src="/mawd-logo-bubble.png" alt="" width={640} height={519} unoptimized />
         </Link>
         <div className={`nav-links${menuOpen ? " is-open" : ""}`}>
           <LumaCheckoutButton className="nav-links-join" onClick={closeMenu}>

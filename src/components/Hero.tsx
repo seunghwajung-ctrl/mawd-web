@@ -136,10 +136,10 @@ export function Hero() {
         {/* Same logo twice; each span clips one half so the halves can slide apart. */}
         <div className="portal-wordmark portal-logo" role="img" aria-label="MAWD">
           <span aria-hidden="true">
-            <Image src="/mawd-logo.png" alt="" width={640} height={519} loading="eager" unoptimized />
+            <Image src="/mawd-logo-bubble.png" alt="" width={640} height={519} loading="eager" unoptimized />
           </span>
           <span aria-hidden="true">
-            <Image src="/mawd-logo.png" alt="" width={640} height={519} loading="eager" unoptimized />
+            <Image src="/mawd-logo-bubble.png" alt="" width={640} height={519} loading="eager" unoptimized />
           </span>
         </div>
 
