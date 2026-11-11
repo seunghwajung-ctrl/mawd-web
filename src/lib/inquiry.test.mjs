@@ -66,3 +66,87 @@ test("rejects non-string values and a non-true consent", () => {
   assert.ok(r.errors.org);
   assert.ok(r.errors.consent);
 });
+
+// ── submitInquiry (server path) ──────────────────────────────
+import { submitInquiry } from "./inquiry.ts";
+
+const config = { recaptchaSecret: "rc-secret", scriptUrl: "https://script.example/exec", scriptSecret: "s-secret" };
+const body = { ...valid, recaptchaToken: "tok" };
+
+// Fake fetch: records calls, answers siteverify and Apps Script separately.
+function fakeFetch({ captcha = true, script = { ok: true }, scriptStatus = 200, hang = false } = {}) {
+  const calls = [];
+  const fn = async (url, init) => {
+    calls.push({ url: String(url), init });
+    if (String(url).includes("siteverify")) return Response.json({ success: captcha });
+    if (hang) {
+      return new Promise((_, reject) => init.signal.addEventListener("abort", () => reject(init.signal.reason)));
+    }
+    return new Response(JSON.stringify(script), { status: scriptStatus });
+  };
+  fn.calls = calls;
+  fn.scriptCalls = () => calls.filter((c) => c.url === config.scriptUrl).length;
+  return fn;
+}
+
+test("sends once and reports success when Apps Script confirms", async () => {
+  const f = fakeFetch();
+  const r = await submitInquiry(body, { ...config, fetch: f });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.ok, true);
+  assert.equal(f.scriptCalls(), 1);
+  const sent = JSON.parse(f.calls.find((c) => c.url === config.scriptUrl).init.body);
+  assert.equal(sent.secret, "s-secret");
+  assert.equal(sent.org, "마우드대학교");
+  assert.equal(sent.website, undefined);
+  const verify = f.calls.find((c) => c.url.includes("siteverify")).init.body.toString();
+  assert.match(verify, /secret=rc-secret/);
+  assert.match(verify, /response=tok/);
+});
+
+test("invalid values never reach reCAPTCHA or Apps Script", async () => {
+  const f = fakeFetch();
+  const r = await submitInquiry({ ...body, email: "bad" }, { ...config, fetch: f });
+  assert.equal(r.status, 400);
+  assert.equal(r.body.ok, false);
+  assert.equal(f.calls.length, 0);
+});
+
+test("filled honeypot never reaches Apps Script", async () => {
+  const f = fakeFetch();
+  const r = await submitInquiry({ ...body, website: "x" }, { ...config, fetch: f });
+  assert.equal(r.body.ok, false);
+  assert.equal(f.scriptCalls(), 0);
+});
+
+test("missing or failed reCAPTCHA never reaches Apps Script", async () => {
+  for (const [input, opts] of [[{ ...body, recaptchaToken: "" }, {}], [body, { captcha: false }]]) {
+    const f = fakeFetch(opts);
+    const r = await submitInquiry(input, { ...config, fetch: f });
+    assert.equal(r.status, 400);
+    assert.equal(r.body.ok, false);
+    assert.equal(f.scriptCalls(), 0);
+  }
+});
+
+test("Apps Script failure or a non-ok answer is reported as failure", async () => {
+  for (const opts of [{ scriptStatus: 500 }, { script: { ok: false } }]) {
+    const r = await submitInquiry(body, { ...config, fetch: fakeFetch(opts) });
+    assert.equal(r.status, 502);
+    assert.equal(r.body.ok, false);
+  }
+});
+
+test("Apps Script timeout is reported as failure", async () => {
+  const r = await submitInquiry(body, { ...config, fetch: fakeFetch({ hang: true }), timeoutMs: 50 });
+  assert.equal(r.status, 504);
+  assert.equal(r.body.ok, false);
+});
+
+test("missing server config fails closed without sending", async () => {
+  const f = fakeFetch();
+  const r = await submitInquiry(body, { ...config, scriptUrl: "", fetch: f });
+  assert.equal(r.status, 500);
+  assert.equal(r.body.ok, false);
+  assert.equal(f.calls.length, 0);
+});

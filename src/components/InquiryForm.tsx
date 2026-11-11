@@ -1,11 +1,17 @@
 "use client";
 
+import Script from "next/script";
 import { useRef, useState, type FormEvent } from "react";
 import { EVENT_TYPES, LIMITS, validateInquiry, type InquiryErrors } from "@/lib/inquiry";
 
 // TODO(copy): 다봉 초안(b2b-zone-copy.md §7, privacy-notice-and-policy.md §A). 대표 승인 전 임시 (#9).
 const CONTACT_EMAIL = "team.mawd@cyz.today";
 const TIMEOUT_MS = 15_000;
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+
+declare global {
+  interface Window { grecaptcha?: { reset: () => void } }
+}
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -20,22 +26,30 @@ const TEXT_FIELDS = [
 
 export function InquiryForm() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [errors, setErrors] = useState<InquiryErrors>({});
+  const [errors, setErrors] = useState<InquiryErrors & { captcha?: string }>({});
+  const sendingRef = useRef(false); // state updates are async, so a ref blocks same-tick double clicks
   const [status, setStatus] = useState<Status>("idle");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (status === "sending") return; // duplicate-submit guard
+    if (sendingRef.current) return;
     const fd = new FormData(e.currentTarget);
-    const raw = { ...Object.fromEntries(fd), consent: fd.get("consent") === "on" };
+    // The reCAPTCHA widget adds its token to the form as g-recaptcha-response.
+    const recaptchaToken = fd.get("g-recaptcha-response") ?? "";
+    fd.delete("g-recaptcha-response");
+    const raw = { ...Object.fromEntries(fd), consent: fd.get("consent") === "on", recaptchaToken };
     const result = validateInquiry(raw);
-    if (!result.ok) {
-      setErrors(result.errors);
-      const first = Object.keys(result.errors).find((k) => k !== "website");
-      formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+    const nextErrors: InquiryErrors & { captcha?: string } = result.ok ? {} : { ...result.errors };
+    if (RECAPTCHA_SITE_KEY && !recaptchaToken) nextErrors.captcha = "'로봇이 아닙니다'를 확인해 주세요.";
+    if (Object.keys(nextErrors).length) {
+      setErrors(nextErrors);
+      const first = Object.keys(nextErrors).find((k) => k !== "website");
+      const target = first === "captcha" ? "#inq-captcha iframe" : `[name="${first}"]`;
+      formRef.current?.querySelector<HTMLElement>(target)?.focus();
       return;
     }
     setErrors({});
+    sendingRef.current = true;
     setStatus("sending");
     try {
       const res = await fetch("/api/inquiry", {
@@ -48,6 +62,9 @@ export function InquiryForm() {
       setStatus(res.ok && body?.ok === true ? "success" : "error");
     } catch {
       setStatus("error");
+    } finally {
+      sendingRef.current = false;
+      window.grecaptcha?.reset(); // a token is single-use; a retry needs a fresh check
     }
   }
 
@@ -140,6 +157,15 @@ export function InquiryForm() {
         </div>
         {fieldError("consent")}
       </div>
+
+      {RECAPTCHA_SITE_KEY && (
+        <div className="field">
+          {/* shortcut: implicit render scans the page once when the script loads; switch to explicit render if the form ever mounts after a client-side navigation */}
+          <Script src="https://www.google.com/recaptcha/api.js?hl=ko" strategy="afterInteractive" />
+          <div id="inq-captcha" className="g-recaptcha" data-sitekey={RECAPTCHA_SITE_KEY} data-theme="dark" />
+          {errors.captcha && <p id="captcha-error" className="field-error">{errors.captcha}</p>}
+        </div>
+      )}
 
       {status === "error" && (
         <div className="apply-form-error" role="alert">

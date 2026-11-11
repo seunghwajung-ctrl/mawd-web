@@ -60,3 +60,56 @@ export function validateInquiry(raw: Record<string, unknown>): InquiryResult {
 
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true, data };
 }
+
+// ── Server path: used only by src/app/api/inquiry/route.ts ──────────────
+// Order: validate → reCAPTCHA → Apps Script. Nothing is sent unless every
+// earlier step passes, and success means Apps Script answered { ok: true }.
+
+export type SubmitConfig = {
+  recaptchaSecret: string;
+  scriptUrl: string;
+  scriptSecret: string;
+  fetch?: typeof fetch;
+  timeoutMs?: number; // must stay under the browser's 15s limit
+};
+export type SubmitResult = { status: number; body: { ok: boolean; error?: string } };
+
+const SITEVERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+const fail = (status: number, error: string): SubmitResult => ({ status, body: { ok: false, error } });
+
+export async function submitInquiry(raw: Record<string, unknown>, cfg: SubmitConfig): Promise<SubmitResult> {
+  const doFetch = cfg.fetch ?? fetch;
+  const timeoutMs = cfg.timeoutMs ?? 12_000;
+
+  const result = validateInquiry(raw);
+  if (!result.ok) return fail(400, "invalid");
+  if (!cfg.recaptchaSecret || !cfg.scriptUrl || !cfg.scriptSecret) return fail(500, "not_configured");
+
+  const token = raw.recaptchaToken;
+  if (typeof token !== "string" || !token) return fail(400, "captcha");
+  try {
+    const res = await doFetch(SITEVERIFY_URL, {
+      method: "POST",
+      body: new URLSearchParams({ secret: cfg.recaptchaSecret, response: token }),
+      signal: AbortSignal.timeout(5_000),
+    });
+    const verdict = await res.json().catch(() => null);
+    if (verdict?.success !== true) return fail(400, "captcha");
+  } catch {
+    return fail(502, "captcha_unreachable");
+  }
+
+  try {
+    const res = await doFetch(cfg.scriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret: cfg.scriptSecret, ...result.data }),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    const answer = await res.json().catch(() => null);
+    if (!res.ok || answer?.ok !== true) return fail(502, "send_failed");
+  } catch (err) {
+    return fail((err as Error)?.name === "TimeoutError" ? 504 : 502, "send_failed");
+  }
+  return { status: 200, body: { ok: true } };
+}
