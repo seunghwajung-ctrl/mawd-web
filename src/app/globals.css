@@ -4591,9 +4591,6 @@ footer { background: var(--color-obsidian-canvas); }
 .nav-logo img { width: auto; height: 40px; }
 @media (max-width: 760px) { .nav-logo img { height: 34px; } }
 
-/* Hero: logo halves replace the TEAM MAWD text; they fade out while sliding apart. */
-.portal-logo { --logo-w: clamp(220px, 34vw, 460px); column-gap: 0; opacity: calc(1 - var(--portal-open, 0) * 1.6); }
-.portal-logo span { overflow: hidden; }
-.portal-logo img { flex: none; width: var(--logo-w); max-width: none; height: auto; }
-.portal-logo span:first-child img { margin-right: calc(var(--logo-w) / -2); }
-.portal-logo span:last-child img { margin-left: calc(var(--logo-w) / -2); }
+/* Hero: logo replaces the TEAM MAWD text and fades out while the background panels split. */
+.portal-logo { display: flex; justify-content: center; opacity: calc(1 - var(--portal-open, 0) * 2); }
+.portal-logo img { width: clamp(220px, 34vw, 460px); max-width: none; height: auto; }
