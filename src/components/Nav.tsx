@@ -56,8 +56,11 @@ export function Nav() {
             참가하기 <span className="arrow">↗</span>
           </LumaCheckoutButton>
           <a href="/programs" onClick={closeMenu}>프로그램</a>
-          <a href="#benefits" onClick={closeMenu}>혜택</a>
-          <a href="#faq" onClick={closeMenu}>FAQ</a>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full load so the browser lands on the section after the homepage finishes layout; <Link> stops short */}
+          <a href="/#partners" onClick={closeMenu}>스폰서·제휴</a>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- full load so the browser lands on the section after the homepage finishes layout; <Link> stops short */}
+          <a href="/#faq" onClick={closeMenu}>FAQ</a>
+          <a href="/inquiry" onClick={closeMenu}>도입하기</a>
           <a className="nav-link-btn" href="mailto:team.mawd@cyz.today" onClick={closeMenu}>
             문의하기
           </a>

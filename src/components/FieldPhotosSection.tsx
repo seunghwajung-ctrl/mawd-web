@@ -11,8 +11,8 @@ export function FieldPhotosSection() {
   return (
     <section id="gallery" className="field-photos-section">
       <div className="wrap">
-        <p className="section-kicker">FIELD NOTES</p>
-        <h2>아이디어가 움직이기 시작한 현장</h2>
+        <p className="section-kicker">TEAM Gallery</p>
+        <h2>마우드가 만들어 온 현장</h2>
         <div className="field-photos">
           {photos.map((photo, index) => (
             <figure key={photo.src}>

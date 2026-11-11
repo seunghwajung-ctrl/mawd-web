@@ -1,0 +1,126 @@
+// Shared by the /inquiry form (browser) and the inquiry API route (server).
+// Keep it dependency-free: tests run it directly with `node --test`.
+
+export const EVENT_TYPES = ["해커톤", "AI 행사", "미정"] as const;
+
+export const LIMITS = {
+  org: 100,
+  name: 50,
+  email: 254,
+  phone: 30,
+  timing: 50,
+  headcount: 30,
+  message: 2000,
+} as const;
+
+type TextField = keyof typeof LIMITS;
+const REQUIRED: TextField[] = ["org", "name", "email"];
+const LABELS: Record<TextField, string> = {
+  org: "회사·기관·학교명",
+  name: "담당자 이름",
+  email: "이메일",
+  phone: "연락처",
+  timing: "예상 시기",
+  headcount: "예상 참가 인원",
+  message: "문의 내용",
+};
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export type Inquiry = Record<TextField, string> & { eventType: string };
+export type InquiryErrors = Partial<Record<TextField | "eventType" | "consent" | "hp_field", string>>;
+export type InquiryResult = { ok: true; data: Inquiry } | { ok: false; errors: InquiryErrors };
+
+export function validateInquiry(raw: Record<string, unknown>): InquiryResult {
+  const errors: InquiryErrors = {};
+  const data = {} as Inquiry;
+
+  for (const key of Object.keys(LIMITS) as TextField[]) {
+    const value = raw[key] ?? "";
+    if (typeof value !== "string") {
+      errors[key] = `${LABELS[key]}을(를) 다시 입력해 주세요.`;
+      continue;
+    }
+    const v = value.trim();
+    data[key] = v;
+    if (REQUIRED.includes(key) && !v) errors[key] = `${LABELS[key]}을(를) 입력해 주세요.`;
+    else if (v.length > LIMITS[key]) errors[key] = `${LABELS[key]}은(는) ${LIMITS[key]}자 이하로 입력해 주세요.`;
+  }
+  if (data.email && !errors.email && !EMAIL_RE.test(data.email)) errors.email = "이메일 형식이 올바르지 않습니다.";
+
+  const eventType = raw.eventType;
+  if (typeof eventType !== "string" || !(EVENT_TYPES as readonly string[]).includes(eventType)) {
+    errors.eventType = "행사 유형을 선택해 주세요.";
+  } else {
+    data.eventType = eventType;
+  }
+
+  if (raw.consent !== true) errors.consent = "개인정보 수집·이용에 동의해 주세요.";
+  // Honeypot: hidden from people, so any value means a bot filled it.
+  // Named to avoid browser autofill (a field called "website" gets autofilled).
+  if (raw.hp_field) errors.hp_field = "잘못된 요청입니다.";
+
+  return Object.keys(errors).length ? { ok: false, errors } : { ok: true, data };
+}
+
+// ── Server path: used only by src/app/api/inquiry/route.ts ──────────────
+// Order: validate → reCAPTCHA → Apps Script. Nothing is sent unless every
+// earlier step passes, and success means Apps Script answered { ok: true }.
+
+export type SubmitConfig = {
+  recaptchaSecret: string;
+  scriptUrl: string;
+  scriptSecret: string;
+  fetch?: typeof fetch;
+  timeoutMs?: number;
+};
+
+// Both server steps must finish before the browser gives up, or a slow send
+// shows "failed" while the mail still goes out (see test).
+export const CLIENT_TIMEOUT_MS = 15_000;
+export const SITEVERIFY_TIMEOUT_MS = 3_000;
+export const APPS_SCRIPT_TIMEOUT_MS = 10_000;
+// One id per form fill, reused on retry; Apps Script drops repeats of the same id.
+const SUBMISSION_ID_RE = /^[A-Za-z0-9-]{8,64}$/;
+export type SubmitResult = { status: number; body: { ok: boolean; error?: string } };
+
+const SITEVERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+const fail = (status: number, error: string): SubmitResult => ({ status, body: { ok: false, error } });
+
+export async function submitInquiry(raw: Record<string, unknown>, cfg: SubmitConfig): Promise<SubmitResult> {
+  const doFetch = cfg.fetch ?? fetch;
+  const timeoutMs = cfg.timeoutMs ?? APPS_SCRIPT_TIMEOUT_MS;
+
+  const result = validateInquiry(raw);
+  if (!result.ok) return fail(400, "invalid");
+  const submissionId = raw.submissionId;
+  if (typeof submissionId !== "string" || !SUBMISSION_ID_RE.test(submissionId)) return fail(400, "invalid");
+  if (!cfg.recaptchaSecret || !cfg.scriptUrl || !cfg.scriptSecret) return fail(500, "not_configured");
+
+  const token = raw.recaptchaToken;
+  if (typeof token !== "string" || !token) return fail(400, "captcha");
+  try {
+    const res = await doFetch(SITEVERIFY_URL, {
+      method: "POST",
+      body: new URLSearchParams({ secret: cfg.recaptchaSecret, response: token }),
+      signal: AbortSignal.timeout(SITEVERIFY_TIMEOUT_MS),
+    });
+    const verdict = await res.json().catch(() => null);
+    if (verdict?.success !== true) return fail(400, "captcha");
+  } catch {
+    return fail(502, "captcha_unreachable");
+  }
+
+  try {
+    const res = await doFetch(cfg.scriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ secret: cfg.scriptSecret, submissionId, ...result.data }),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    const answer = await res.json().catch(() => null);
+    if (!res.ok || answer?.ok !== true) return fail(502, "send_failed");
+  } catch (err) {
+    return fail((err as Error)?.name === "TimeoutError" ? 504 : 502, "send_failed");
+  }
+  return { status: 200, body: { ok: true } };
+}

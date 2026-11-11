@@ -120,8 +120,7 @@ export function HackathonCatalog() {
           {programs.map((program, index) => <button key={program.id} type="button" className={index === mobileSlide ? "is-active" : ""} aria-label={`${index + 1}번 슬라이드 보기`} aria-current={index === mobileSlide ? "true" : undefined} onClick={() => setMobileSlide(index)} />)}
         </div>
         <div className="mobile-program-shortcuts" aria-label="프로그램 바로가기">
-          <a href="#program"><span aria-hidden="true">✦</span>프로그램</a>
-          <a href="#benefits"><span aria-hidden="true">◎</span>참가 혜택</a>
+          <a href="/programs"><span aria-hidden="true">✦</span>프로그램</a>
           <a href="#faq"><span aria-hidden="true">?</span>자주 묻는 질문</a>
           <button type="button" onClick={() => setSelected(programs[0] ?? null)}><span aria-hidden="true">↗</span>참가 안내</button>
         </div>
