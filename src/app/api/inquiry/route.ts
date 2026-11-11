@@ -1,5 +1,8 @@
 import { submitInquiry } from "@/lib/inquiry";
 
+// Room for reCAPTCHA (3s) + Apps Script (10s); without it a 10s platform default could kill a send mid-flight.
+export const maxDuration = 20;
+
 // Server-only env vars (set for Preview and Production in Vercel):
 //   RECAPTCHA_SECRET_KEY, INQUIRY_APPS_SCRIPT_URL, INQUIRY_APPS_SCRIPT_SECRET
 export async function POST(request: Request) {

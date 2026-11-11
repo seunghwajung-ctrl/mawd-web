@@ -27,7 +27,7 @@ const LABELS: Record<TextField, string> = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export type Inquiry = Record<TextField, string> & { eventType: string };
-export type InquiryErrors = Partial<Record<TextField | "eventType" | "consent" | "website", string>>;
+export type InquiryErrors = Partial<Record<TextField | "eventType" | "consent" | "hp_field", string>>;
 export type InquiryResult = { ok: true; data: Inquiry } | { ok: false; errors: InquiryErrors };
 
 export function validateInquiry(raw: Record<string, unknown>): InquiryResult {
@@ -56,7 +56,8 @@ export function validateInquiry(raw: Record<string, unknown>): InquiryResult {
 
   if (raw.consent !== true) errors.consent = "개인정보 수집·이용에 동의해 주세요.";
   // Honeypot: hidden from people, so any value means a bot filled it.
-  if (raw.website) errors.website = "잘못된 요청입니다.";
+  // Named to avoid browser autofill (a field called "website" gets autofilled).
+  if (raw.hp_field) errors.hp_field = "잘못된 요청입니다.";
 
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true, data };
 }
@@ -70,8 +71,16 @@ export type SubmitConfig = {
   scriptUrl: string;
   scriptSecret: string;
   fetch?: typeof fetch;
-  timeoutMs?: number; // must stay under the browser's 15s limit
+  timeoutMs?: number;
 };
+
+// Both server steps must finish before the browser gives up, or a slow send
+// shows "failed" while the mail still goes out (see test).
+export const CLIENT_TIMEOUT_MS = 15_000;
+export const SITEVERIFY_TIMEOUT_MS = 3_000;
+export const APPS_SCRIPT_TIMEOUT_MS = 10_000;
+// One id per form fill, reused on retry; Apps Script drops repeats of the same id.
+const SUBMISSION_ID_RE = /^[A-Za-z0-9-]{8,64}$/;
 export type SubmitResult = { status: number; body: { ok: boolean; error?: string } };
 
 const SITEVERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
@@ -79,10 +88,12 @@ const fail = (status: number, error: string): SubmitResult => ({ status, body: {
 
 export async function submitInquiry(raw: Record<string, unknown>, cfg: SubmitConfig): Promise<SubmitResult> {
   const doFetch = cfg.fetch ?? fetch;
-  const timeoutMs = cfg.timeoutMs ?? 12_000;
+  const timeoutMs = cfg.timeoutMs ?? APPS_SCRIPT_TIMEOUT_MS;
 
   const result = validateInquiry(raw);
   if (!result.ok) return fail(400, "invalid");
+  const submissionId = raw.submissionId;
+  if (typeof submissionId !== "string" || !SUBMISSION_ID_RE.test(submissionId)) return fail(400, "invalid");
   if (!cfg.recaptchaSecret || !cfg.scriptUrl || !cfg.scriptSecret) return fail(500, "not_configured");
 
   const token = raw.recaptchaToken;
@@ -91,7 +102,7 @@ export async function submitInquiry(raw: Record<string, unknown>, cfg: SubmitCon
     const res = await doFetch(SITEVERIFY_URL, {
       method: "POST",
       body: new URLSearchParams({ secret: cfg.recaptchaSecret, response: token }),
-      signal: AbortSignal.timeout(5_000),
+      signal: AbortSignal.timeout(SITEVERIFY_TIMEOUT_MS),
     });
     const verdict = await res.json().catch(() => null);
     if (verdict?.success !== true) return fail(400, "captcha");
@@ -103,7 +114,7 @@ export async function submitInquiry(raw: Record<string, unknown>, cfg: SubmitCon
     const res = await doFetch(cfg.scriptUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ secret: cfg.scriptSecret, ...result.data }),
+      body: JSON.stringify({ secret: cfg.scriptSecret, submissionId, ...result.data }),
       signal: AbortSignal.timeout(timeoutMs),
     });
     const answer = await res.json().catch(() => null);

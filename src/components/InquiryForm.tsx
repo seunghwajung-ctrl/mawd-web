@@ -2,11 +2,10 @@
 
 import Script from "next/script";
 import { useRef, useState, type FormEvent } from "react";
-import { EVENT_TYPES, LIMITS, validateInquiry, type InquiryErrors } from "@/lib/inquiry";
+import { CLIENT_TIMEOUT_MS, EVENT_TYPES, LIMITS, validateInquiry, type InquiryErrors } from "@/lib/inquiry";
 
 // TODO(copy): 다봉 초안(b2b-zone-copy.md §7, privacy-notice-and-policy.md §A). 대표 승인 전 임시 (#9).
 const CONTACT_EMAIL = "team.mawd@cyz.today";
-const TIMEOUT_MS = 15_000;
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 declare global {
@@ -28,6 +27,7 @@ export function InquiryForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<InquiryErrors & { captcha?: string }>({});
   const sendingRef = useRef(false); // state updates are async, so a ref blocks same-tick double clicks
+  const submissionIdRef = useRef(""); // one id per form fill, reused on retry so Apps Script sends once
   const [status, setStatus] = useState<Status>("idle");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -37,13 +37,19 @@ export function InquiryForm() {
     // The reCAPTCHA widget adds its token to the form as g-recaptcha-response.
     const recaptchaToken = fd.get("g-recaptcha-response") ?? "";
     fd.delete("g-recaptcha-response");
-    const raw = { ...Object.fromEntries(fd), consent: fd.get("consent") === "on", recaptchaToken };
+    submissionIdRef.current ||= crypto.randomUUID();
+    const raw = {
+      ...Object.fromEntries(fd),
+      consent: fd.get("consent") === "on",
+      recaptchaToken,
+      submissionId: submissionIdRef.current,
+    };
     const result = validateInquiry(raw);
     const nextErrors: InquiryErrors & { captcha?: string } = result.ok ? {} : { ...result.errors };
     if (RECAPTCHA_SITE_KEY && !recaptchaToken) nextErrors.captcha = "'로봇이 아닙니다'를 확인해 주세요.";
     if (Object.keys(nextErrors).length) {
       setErrors(nextErrors);
-      const first = Object.keys(nextErrors).find((k) => k !== "website");
+      const first = Object.keys(nextErrors).find((k) => k !== "hp_field");
       const target = first === "captcha" ? "#inq-captcha iframe" : `[name="${first}"]`;
       formRef.current?.querySelector<HTMLElement>(target)?.focus();
       return;
@@ -56,10 +62,15 @@ export function InquiryForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(raw),
-        signal: AbortSignal.timeout(TIMEOUT_MS),
+        signal: AbortSignal.timeout(CLIENT_TIMEOUT_MS),
       });
       const body = await res.json().catch(() => null);
-      setStatus(res.ok && body?.ok === true ? "success" : "error");
+      if (body?.error === "captcha") {
+        setErrors({ captcha: "'로봇이 아닙니다' 확인이 만료되었습니다. 다시 확인해 주세요." });
+        setStatus("idle");
+      } else {
+        setStatus(res.ok && body?.ok === true ? "success" : "error");
+      }
     } catch {
       setStatus("error");
     } finally {
@@ -72,7 +83,7 @@ export function InquiryForm() {
     return (
       <div className="apply-form-success" role="status">
         <span className="apply-form-check" aria-hidden="true">✓</span>
-        <h2>문의가 접수되었습니다</h2>
+        <h2 tabIndex={-1} ref={(el) => el?.focus()}>문의가 접수되었습니다</h2>
         <p className="apply-form-success-desc">
           남겨 주신 내용은 팀 마우드에 전달되었습니다. 접수 확인 메일은 따로 발송되지 않습니다. 내용을 확인하는 대로 이메일로 연락드립니다.
         </p>
@@ -137,13 +148,13 @@ export function InquiryForm() {
 
       {/* Honeypot: off-screen and skipped by keyboard and screen readers. */}
       <div className="inquiry-hp" aria-hidden="true">
-        <label htmlFor="inq-website">웹사이트</label>
-        <input id="inq-website" name="website" tabIndex={-1} autoComplete="off" />
+        <label htmlFor="inq-hp">이 칸은 비워 두세요</label>
+        <input id="inq-hp" name="hp_field" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div className="consent-group">
         <label className="consent-item">
-          <input type="checkbox" name="consent" required aria-invalid={!!errors.consent} aria-describedby="consent-notice" />
+          <input type="checkbox" name="consent" required aria-invalid={!!errors.consent} aria-describedby={["consent-notice", describe("consent")].filter(Boolean).join(" ")} />
           <span className="consent-text">
             <strong>[필수] 개인정보 수집·이용에 동의합니다.</strong>
           </span>
@@ -163,7 +174,7 @@ export function InquiryForm() {
           {/* shortcut: implicit render scans the page once when the script loads; switch to explicit render if the form ever mounts after a client-side navigation */}
           <Script src="https://www.google.com/recaptcha/api.js?hl=ko" strategy="afterInteractive" />
           <div id="inq-captcha" className="g-recaptcha" data-sitekey={RECAPTCHA_SITE_KEY} data-theme="dark" />
-          {errors.captcha && <p id="captcha-error" className="field-error">{errors.captcha}</p>}
+          {errors.captcha && <p id="captcha-error" className="field-error" role="alert">{errors.captcha}</p>}
         </div>
       )}
 

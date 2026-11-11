@@ -54,6 +54,10 @@ Vercel → `mawd-web` 프로젝트 → Settings → Environment Variables에서 
 
 넣은 뒤에는 분기를 다시 배포해야 반영됩니다(다비가 처리).
 
+reCAPTCHA 키 발급(다비): 체크박스 방식으로 만들고, 도메인 목록에 `mawd.cyz.today`와 `vercel.app`(미리보기 주소용)을 **둘 다** 넣습니다.
+`vercel.app`이 빠지면 미리보기에서 'Invalid domain' 오류가 떠서 6단계 시험을 할 수 없습니다.
+'출처 확인(Verify the origin of reCAPTCHA solutions)' 설정은 켜 둔 상태(기본값)를 유지합니다.
+
 ## 6단계. 시험 문의 1건
 
 1. 미리보기 주소의 `/inquiry`에서 양식을 채워 보냅니다.
@@ -68,4 +72,4 @@ Vercel → `mawd-web` 프로젝트 → Settings → Environment Variables에서 
 ## 참고
 
 - 하루 메일 발송 한도가 있습니다(무료 구글 계정 기준 하루 100통 내외, Workspace 계정은 더 많음). 문의 양식 규모로는 충분합니다.
-- 이 스크립트는 메일만 보내고 시트·드라이브 등 다른 곳에 저장하지 않습니다.
+- 이 스크립트는 메일만 보내고 시트·드라이브 등 다른 곳에 저장하지 않습니다. 중복 발송을 막으려고 문의 내용이 아닌 무작위 접수 번호만 10분 동안 Apps Script 캐시에 둡니다.
