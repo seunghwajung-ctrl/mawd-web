@@ -4567,3 +4567,7 @@ fieldset.field { margin: 0; padding: 0; border: 0; }
 #partners .benefit { min-height: 0; }
 .benefit p { margin: 0; color: var(--color-ash-mute); line-height: 1.7; }
 .partners-list { margin-top: 28px; }
+.legal-table { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); gap: 8px 16px; margin: 12px 0; }
+.legal-table dt { color: var(--color-paper-white); }
+.legal-table dd { margin: 0; }
+@media (max-width: 760px) { .legal-table { grid-template-columns: 1fr; gap: 2px; } .legal-table dd { margin-bottom: 10px; } }
