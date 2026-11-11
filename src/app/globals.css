@@ -4570,3 +4570,16 @@ fieldset.field { margin: 0; padding: 0; border: 0; }
 .legal-table dt { color: var(--color-paper-white); }
 .legal-table dd { margin: 0; }
 @media (max-width: 760px) { .legal-table { grid-template-columns: 1fr; gap: 2px; } .legal-table dd { margin-bottom: 10px; } }
+
+/* ── Neutral lower zone: no lime/violet in form section, consent box, footer (대표 피드백) ── */
+.apply-form-section { background: var(--color-obsidian-canvas); }
+.consent-group { border-color: var(--color-slate-border); border-radius: 12px; background: var(--color-graphite-layer); box-shadow: none; }
+.consent-item input[type="checkbox"] { border-color: var(--color-iron-border); border-radius: 4px; }
+.consent-item input[type="checkbox"]:checked { background: var(--color-paper-white); border-color: var(--color-paper-white); }
+.inquiry-form .consent-text a,
+.apply-form-error a { color: var(--color-paper-white); }
+.inquiry-form :is(.input, input, button, a):focus-visible { outline-color: var(--color-paper-white); }
+footer { background: var(--color-obsidian-canvas); }
+.footer-brand .pixel { color: var(--color-paper-white); }
+.footer-social :is(a, button) { box-shadow: none; }
+.footer-social :is(a, button):hover { border-color: var(--color-paper-white); background: var(--color-graphite-layer); box-shadow: none; }
