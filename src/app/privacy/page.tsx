@@ -7,12 +7,8 @@ export const metadata = {
   description: "팀 마우드 도입 문의 개인정보처리방침",
 };
 
-// 문구: 다봉 privacy-notice-and-policy.md §B (대표 확인 2026-11-11).
-// TODO(copy): <Blank> 4곳(시행일, 보호책임자 성명, Google 문의처, Vercel 로그 보관 기간)은 대표 답을 받아 채운다.
-// 하나라도 남아 있으면 공개하지 않는다. 다 채우면 맨 위 초안 안내도 지운다.
-function Blank({ children }: { children: string }) {
-  return <mark className="legal-blank">[미정: {children}]</mark>;
-}
+// 문구: 다봉 privacy-notice-and-policy.md §B (대표 확인 2026-11-11, 빈칸 없음).
+// TODO(copy): 대표가 미리보기에서 승인하면 맨 위 초안 안내(legal-draft)를 지운다.
 
 const CONTACT = "team.mawd@cyz.today";
 
@@ -23,14 +19,14 @@ export default function PrivacyPage() {
       <main className="legal-page">
         <article className="wrap legal-body">
           <p className="legal-draft" role="note">
-            초안입니다. 공개 전 확정되지 않은 항목이 남아 있습니다.
+            초안입니다. 대표 승인 전입니다.
           </p>
           <h1>개인정보처리방침</h1>
           <p>
             팀 마우드(이하 &lsquo;마우드&rsquo;)는 도입 문의를 받으면서 개인정보를 처리합니다. 처리 목적, 항목, 보유 기간과
             정보주체의 권리를 아래와 같이 안내합니다.
           </p>
-          <p>시행일: <Blank>공개일</Blank></p>
+          <p>시행일: 2026년 11월 11일</p>
 
           <h2>1. 개인정보의 처리 목적</h2>
           <p>
@@ -74,7 +70,7 @@ export default function PrivacyPage() {
             <dt>국외 이전의 법적 근거</dt>
             <dd>법 제28조의8 제1항 제3호(계약 이행을 위한 처리위탁·보관, 처리방침 공개)</dd>
             <dt>이전·위탁받는 자</dt>
-            <dd>Google LLC, <Blank>Google 개인정보 문의처</Blank></dd>
+            <dd>Google LLC, 전화 02-531-9000 (팩스 02-531-9001)</dd>
             <dt>이전되는 국가</dt>
             <dd>미국 등 Google 서버 소재국</dd>
             <dt>이전 시기와 방법</dt>
@@ -89,8 +85,8 @@ export default function PrivacyPage() {
             <dd>동의하지 않을 수 있으며, 이 경우 양식으로 문의를 접수할 수 없습니다.</dd>
           </dl>
           <p>
-            사이트 서버 운영 사업자(Vercel Inc., 미국)가 요청 기록(IP 주소, 시각, 주소)을 남깁니다. 보관 기간은{" "}
-            <Blank>Vercel 로그 보관 기간</Blank>입니다.
+            사이트 서버 운영 사업자(Vercel Inc., 미국)가 요청 기록(IP 주소, 시각, 주소)을 남깁니다. 보관 기간은 Vercel의
+            정책에 따릅니다.
           </p>
 
           <h2>7. 정보주체의 권리와 행사 방법</h2>
@@ -117,12 +113,12 @@ export default function PrivacyPage() {
             사이트는 쿠키나 접속 기록을 직접 수집하지 않으며 방문 분석 도구도 쓰지 않습니다. 다만 스팸 방지용 Google reCAPTCHA
             위젯이 쿠키와 기기·브라우저 정보를 수집하며 Google의 개인정보처리방침이 적용됩니다. 쿠키 수집을 원하지 않으면
             브라우저 설정에서 쿠키를 차단할 수 있으나, 차단하면 양식이 작동하지 않을 수 있습니다. 호스팅사 Vercel에는 IP 주소,
-            접속 시각, 요청 주소 같은 기본 요청 기록이 남으며 보관 기간은 <Blank>Vercel 로그 보관 기간</Blank>입니다.
+            접속 시각, 요청 주소 같은 기본 요청 기록이 남으며 보관 기간은 Vercel의 정책에 따릅니다.
           </p>
 
           <h2>10. 개인정보 보호책임자</h2>
           <ul>
-            <li>성명: <Blank>대표자 성명</Blank></li>
+            <li>성명: 정승화</li>
             <li>직책: 대표</li>
             <li>연락처: {CONTACT}</li>
             <li>개인정보 관련 문의와 불만, 피해 구제 요청은 위 연락처로 접수해 주세요.</li>
