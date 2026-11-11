@@ -4594,3 +4594,5 @@ footer { background: var(--color-obsidian-canvas); }
 /* Hero: logo replaces the TEAM MAWD text and fades out while the background panels split. */
 .portal-logo { display: flex; justify-content: center; opacity: calc(1 - var(--portal-open, 0) * 2); }
 .portal-logo img { width: clamp(220px, 34vw, 460px); max-width: none; height: auto; }
+/* Reduced motion never sets --portal-open, so the logo would sit static behind the copy. */
+@media (prefers-reduced-motion: reduce) { .portal-logo { display: none; } }
