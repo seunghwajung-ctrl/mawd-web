@@ -70,7 +70,10 @@ export default function PrivacyPage() {
             <dt>국외 이전의 법적 근거</dt>
             <dd>법 제28조의8 제1항 제3호(계약 이행을 위한 처리위탁·보관, 처리방침 공개)</dd>
             <dt>이전·위탁받는 자</dt>
-            <dd>Google LLC, 전화 02-531-9000 (팩스 02-531-9001)</dd>
+            <dd>
+              Google LLC (개인정보 문의: googlekrsupport@google.com, 구글코리아 유한회사를 통한 문의 전화 02-531-9000, 팩스
+              02-531-9001)
+            </dd>
             <dt>이전되는 국가</dt>
             <dd>미국 등 Google 서버 소재국</dd>
             <dt>이전 시기와 방법</dt>
