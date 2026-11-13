@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { SnowEngine } from "@/lib/snow-engine";
 
 export type CountdownSettings = {
   title: string;
@@ -43,77 +44,80 @@ function getRemaining(target: string) {
   };
 }
 
+// Elements marked with this attribute become ledges the snow settles on.
+const SNOW_LEDGE = "[data-snow-ledge]";
+
 function SnowCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
+    const page = canvas?.parentElement;
+    if (!canvas || !context || !page) return;
 
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Three depth layers: far flakes are small, slow and dim.
-    const layers = [
-      { size: 2, speed: 22, alpha: 0.35 },
-      { size: 3, speed: 42, alpha: 0.6 },
-      { size: 4, speed: 70, alpha: 0.95 },
-    ];
-    type Flake = { x: number; y: number; layer: number; phase: number; sway: number };
-    let flakes: Flake[] = [];
-    let width = 0;
-    let height = 0;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let engine: SnowEngine | null = null;
     let frameId = 0;
-    let last = 0;
+    let lastStep = 0;
 
-    const resize = () => {
-      const ratio = window.devicePixelRatio || 1;
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = Math.round(width * ratio);
-      canvas.height = Math.round(height * ratio);
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      flakes = Array.from({ length: Math.round((width * height) / 5200) }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        layer: Math.floor(Math.random() * layers.length),
-        phase: Math.random() * Math.PI * 2,
-        sway: 6 + Math.random() * 18,
-      }));
+    const syncLedges = () => {
+      if (!engine) return;
+      const origin = page.getBoundingClientRect();
+      engine.setObstacles(
+        [...page.querySelectorAll(SNOW_LEDGE)].map((element, index) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            id: `ledge-${index}`,
+            x: rect.left - origin.left,
+            y: rect.top - origin.top,
+            width: rect.width,
+            height: rect.height,
+            radius: 4,
+          };
+        }),
+      );
     };
 
-    const draw = (time: number) => {
-      // Cap the step so flakes don't jump after the tab was hidden.
-      const dt = last ? Math.min(0.05, (time - last) / 1000) : 0;
-      last = time;
-      context.clearRect(0, 0, width, height);
-      for (const flake of flakes) {
-        const { size, speed, alpha } = layers[flake.layer];
-        flake.y += speed * dt;
-        if (flake.y > height) {
-          flake.y = -size;
-          flake.x = Math.random() * width;
-        }
-        // Snap to a pixel grid so flakes read as dots, like the reference poster.
-        const x = Math.round((flake.x + Math.sin(time / 1600 + flake.phase) * flake.sway) / size) * size;
-        const y = Math.round(flake.y / size) * size;
-        context.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-        context.fillRect(x, y, size, size);
+    const layout = () => {
+      const { width, height } = page.getBoundingClientRect();
+      // Same pixel budget as Snowy's website: cap the backing store around 6 MP.
+      const ratio = Math.max(0.25, Math.min(window.devicePixelRatio || 1, 1.5, Math.sqrt(6_000_000 / (width * height))));
+      canvas.width = Math.max(1, Math.floor(width * ratio));
+      canvas.height = Math.max(1, Math.floor(height * ratio));
+      context.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+      if (!engine) {
+        engine = new SnowEngine({ width, height, mobile: width < 700, reducedMotion, seed: 1225 });
+        // Snowy's "Flurry" preset so the caps build up within minutes on the venue screen.
+        engine.setIntensity(2.2);
+        syncLedges();
+        engine.prime();
+      } else {
+        engine.resize(width, height);
+        syncLedges();
       }
-      if (!still) frameId = window.requestAnimationFrame(draw);
+      engine.draw(context);
     };
 
-    const restart = () => {
-      window.cancelAnimationFrame(frameId);
-      resize();
-      last = 0;
-      frameId = window.requestAnimationFrame(draw);
+    const tick = (time: number) => {
+      frameId = window.requestAnimationFrame(tick);
+      const fps = reducedMotion ? 15 : 30;
+      if (lastStep && time - lastStep < 1000 / fps - 0.5) return;
+      const dt = lastStep ? (time - lastStep) / 1000 : 1 / fps;
+      lastStep = time;
+      engine?.step(dt);
+      engine?.draw(context);
     };
 
-    restart();
-    window.addEventListener("resize", restart);
+    layout();
+    frameId = window.requestAnimationFrame(tick);
+    // Ledges move when the clock gains a digit or the screen size changes.
+    const observer = new ResizeObserver(layout);
+    observer.observe(page);
+    page.querySelectorAll(SNOW_LEDGE).forEach((element) => observer.observe(element));
     return () => {
       window.cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", restart);
+      observer.disconnect();
     };
   }, []);
 
@@ -123,7 +127,7 @@ function SnowCanvas() {
 function CountdownUnit({ label, value }: { label: string; value: number }) {
   return (
     <div className="countdown-unit">
-      <strong>{String(value).padStart(2, "0")}</strong>
+      <strong data-snow-ledge>{String(value).padStart(2, "0")}</strong>
       <span>{label}</span>
     </div>
   );
@@ -161,15 +165,17 @@ export function CountdownExperience() {
 
   return (
     <main className="countdown-page">
-      <SnowCanvas />
-      <p className="countdown-mark">MAWD</p>
+      {/* Mount after the clock exists so its ledges are measured; remount when it swaps to STARTED. */}
+      {loaded && <SnowCanvas key={String(finished)} />}
       <Link className="countdown-admin-link" href="/countdown/admin" aria-label="관리자 설정으로 이동">
         ADMIN
       </Link>
       <section className="countdown-stage" aria-live="polite">
-        <p className="countdown-eyebrow">{settings.title}</p>
+        <p className="countdown-eyebrow" data-snow-ledge>
+          {settings.title}
+        </p>
         {!loaded ? null : finished ? (
-          <p className="countdown-done">
+          <p className="countdown-done" data-snow-ledge>
             STARTED<span className="countdown-dot">.</span>
           </p>
         ) : (
@@ -184,7 +190,9 @@ export function CountdownExperience() {
             <span className="countdown-dot">.</span>
           </div>
         )}
-        <p className="countdown-target">{targetText}</p>
+        <p className="countdown-target" data-snow-ledge>
+          {targetText}
+        </p>
       </section>
     </main>
   );

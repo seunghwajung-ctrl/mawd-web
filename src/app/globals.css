@@ -181,31 +181,21 @@ a {
 
 .countdown-page {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   padding: clamp(24px, 5vw, 72px);
   overflow: hidden;
-  background: #000;
+  /* 16:9 event slide with logo, sponsors and QR baked in; the clock sits in its open middle. */
+  background: #000 url("/countdown/countdown-background.svg") center / cover no-repeat;
 }
 
 .countdown-snow {
   position: absolute;
   inset: 0;
+  z-index: 2;
   width: 100%;
   height: 100%;
-}
-
-.countdown-mark {
-  position: absolute;
-  top: 22px;
-  left: clamp(24px, 5vw, 72px);
-  z-index: 1;
-  margin: 0;
-  color: #fff;
-  font-size: clamp(12px, 1.1vw, 16px);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  /* Same box height as the ADMIN pill so both corners share a centre line. */
-  line-height: 26px;
+  pointer-events: none;
 }
 
 .countdown-admin-link,
@@ -240,6 +230,8 @@ a {
 
 .countdown-page .countdown-stage {
   width: 100%;
+  text-align: center;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
   position: relative;
   z-index: 1;
   /* Undo the global section padding, divider and backdrop. */
@@ -250,7 +242,7 @@ a {
 }
 
 .countdown-eyebrow {
-  margin: 0 0 clamp(8px, 1.4vw, 20px);
+  margin: 0 auto clamp(8px, 1.4vw, 20px);
   color: rgba(255, 255, 255, 0.72);
   font-size: clamp(12px, 1.5vw, 22px);
   letter-spacing: 0.16em;
@@ -258,6 +250,7 @@ a {
 
 .countdown-clock {
   display: flex;
+  justify-content: center;
   align-items: flex-start;
   gap: clamp(4px, 1.2vw, 18px);
 }
@@ -270,7 +263,8 @@ a {
   font-size: clamp(56px, 12vw, 240px);
   white-space: nowrap;
   font-weight: 500;
-  line-height: 0.9;
+  /* Tight box: its top edge is where the snow settles, so it must sit on the glyph tops. */
+  line-height: 0.75;
   font-variant-numeric: tabular-nums;
 }
 
@@ -288,7 +282,11 @@ a {
   letter-spacing: 0.14em;
 }
 
-.countdown-target { margin: clamp(18px, 2.4vw, 36px) 0 0; }
+.countdown-target { margin: clamp(18px, 2.4vw, 36px) auto 0; }
+
+/* Shrink to the text so the snow ledge matches the words, not the full row. */
+.countdown-eyebrow,
+.countdown-target { width: fit-content; line-height: 1; }
 
 .countdown-admin-page {
   display: grid;
@@ -326,7 +324,6 @@ a {
   .countdown-admin-link { top: 16px; left: 16px; }
   .countdown-page .countdown-admin-link { left: auto; right: 16px; }
   .countdown-page { padding: 16px 16px 40px; }
-  .countdown-mark { top: 16px; left: 16px; }
   .countdown-clock { gap: 2px; }
   .countdown-unit strong, .countdown-separator, .countdown-dot { font-size: 11vw; }
   .countdown-unit span { letter-spacing: 0.05em; }
