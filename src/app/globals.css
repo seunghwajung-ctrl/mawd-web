@@ -180,20 +180,30 @@ a {
 }
 
 .countdown-page {
-  display: grid;
-  place-items: start center;
-  /* Align the countdown's top edge with the upper circuit area, above the mid-page divider. */
-  padding-top: clamp(64px, 11vh, 132px);
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(24px, 5vw, 72px);
   overflow: hidden;
-  background: #10080f url("/countdown/mawd-countdown-background.svg") center / cover no-repeat;
+  background: #000;
 }
 
-.countdown-page::before {
-  content: none;
+.countdown-snow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.countdown-grain {
-  display: none;
+.countdown-mark {
+  position: absolute;
+  top: 22px;
+  left: clamp(24px, 5vw, 72px);
+  z-index: 1;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(12px, 1.1vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .countdown-admin-link,
@@ -223,59 +233,59 @@ a {
   outline: none;
 }
 
-.countdown-stage {
-  width: min(1120px, calc(100% - 48px));
+.countdown-page .countdown-admin-link { left: auto; right: 22px; }
+
+.countdown-page .countdown-stage {
+  width: 100%;
   position: relative;
   z-index: 1;
-  text-align: center;
-  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.72);
+  /* Undo the global section padding, divider and backdrop. */
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: visible;
 }
 
 .countdown-eyebrow {
-  margin: 0 0 20px;
-  color: rgba(248, 248, 242, 0.76);
-  font-size: clamp(12px, 1.7vw, 18px);
-  letter-spacing: 0.2em;
+  margin: 0 0 clamp(8px, 1.4vw, 20px);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(12px, 1.5vw, 22px);
+  letter-spacing: 0.16em;
 }
 
 .countdown-clock {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(7px, 1.7vw, 22px);
+  align-items: flex-start;
+  gap: clamp(4px, 1.2vw, 18px);
 }
 
-.countdown-unit {
-  min-width: clamp(58px, 13vw, 180px);
-}
-
-.countdown-unit strong {
-  display: block;
+.countdown-unit strong,
+.countdown-separator,
+.countdown-dot,
+.countdown-done {
   color: #fff;
-  font-size: clamp(46px, 12.6vw, 170px);
-  font-weight: 400;
-  line-height: 0.84;
-  letter-spacing: -0.08em;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 0.38), 0 0 48px rgba(157, 0, 255, 0.35);
+  font-size: clamp(56px, 12vw, 240px);
+  white-space: nowrap;
+  font-weight: 500;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
 }
+
+.countdown-unit strong { display: block; }
+.countdown-separator { color: rgba(255, 255, 255, 0.4); }
+.countdown-dot { color: var(--violet-bright); }
+.countdown-done { margin: 0; }
 
 .countdown-unit span,
 .countdown-target {
   display: block;
-  margin-top: 13px;
-  color: rgba(248, 248, 242, 0.62);
-  font-size: clamp(9px, 1.1vw, 13px);
-  letter-spacing: 0.13em;
+  margin-top: clamp(8px, 1vw, 16px);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(10px, 1vw, 15px);
+  letter-spacing: 0.14em;
 }
 
-.countdown-separator {
-  color: rgba(248, 248, 242, 0.58);
-  font-size: clamp(28px, 7vw, 82px);
-  line-height: 0.65;
-  transform: translateY(-12px);
-}
-
-.countdown-target { margin: 34px 0 0; }
+.countdown-target { margin: clamp(18px, 2.4vw, 36px) 0 0; }
 
 .countdown-admin-page {
   display: grid;
@@ -311,10 +321,12 @@ a {
 
 @media (max-width: 640px) {
   .countdown-admin-link { top: 16px; left: 16px; }
-  .countdown-clock { gap: 4px; }
-  .countdown-unit { min-width: 0; flex: 1; }
-  .countdown-unit span { margin-top: 9px; letter-spacing: 0.05em; }
-  .countdown-separator { transform: translateY(-8px); }
+  .countdown-page .countdown-admin-link { left: auto; right: 16px; }
+  .countdown-page { padding: 16px 16px 40px; }
+  .countdown-mark { top: 16px; left: 16px; }
+  .countdown-clock { gap: 2px; }
+  .countdown-unit strong, .countdown-separator, .countdown-dot { font-size: 11vw; }
+  .countdown-unit span { letter-spacing: 0.05em; }
 }
 
 /* ── Nav ─────────────────────────────────────────────────────────────────── */
