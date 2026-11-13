@@ -204,6 +204,8 @@ a {
   font-size: clamp(12px, 1.1vw, 16px);
   font-weight: 600;
   letter-spacing: 0.04em;
+  /* Same box height as the ADMIN pill so both corners share a centre line. */
+  line-height: 26px;
 }
 
 .countdown-admin-link,
@@ -233,7 +235,8 @@ a {
   outline: none;
 }
 
-.countdown-page .countdown-admin-link { left: auto; right: 22px; }
+/* Mirror the MAWD mark so both corners share the page gutter. */
+.countdown-page .countdown-admin-link { left: auto; right: clamp(24px, 5vw, 72px); }
 
 .countdown-page .countdown-stage {
   width: 100%;
