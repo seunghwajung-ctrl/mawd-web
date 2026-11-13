@@ -72,7 +72,8 @@ function SnowCanvas() {
             x: rect.left - origin.left,
             y: rect.top - origin.top,
             width: rect.width,
-            height: rect.height,
+            // The engine ignores ledges under 16px; small text lines still need a cap.
+            height: Math.max(16, rect.height),
             radius: 4,
           };
         }),
